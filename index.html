@@ -653,48 +653,131 @@
   .join-content .section-title { margin-bottom: 0.8rem; }
   .join-content .section-desc { margin: 0 auto 1.5rem; text-align: center; }
 
-  .join-form { display: flex; gap: 0; max-width: 480px; margin: 0 auto 1.5rem; }
-
-  .join-form input {
-    flex: 1;
-    padding: 0.9rem 1.2rem;
+  /* Calculator */
+  #calculator {
     background: var(--bg);
-    border: 2px solid var(--border);
-    border-right: none;
-    border-radius: var(--radius) 0 0 var(--radius);
-    color: var(--text);
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .calc-box {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .calc-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .calc-row.three { grid-template-columns: 1fr 1fr 1fr; }
+
+  .calc-field label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+  }
+
+  .calc-field select,
+  .calc-field input[type="number"] {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
     font-family: var(--font-body);
-    font-size: 0.92rem;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
     outline: none;
     transition: border-color 0.2s;
+    -moz-appearance: textfield;
   }
 
-  .join-form input::placeholder { color: var(--text-dim); }
-  .join-form input:focus { border-color: var(--blue-500); }
+  .calc-field select:focus,
+  .calc-field input:focus { border-color: var(--blue-500); }
 
-  .join-form button {
-    padding: 0.9rem 1.8rem;
-    background: var(--amber);
-    color: white;
-    font-family: var(--font-body);
+  .calc-eco {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
     font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .calc-eco input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--blue-500);
+  }
+
+  .calc-result {
+    padding: 1.5rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-align: center;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  .calc-result-label {
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    border: 2px solid var(--amber);
-    border-radius: 0 var(--radius) var(--radius) 0;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: nowrap;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin-bottom: 0.3rem;
   }
 
-  .join-form button:hover {
-    background: var(--amber-light);
-    border-color: var(--amber-light);
-    box-shadow: var(--shadow-md);
+  .calc-result-co2 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.2;
   }
 
-  .join-note { font-size: 0.78rem; color: var(--text-dim); }
+  .calc-result-cost {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--blue-500);
+    margin-top: 0.3rem;
+  }
+
+  .calc-result-note {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin-top: 0.5rem;
+  }
+
+  .calc-source {
+    margin-top: 1rem;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  .calc-source a { color: var(--blue-500); text-decoration: none; }
+  .calc-source a:hover { text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    .calc-row, .calc-row.three { grid-template-columns: 1fr; }
+  }
 
   footer {
     padding: 2.5rem 2rem;
@@ -768,9 +851,7 @@
     section { padding: 2.5rem 1.2rem; }
     .hero { padding: 5rem 1.2rem 3rem; }
     .principles-grid { grid-template-columns: 1fr; }
-    .join-form { flex-direction: column; }
-    .join-form input { border-right: 2px solid var(--border); border-bottom: none; border-radius: var(--radius) var(--radius) 0 0; }
-    .join-form button { border-radius: 0 0 var(--radius) var(--radius); }
+
     .footer-inner { flex-direction: column; gap: 0.8rem; }
   }
 </style>
@@ -956,6 +1037,67 @@
         </div>
         <div class="example-bar"><div class="example-bar-fill" style="--fill: 100%"></div></div>
         <div class="example-insight" data-i18n="ex_oil_insight">Significant price impact &#8212; but costs dilute as oil gets distributed across thousands of downstream products. The biggest impact falls on concentrated high-emission processes like livestock, not just industrial inputs.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="calculator">
+  <div class="section-inner">
+    <div class="reveal">
+      <p class="section-label">03.5 &#8212; Try It Yourself</p>
+      <h2 class="section-title">Price the damage</h2>
+      <p class="section-desc">See what everyday products would really cost if environmental damage was included in the price.</p>
+    </div>
+    <div class="calc-box reveal">
+      <div class="calc-row">
+        <div class="calc-field">
+          <label>Category</label>
+          <select id="calc-category">
+            <option value="food">Food &amp; Drink</option>
+            <option value="clothing">Clothing</option>
+            <option value="electronics">Electronics</option>
+            <option value="fuel">Fuel &amp; Transport</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label>Product</label>
+          <select id="calc-product"></select>
+        </div>
+      </div>
+      <div class="calc-row three">
+        <div class="calc-field">
+          <label>Quantity</label>
+          <input type="number" id="calc-qty" value="1" min="0.1" step="0.1">
+        </div>
+        <div class="calc-field">
+          <label>Unit</label>
+          <select id="calc-unit" disabled></select>
+        </div>
+        <div class="calc-field">
+          <label>Carbon price</label>
+          <select id="calc-price">
+            <option value="50">$50 / ton</option>
+            <option value="100" selected>$100 / ton</option>
+            <option value="150">$150 / ton</option>
+            <option value="200">$200 / ton</option>
+          </select>
+        </div>
+      </div>
+      <div class="calc-eco">
+        <input type="checkbox" id="calc-eco">
+        <label for="calc-eco">Eco-certified / organic source (reduces estimate by ~15%)</label>
+      </div>
+      <div class="calc-result" id="calc-result">
+        <span class="calc-result-label">CO&#8322; footprint</span>
+        <span class="calc-result-co2" id="calc-co2">&#8212;</span>
+        <span class="calc-result-cost" id="calc-cost"></span>
+        <span class="calc-result-note" id="calc-note"></span>
+      </div>
+      <div class="calc-source">
+        Sources: Poore &amp; Nemecek (2018), <a href="https://doi.org/10.1126/science.aaq0216" target="_blank" rel="noopener"><em>Science</em> 360:987</a> (food) &middot;
+        <a href="https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting" target="_blank" rel="noopener">UK DEFRA 2023</a> (fuel/flights) &middot;
+        Apple/Levi&rsquo;s Product Environmental Reports (electronics/clothing)
       </div>
     </div>
   </div>
@@ -2971,6 +3113,111 @@ function setLang(lang) {
 document.getElementById('lang-switcher').addEventListener('change', function() {
   setLang(this.value);
 });
+
+
+// Calculator
+var CO2_DATA = {
+  food: [
+    { id:'beef', label:'Beef', unit:'kg', co2:60, note:'Median global LCA; range 20–105 kg CO₂e/kg' },
+    { id:'chicken', label:'Chicken', unit:'kg', co2:6.9, note:'Includes land use, feed, processing' },
+    { id:'cheese', label:'Cheese', unit:'kg', co2:21, note:'~10 litres milk per kg cheese' },
+    { id:'milk', label:'Milk (cow)', unit:'litre', co2:3.15, note:'Includes enteric fermentation and land use' },
+    { id:'rice', label:'Rice', unit:'kg', co2:4, note:'Methane from flooded paddies dominates' },
+    { id:'coffee', label:'Coffee (roasted)', unit:'kg', co2:17, note:'Range 3.5–28.5; strongly land-use dependent' },
+    { id:'chocolate', label:'Dark chocolate', unit:'kg', co2:19, note:'High deforestation component in cocoa supply chain' },
+    { id:'tomatoes', label:'Tomatoes', unit:'kg', co2:1.4, note:'Open-field value; heated greenhouse ~2.1' },
+    { id:'potatoes', label:'Potatoes', unit:'kg', co2:0.46, note:'One of the lowest-emission starchy foods' },
+    { id:'eggs', label:'Eggs', unit:'kg', co2:4.5, note:'~12 eggs per kg' },
+    { id:'bread', label:'Bread (wheat)', unit:'kg', co2:1.4, note:'Standard wheat bread' },
+  ],
+  clothing: [
+    { id:'jeans', label:'Jeans (cotton denim)', unit:'item', co2:33.4, note:'Full lifecycle: cotton farming to end-of-life' },
+    { id:'tshirt', label:'T-shirt (cotton, 250g)', unit:'item', co2:7, note:'Cotton farming ~half of footprint' },
+    { id:'polyester_shirt', label:'Shirt (polyester)', unit:'item', co2:5.5, note:'Fossil-fuel derived fibre' },
+    { id:'wool_sweater', label:'Sweater (wool)', unit:'item', co2:27, note:'Sheep methane + processing' },
+    { id:'sneakers', label:'Sneakers / trainers', unit:'pair', co2:14, note:'Mixed materials; manufacturing dominated' },
+  ],
+  electronics: [
+    { id:'smartphone', label:'Smartphone', unit:'item', co2:70, note:'Manufacturing ~80% of footprint; 3-year life' },
+    { id:'laptop', label:'Laptop', unit:'item', co2:300, note:'Range 150–400 kg; depends on size and components' },
+    { id:'tablet', label:'Tablet', unit:'item', co2:110, note:'Between phone and laptop in impact' },
+    { id:'tv', label:'TV (50″)', unit:'item', co2:500, note:'Large display + 7-year use-phase electricity' },
+    { id:'monitor', label:'Monitor (27″)', unit:'item', co2:200, note:'Display manufacturing + multi-year use' },
+  ],
+  fuel: [
+    { id:'petrol', label:'Petrol / Gasoline', unit:'litre', co2:2.31, note:'Well-to-wheel including upstream extraction' },
+    { id:'diesel', label:'Diesel', unit:'litre', co2:2.68, note:'Slightly higher per litre than petrol' },
+    { id:'flight_short', label:'Flight (short-haul, economy)', unit:'1000 km', co2:255, note:'Per passenger; includes radiative forcing' },
+    { id:'flight_long', label:'Flight (long-haul, economy)', unit:'1000 km', co2:195, note:'More efficient per km at longer distances' },
+    { id:'natural_gas', label:'Natural gas (heating)', unit:'m\u00b3', co2:2.0, note:'Combustion + upstream methane leakage' },
+  ]
+};
+
+function initCalc() {
+  var cat = document.getElementById('calc-category');
+  var prod = document.getElementById('calc-product');
+  var qty = document.getElementById('calc-qty');
+  var unitSel = document.getElementById('calc-unit');
+  var price = document.getElementById('calc-price');
+  var eco = document.getElementById('calc-eco');
+
+  function populateProducts() {
+    var items = CO2_DATA[cat.value] || [];
+    prod.innerHTML = '';
+    for (var i = 0; i < items.length; i++) {
+      var o = document.createElement('option');
+      o.value = items[i].id;
+      o.textContent = items[i].label;
+      prod.appendChild(o);
+    }
+    updateUnit();
+    calculate();
+  }
+
+  function updateUnit() {
+    var items = CO2_DATA[cat.value] || [];
+    var sel = items.find(function(x) { return x.id === prod.value; });
+    unitSel.innerHTML = '';
+    if (sel) {
+      var o = document.createElement('option');
+      o.textContent = sel.unit;
+      unitSel.appendChild(o);
+    }
+  }
+
+  function calculate() {
+    var items = CO2_DATA[cat.value] || [];
+    var sel = items.find(function(x) { return x.id === prod.value; });
+    if (!sel) return;
+    var q = parseFloat(qty.value) || 0;
+    var co2 = sel.co2 * q;
+    if (eco.checked) co2 *= 0.85;
+    var costPerTon = parseFloat(price.value);
+    var cost = (co2 / 1000) * costPerTon;
+
+    var co2El = document.getElementById('calc-co2');
+    var costEl = document.getElementById('calc-cost');
+    var noteEl = document.getElementById('calc-note');
+
+    if (co2 >= 1000) {
+      co2El.textContent = (co2 / 1000).toFixed(2) + ' t CO\u2082e';
+    } else {
+      co2El.textContent = co2.toFixed(1) + ' kg CO\u2082e';
+    }
+    costEl.textContent = '+ \u20ac' + cost.toFixed(2) + ' damage cost';
+    noteEl.textContent = sel.note + (eco.checked ? ' (eco-certified: -15%)' : '');
+  }
+
+  cat.addEventListener('change', populateProducts);
+  prod.addEventListener('change', function() { updateUnit(); calculate(); });
+  qty.addEventListener('input', calculate);
+  price.addEventListener('change', calculate);
+  eco.addEventListener('change', calculate);
+
+  populateProducts();
+}
+
+initCalc();
 
 // Scroll reveal
 var reveals = document.querySelectorAll('.reveal');
