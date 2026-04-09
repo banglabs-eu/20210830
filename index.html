@@ -1056,9 +1056,10 @@
           <label>Category</label>
           <select id="calc-category">
             <option value="food">Food &amp; Drink</option>
-            <option value="clothing">Clothing</option>
-            <option value="electronics">Electronics</option>
-            <option value="fuel">Fuel &amp; Transport</option>
+            <option value="clothing">Clothing (by material)</option>
+            <option value="electronics">Electronics (by size)</option>
+            <option value="travel">Travel</option>
+            <option value="fuel">Fuel</option>
           </select>
         </div>
         <div class="calc-field">
@@ -3129,38 +3130,50 @@ var CO2_DATA = {
     { id:'tomatoes', label:'Tomatoes', unit:'kg', co2:1.4, note:'Open-field value; heated greenhouse ~2.1' },
     { id:'potatoes', label:'Potatoes', unit:'kg', co2:0.46, note:'One of the lowest-emission starchy foods' },
     { id:'eggs', label:'Eggs', unit:'kg', co2:4.5, note:'~12 eggs per kg' },
-    { id:'bread', label:'Bread (wheat)', unit:'kg', co2:1.4, note:'Standard wheat bread' },
+    { id:'bread', label:'Bread (wheat)', unit:'kg', co2:1.4, note:'Standard wheat bread' }
   ],
   clothing: [
-    { id:'jeans', label:'Jeans (cotton denim)', unit:'item', co2:33.4, note:'Full lifecycle: cotton farming to end-of-life' },
-    { id:'tshirt', label:'T-shirt (cotton, 250g)', unit:'item', co2:7, note:'Cotton farming ~half of footprint' },
-    { id:'polyester_shirt', label:'Shirt (polyester)', unit:'item', co2:5.5, note:'Fossil-fuel derived fibre' },
-    { id:'wool_sweater', label:'Sweater (wool)', unit:'item', co2:27, note:'Sheep methane + processing' },
-    { id:'sneakers', label:'Sneakers / trainers', unit:'pair', co2:14, note:'Mixed materials; manufacturing dominated' },
+    { id:'cotton_tshirt', label:'Cotton — T-shirt (250g)', unit:'item', co2:7, note:'Cotton farming ~half of footprint' },
+    { id:'cotton_jeans', label:'Cotton — Jeans (denim)', unit:'item', co2:33.4, note:'Full lifecycle: farming to end-of-life' },
+    { id:'polyester_shirt', label:'Polyester — Shirt', unit:'item', co2:5.5, note:'Fossil-fuel derived fibre' },
+    { id:'polyester_jacket', label:'Polyester — Jacket', unit:'item', co2:12, note:'Synthetic fill + petroleum-based shell' },
+    { id:'wool_sweater', label:'Wool — Sweater', unit:'item', co2:27, note:'Sheep methane + processing' },
+    { id:'wool_coat', label:'Wool — Coat', unit:'item', co2:56, note:'Heavy wool; high methane + dyeing impact' },
+    { id:'leather_shoes', label:'Leather — Shoes', unit:'pair', co2:15, note:'Cattle farming + tanning chemicals' },
+    { id:'nylon_sneakers', label:'Nylon/Mixed — Sneakers', unit:'pair', co2:14, note:'Mixed materials; manufacturing dominated' }
   ],
   electronics: [
-    { id:'smartphone', label:'Smartphone', unit:'item', co2:70, note:'Manufacturing ~80% of footprint; 3-year life' },
-    { id:'laptop', label:'Laptop', unit:'item', co2:300, note:'Range 150–400 kg; depends on size and components' },
-    { id:'tablet', label:'Tablet', unit:'item', co2:110, note:'Between phone and laptop in impact' },
-    { id:'tv', label:'TV (50″)', unit:'item', co2:500, note:'Large display + 7-year use-phase electricity' },
-    { id:'monitor', label:'Monitor (27″)', unit:'item', co2:200, note:'Display manufacturing + multi-year use' },
+    { id:'smartphone', label:'Phone-size (smartphone)', unit:'item', co2:70, note:'Manufacturing ~80% of footprint; 3-year life' },
+    { id:'tablet', label:'Tablet-size (10″)', unit:'item', co2:110, note:'Between phone and laptop in impact' },
+    { id:'laptop', label:'Laptop-size (13–16″)', unit:'item', co2:300, note:'Range 150–400 kg; depends on components' },
+    { id:'monitor', label:'Monitor-size (24–27″)', unit:'item', co2:200, note:'Display manufacturing + multi-year use' },
+    { id:'tv', label:'TV-size (50–65″)', unit:'item', co2:500, note:'Large display + 7-year use-phase electricity' },
+    { id:'desktop', label:'Desktop PC (tower)', unit:'item', co2:400, note:'Higher power draw; longer component life' }
+  ],
+  travel: [
+    { id:'flight_short', label:'Flight — short-haul (<3h)', unit:'1000 km', co2:255, note:'Per passenger, economy; includes radiative forcing' },
+    { id:'flight_long', label:'Flight — long-haul (>6h)', unit:'1000 km', co2:195, note:'More efficient per km at longer distances' },
+    { id:'car_petrol', label:'Car — petrol (avg)', unit:'100 km', co2:21, note:'Average European petrol car ~210g CO₂/km' },
+    { id:'car_diesel', label:'Car — diesel (avg)', unit:'100 km', co2:17, note:'Slightly lower CO₂ per km than petrol' },
+    { id:'train', label:'Train (national rail)', unit:'100 km', co2:4.1, note:'Varies hugely by electricity grid; EU average' },
+    { id:'bus', label:'Bus (long-distance)', unit:'100 km', co2:2.7, note:'Per passenger; high occupancy assumed' }
   ],
   fuel: [
     { id:'petrol', label:'Petrol / Gasoline', unit:'litre', co2:2.31, note:'Well-to-wheel including upstream extraction' },
     { id:'diesel', label:'Diesel', unit:'litre', co2:2.68, note:'Slightly higher per litre than petrol' },
-    { id:'flight_short', label:'Flight (short-haul, economy)', unit:'1000 km', co2:255, note:'Per passenger; includes radiative forcing' },
-    { id:'flight_long', label:'Flight (long-haul, economy)', unit:'1000 km', co2:195, note:'More efficient per km at longer distances' },
-    { id:'natural_gas', label:'Natural gas (heating)', unit:'m\u00b3', co2:2.0, note:'Combustion + upstream methane leakage' },
+    { id:'natural_gas', label:'Natural gas (heating)', unit:'m³', co2:2.0, note:'Combustion + upstream methane leakage' },
+    { id:'electricity_eu', label:'Electricity (EU avg)', unit:'kWh', co2:0.23, note:'EU grid average; varies by country' }
   ]
 };
 
-function initCalc() {
+(function initCalc() {
   var cat = document.getElementById('calc-category');
   var prod = document.getElementById('calc-product');
   var qty = document.getElementById('calc-qty');
   var unitSel = document.getElementById('calc-unit');
   var price = document.getElementById('calc-price');
   var eco = document.getElementById('calc-eco');
+  if (!cat || !prod) return;
 
   function populateProducts() {
     var items = CO2_DATA[cat.value] || [];
@@ -3177,21 +3190,27 @@ function initCalc() {
 
   function updateUnit() {
     var items = CO2_DATA[cat.value] || [];
-    var sel = items.find(function(x) { return x.id === prod.value; });
+    var found = null;
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].id === prod.value) { found = items[i]; break; }
+    }
     unitSel.innerHTML = '';
-    if (sel) {
+    if (found) {
       var o = document.createElement('option');
-      o.textContent = sel.unit;
+      o.textContent = found.unit;
       unitSel.appendChild(o);
     }
   }
 
   function calculate() {
     var items = CO2_DATA[cat.value] || [];
-    var sel = items.find(function(x) { return x.id === prod.value; });
-    if (!sel) return;
+    var found = null;
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].id === prod.value) { found = items[i]; break; }
+    }
+    if (!found) return;
     var q = parseFloat(qty.value) || 0;
-    var co2 = sel.co2 * q;
+    var co2 = found.co2 * q;
     if (eco.checked) co2 *= 0.85;
     var costPerTon = parseFloat(price.value);
     var cost = (co2 / 1000) * costPerTon;
@@ -3206,7 +3225,7 @@ function initCalc() {
       co2El.textContent = co2.toFixed(1) + ' kg CO\u2082e';
     }
     costEl.textContent = '+ \u20ac' + cost.toFixed(2) + ' damage cost';
-    noteEl.textContent = sel.note + (eco.checked ? ' (eco-certified: -15%)' : '');
+    noteEl.textContent = found.note + (eco.checked ? ' (eco-certified: -15%)' : '');
   }
 
   cat.addEventListener('change', populateProducts);
@@ -3216,9 +3235,7 @@ function initCalc() {
   eco.addEventListener('change', calculate);
 
   populateProducts();
-}
-
-initCalc();
+})();
 
 // Scroll reveal
 var reveals = document.querySelectorAll('.reveal');
