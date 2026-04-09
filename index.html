@@ -1,0 +1,2901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Price The Damage — CO₂ Fee Across Every Supply Chain</title>
+<meta name="description" content="A political movement advocating for CO₂-equivalent fees across the full supply chain. Turn environmental impact into economic pressure, then redistribute to protect people.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #060b09;
+    --bg-section: #0a100d;
+    --bg-card: #111a15;
+    --bg-card-hover: #162019;
+    --green-vivid: #2eff8c;
+    --green-muted: #1a9e5a;
+    --green-dark: #0d4a2b;
+    --green-glow: rgba(46, 255, 140, 0.12);
+    --text-primary: #e8ede9;
+    --text-secondary: #8a9b8f;
+    --text-dim: #4a5c50;
+    --accent-warm: #f0c040;
+    --accent-red: #ff5c5c;
+    --border: rgba(46, 255, 140, 0.08);
+    --border-strong: rgba(46, 255, 140, 0.2);
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Instrument Sans', system-ui, sans-serif;
+    --font-mono: 'DM Mono', 'Courier New', monospace;
+  }
+
+  :root[lang="ja"], :root[lang="zh"], :root[lang="hi"] {
+    --font-display: system-ui, sans-serif;
+    --font-body: system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection { background: var(--green-vivid); color: var(--bg-deep); }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 128px;
+  }
+
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(6, 11, 9, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s ease;
+    gap: 1.5rem;
+  }
+
+  nav.scrolled { padding: 0.8rem 2rem; background: rgba(6, 11, 9, 0.95); }
+
+  .nav-logo {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--green-vivid);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--green-vivid); }
+
+  .lang-switcher {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--green-vivid);
+    background: var(--bg-card);
+    border: 1px solid var(--border-strong);
+    padding: 0.4rem 0.6rem;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+    flex-shrink: 0;
+  }
+
+  .lang-switcher:hover, .lang-switcher:focus { border-color: var(--green-vivid); }
+  .lang-switcher option { background: var(--bg-deep); color: var(--text-primary); }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 2rem 6rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 70%);
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    top: -200px;
+    right: -200px;
+    background: radial-gradient(circle, rgba(46, 255, 140, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-label {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--green-vivid);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7.5vw, 7rem);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+
+  .hero-title em {
+    font-style: normal;
+    color: var(--green-vivid);
+    position: relative;
+  }
+
+  .hero-title em::after {
+    content: '';
+    position: absolute;
+    bottom: 0.05em;
+    left: 0;
+    right: 0;
+    height: 0.08em;
+    background: var(--green-vivid);
+    opacity: 0.3;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    max-width: 680px;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.8s ease 0.8s forwards;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1rem 2.2rem;
+    background: var(--green-vivid);
+    color: var(--bg-deep);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.1);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .btn-primary:hover::before { transform: translateX(0); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(46, 255, 140, 0.25); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    background: transparent;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid var(--border-strong);
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--green-vivid);
+    color: var(--green-vivid);
+    background: var(--green-glow);
+  }
+
+  section { padding: 7rem 2rem; position: relative; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--green-vivid);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-desc {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin-bottom: 4rem;
+    line-height: 1.8;
+  }
+
+  #how-it-works {
+    background: var(--bg-section);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pipeline {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    position: relative;
+    margin-top: 3rem;
+  }
+
+  .pipeline::before {
+    content: '';
+    position: absolute;
+    top: 3.5rem;
+    left: 5%;
+    right: 5%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--green-dark), var(--green-vivid), var(--green-dark));
+    z-index: 0;
+  }
+
+  .pipeline-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    padding: 0 0.5rem;
+  }
+
+  .stage-icon {
+    width: 70px;
+    height: 70px;
+    border: 2px solid var(--green-muted);
+    background: var(--bg-section);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    margin-bottom: 1.2rem;
+    position: relative;
+    transform: rotate(45deg);
+    transition: all 0.3s ease;
+  }
+
+  .stage-icon span { transform: rotate(-45deg); }
+
+  .pipeline-stage:hover .stage-icon {
+    border-color: var(--green-vivid);
+    box-shadow: 0 0 30px rgba(46, 255, 140, 0.15);
+    background: var(--bg-card);
+  }
+
+  .stage-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .stage-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+
+  .stage-fee {
+    margin-top: 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--green-vivid);
+    padding: 0.3rem 0.8rem;
+    border: 1px solid var(--green-dark);
+    background: rgba(46, 255, 140, 0.05);
+  }
+
+  .pipeline-result {
+    margin-top: 3.5rem;
+    padding: 2rem;
+    border: 1px solid var(--border-strong);
+    background: var(--bg-card);
+    text-align: center;
+  }
+
+  .pipeline-result p { font-size: 1.1rem; color: var(--text-secondary); }
+  .pipeline-result strong { color: var(--green-vivid); font-weight: 700; }
+
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .principle-card {
+    padding: 2.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.35s ease;
+  }
+
+  .principle-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--green-muted);
+    transition: background 0.3s ease;
+  }
+
+  .principle-card:hover {
+    border-color: var(--border-strong);
+    background: var(--bg-card-hover);
+    transform: translateY(-3px);
+  }
+
+  .principle-card:hover::before { background: var(--green-vivid); }
+
+  .principle-number {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 1rem;
+  }
+
+  .principle-title {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+  }
+
+  .principle-text { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; }
+
+  #examples {
+    background: var(--bg-section);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .examples-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+  .example-card {
+    padding: 3rem;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    position: relative;
+  }
+
+  .example-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+  }
+
+  .example-product {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+  }
+
+  .example-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .example-stat:last-of-type { border-bottom: none; }
+  .stat-label { font-size: 0.9rem; color: var(--text-secondary); }
+
+  .stat-value {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .stat-value.highlight { color: var(--green-vivid); font-size: 1.3rem; }
+
+  .example-bar {
+    margin-top: 2rem;
+    height: 6px;
+    background: var(--bg-deep);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .example-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green-muted), var(--green-vivid));
+    transition: width 1.5s ease;
+    width: 0;
+  }
+
+  .example-bar-fill.animated { width: var(--fill); }
+
+  .example-insight {
+    margin-top: 1.5rem;
+    padding: 1rem 1.2rem;
+    background: rgba(46, 255, 140, 0.04);
+    border-left: 2px solid var(--green-muted);
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .questions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    counter-reset: question;
+  }
+
+  .question-item {
+    counter-increment: question;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1.8rem 2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+  }
+
+  .question-item:hover { border-color: var(--border-strong); transform: translateX(4px); }
+
+  .question-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    min-width: 2rem;
+    padding-top: 0.15rem;
+  }
+
+  .question-num::before { content: counter(question, decimal-leading-zero); }
+  .question-text { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.6; }
+
+  .manifesto {
+    padding: 6rem 2rem;
+    text-align: center;
+    position: relative;
+    background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-section) 50%, var(--bg-deep) 100%);
+  }
+
+  .manifesto-quote {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    font-weight: 700;
+    line-height: 1.5;
+    max-width: 900px;
+    margin: 0 auto;
+    color: var(--text-primary);
+  }
+
+  .manifesto-quote em { font-style: normal; color: var(--green-vivid); }
+  .manifesto-line { width: 60px; height: 2px; background: var(--green-muted); margin: 2rem auto 0; }
+
+  #join {
+    border-top: 1px solid var(--border);
+    background: var(--bg-section);
+  }
+
+  .join-content { text-align: center; max-width: 650px; margin: 0 auto; }
+  .join-content .section-title { margin-bottom: 1rem; }
+  .join-content .section-desc { margin: 0 auto 3rem; text-align: center; }
+
+  .join-form { display: flex; gap: 0; max-width: 500px; margin: 0 auto 2rem; }
+
+  .join-form input {
+    flex: 1;
+    padding: 1rem 1.2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-strong);
+    border-right: none;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .join-form input::placeholder { color: var(--text-dim); }
+  .join-form input:focus { border-color: var(--green-vivid); }
+
+  .join-form button {
+    padding: 1rem 2rem;
+    background: var(--green-vivid);
+    color: var(--bg-deep);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .join-form button:hover { background: #5affa8; box-shadow: 0 4px 20px rgba(46, 255, 140, 0.3); }
+  .join-note { font-size: 0.8rem; color: var(--text-dim); }
+
+  footer {
+    padding: 3rem 2rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-text {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  .footer-text a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-text a:hover { color: var(--green-vivid); }
+
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  @media (max-width: 900px) {
+    .pipeline { grid-template-columns: 1fr; gap: 2rem; }
+    .pipeline::before { display: none; }
+    .examples-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    section { padding: 4rem 1.2rem; }
+    .hero { padding: 7rem 1.2rem 4rem; }
+    .principles-grid { grid-template-columns: 1fr; }
+    .join-form { flex-direction: column; }
+    .join-form input { border-right: 1px solid var(--border-strong); border-bottom: none; }
+    .footer-inner { flex-direction: column; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="nav-logo" data-i18n="nav_logo">Price The Damage</a>
+  <ul class="nav-links">
+    <li><a href="#how-it-works" data-i18n="nav_how">How It Works</a></li>
+    <li><a href="#principles" data-i18n="nav_principles">Principles</a></li>
+    <li><a href="#examples" data-i18n="nav_examples">Examples</a></li>
+    <li><a href="#questions" data-i18n="nav_questions">Open Questions</a></li>
+    <li><a href="#join" data-i18n="nav_join">Join</a></li>
+  </ul>
+  <select class="lang-switcher" id="lang-switcher">
+    <option value="en">English</option>
+    <option value="fr">Fran&#231;ais</option>
+    <option value="de">Deutsch</option>
+    <option value="es">Espa&#241;ol</option>
+    <option value="it">Italiano</option>
+    <option value="pt">Portugu&#234;s</option>
+    <option value="nl">Nederlands</option>
+    <option value="da">Dansk</option>
+    <option value="sv">Svenska</option>
+    <option value="fi">Suomi</option>
+    <option value="et">Eesti</option>
+    <option value="lv">Latvie&#353;u</option>
+    <option value="lt">Lietuvi&#371;</option>
+    <option value="pl">Polski</option>
+    <option value="cs">&#268;e&#353;tina</option>
+    <option value="sk">Sloven&#269;ina</option>
+    <option value="hu">Magyar</option>
+    <option value="ro">Rom&#226;n&#259;</option>
+    <option value="sl">Sloven&#353;&#269;ina</option>
+    <option value="hr">Hrvatski</option>
+    <option value="bg">&#1041;&#1098;&#1083;&#1075;&#1072;&#1088;&#1089;&#1082;&#1080;</option>
+    <option value="el">&#917;&#955;&#955;&#951;&#957;&#953;&#954;&#940;</option>
+    <option value="mt">Malti</option>
+    <option value="ga">Gaeilge</option>
+    <option value="ja">&#26085;&#26412;&#35486;</option>
+    <option value="zh">&#20013;&#25991;</option>
+    <option value="hi">&#2361;&#2367;&#2344;&#2381;&#2342;&#2368;</option>
+  </select>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <p class="hero-label" data-i18n="hero_label">A policy framework for the climate crisis</p>
+    <h1 class="hero-title" data-i18n="hero_title">Make pollution<br><em>expensive</em>.</h1>
+    <p class="hero-subtitle" data-i18n="hero_subtitle">Every product carries a hidden environmental cost. We propose a CO&#8322;-equivalent fee across the entire supply chain &#8212; turning ecological damage into economic pressure, while redistributing revenue to protect people.</p>
+    <div class="hero-actions">
+      <a href="#how-it-works" class="btn-primary" data-i18n="hero_btn_primary">See How It Works &#8595;</a>
+      <a href="#join" class="btn-secondary" data-i18n="hero_btn_secondary">Join the Movement</a>
+    </div>
+  </div>
+</section>
+
+<section id="how-it-works">
+  <div class="section-inner">
+    <div class="reveal">
+      <p class="section-label" data-i18n="how_label">01 &#8212; Mechanism</p>
+      <h2 class="section-title" data-i18n="how_title">A fee at every stage</h2>
+      <p class="section-desc" data-i18n="how_desc">CO&#8322;-equivalent fees are applied upstream at each point in the supply chain. The total cost accumulates into the final price &#8212; making high-emission products naturally more expensive.</p>
+    </div>
+    <div class="pipeline reveal">
+      <div class="pipeline-stage">
+        <div class="stage-icon"><span>&#9881;</span></div>
+        <p class="stage-title" data-i18n="stage1_title">Extraction</p>
+        <p class="stage-desc" data-i18n="stage1_desc">Raw material mining, oil drilling, harvesting</p>
+        <p class="stage-fee" data-i18n="stage_fee">+ CO&#8322; fee</p>
+      </div>
+      <div class="pipeline-stage">
+        <div class="stage-icon"><span>&#9878;</span></div>
+        <p class="stage-title" data-i18n="stage2_title">Production</p>
+        <p class="stage-desc" data-i18n="stage2_desc">Manufacturing, refining, processing</p>
+        <p class="stage-fee" data-i18n="stage_fee">+ CO&#8322; fee</p>
+      </div>
+      <div class="pipeline-stage">
+        <div class="stage-icon"><span>&#9992;</span></div>
+        <p class="stage-title" data-i18n="stage3_title">Transport</p>
+        <p class="stage-desc" data-i18n="stage3_desc">Shipping, freight, logistics</p>
+        <p class="stage-fee" data-i18n="stage_fee">+ CO&#8322; fee</p>
+      </div>
+      <div class="pipeline-stage">
+        <div class="stage-icon"><span>&#9749;</span></div>
+        <p class="stage-title" data-i18n="stage4_title">Retail &amp; Use</p>
+        <p class="stage-desc" data-i18n="stage4_desc">Distribution, consumer use phase</p>
+        <p class="stage-fee" data-i18n="stage_fee">+ CO&#8322; fee</p>
+      </div>
+      <div class="pipeline-stage">
+        <div class="stage-icon"><span>&#9854;</span></div>
+        <p class="stage-title" data-i18n="stage5_title">Disposal</p>
+        <p class="stage-desc" data-i18n="stage5_desc">End-of-life via extended producer responsibility</p>
+        <p class="stage-fee" data-i18n="stage_fee">+ CO&#8322; fee</p>
+      </div>
+    </div>
+    <div class="pipeline-result reveal">
+      <p data-i18n="pipeline_result">The data already exists. <strong>Lifecycle assessments (LCAs)</strong> and product carbon footprints cover the full chain &#8212; extraction through disposal. We don't need new science. We need political will.</p>
+    </div>
+  </div>
+</section>
+
+<div class="manifesto">
+  <blockquote class="manifesto-quote reveal" data-i18n="manifesto">Turn environmental impact into <em>unavoidable economic pressure</em>, then redistribute the money to keep society stable while forcing the market to <em>decarbonize</em>.</blockquote>
+  <div class="manifesto-line"></div>
+</div>
+
+<section id="principles">
+  <div class="section-inner">
+    <div class="reveal">
+      <p class="section-label" data-i18n="principles_label">02 &#8212; Principles</p>
+      <h2 class="section-title" data-i18n="principles_title">What we stand for</h2>
+      <p class="section-desc" data-i18n="principles_desc">This isn't about awareness campaigns or voluntary pledges. It's about redesigning economic incentives from the ground up.</p>
+    </div>
+    <div class="principles-grid">
+      <div class="principle-card reveal reveal-delay-1">
+        <p class="principle-number">Principle 01</p>
+        <h3 class="principle-title" data-i18n="p1_title">Price, not awareness</h3>
+        <p class="principle-text" data-i18n="p1_text">Decades of awareness campaigns haven't bent the emissions curve. Price signals change behavior at scale &#8212; automatically, universally, and immediately.</p>
+      </div>
+      <div class="principle-card reveal reveal-delay-2">
+        <p class="principle-number">Principle 02</p>
+        <h3 class="principle-title" data-i18n="p2_title">Protect people, not polluters</h3>
+        <p class="principle-text" data-i18n="p2_text">Revenue goes to public goods and minimum income to offset higher prices. No subsidies for companies to "go green." If you pollute, you pay. The money shields citizens.</p>
+      </div>
+      <div class="principle-card reveal reveal-delay-3">
+        <p class="principle-number">Principle 03</p>
+        <h3 class="principle-title" data-i18n="p3_title">Social cost of carbon</h3>
+        <p class="principle-text" data-i18n="p3_text">The fee per ton is based on the real damage CO&#8322; causes. Higher price means stronger behavioral change &#8212; but also demands stronger social redistribution to keep it fair.</p>
+      </div>
+      <div class="principle-card reveal reveal-delay-4">
+        <p class="principle-number">Principle 04</p>
+        <h3 class="principle-title" data-i18n="p4_title">EU-wide implementation</h3>
+        <p class="principle-text" data-i18n="p4_text">National-only implementation distorts trade within the single market. This needs EU-wide coordination &#8212; or carefully designed national taxes that don't create unfair advantages.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="examples">
+  <div class="section-inner">
+    <div class="reveal">
+      <p class="section-label" data-i18n="examples_label">03 &#8212; Real Numbers</p>
+      <h2 class="section-title" data-i18n="examples_title">What does this look like?</h2>
+      <p class="section-desc" data-i18n="examples_desc">Using existing lifecycle assessment data and a carbon price of $100 per ton of CO&#8322;-equivalent.</p>
+    </div>
+    <div class="examples-grid">
+      <div class="example-card reveal reveal-delay-1">
+        <p class="example-label" data-i18n="ex_case">Case Study</p>
+        <h3 class="example-product" data-i18n="ex_beef">Beef</h3>
+        <div class="example-stat">
+          <span class="stat-label" data-i18n="ex_lifecycle">Lifecycle emissions</span>
+          <span class="stat-value">~30 kg CO&#8322;e / kg</span>
+        </div>
+        <div class="example-stat">
+          <span class="stat-label" data-i18n="ex_carbon_price">Carbon price applied</span>
+          <span class="stat-value">$100 / ton</span>
+        </div>
+        <div class="example-stat">
+          <span class="stat-label" data-i18n="ex_additional_kg">Additional cost per kg</span>
+          <span class="stat-value highlight">~&#8364;3.00</span>
+        </div>
+        <div class="example-bar"><div class="example-bar-fill" style="--fill: 75%"></div></div>
+        <div class="example-insight" data-i18n="ex_beef_insight">Includes feed production (oil-based fertilizers), methane from cattle, land use change, and processing. Most emissions come from biology &#8212; not just energy inputs.</div>
+      </div>
+      <div class="example-card reveal reveal-delay-2">
+        <p class="example-label" data-i18n="ex_case">Case Study</p>
+        <h3 class="example-product" data-i18n="ex_oil">Crude Oil</h3>
+        <div class="example-stat">
+          <span class="stat-label" data-i18n="ex_lifecycle">Lifecycle emissions</span>
+          <span class="stat-value">~400 kg CO&#8322;e / barrel</span>
+        </div>
+        <div class="example-stat">
+          <span class="stat-label" data-i18n="ex_carbon_price">Carbon price applied</span>
+          <span class="stat-value">$100 / ton</span>
+        </div>
+        <div class="example-stat">
+          <span class="stat-label" data-i18n="ex_additional_barrel">Additional cost per barrel</span>
+          <span class="stat-value highlight">~$40</span>
+        </div>
+        <div class="example-bar"><div class="example-bar-fill" style="--fill: 100%"></div></div>
+        <div class="example-insight" data-i18n="ex_oil_insight">Significant price impact &#8212; but costs dilute as oil gets distributed across thousands of downstream products. The biggest impact falls on concentrated high-emission processes like livestock, not just industrial inputs.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="questions">
+  <div class="section-inner">
+    <div class="reveal">
+      <p class="section-label" data-i18n="questions_label">04 &#8212; Honest Gaps</p>
+      <h2 class="section-title" data-i18n="questions_title">Open questions</h2>
+      <p class="section-desc" data-i18n="questions_desc">We don't pretend to have every answer. These are the hard problems we need collective intelligence to solve.</p>
+    </div>
+    <div class="questions-list">
+      <div class="question-item reveal reveal-delay-1">
+        <span class="question-num"></span>
+        <p class="question-text" data-i18n="q1">What exact carbon price is needed to meaningfully shift consumer and industrial behavior without causing economic shock?</p>
+      </div>
+      <div class="question-item reveal reveal-delay-2">
+        <span class="question-num"></span>
+        <p class="question-text" data-i18n="q2">How do we enforce accurate lifecycle accounting globally, when supply chains span dozens of countries with different standards?</p>
+      </div>
+      <div class="question-item reveal reveal-delay-3">
+        <span class="question-num"></span>
+        <p class="question-text" data-i18n="q3">How should we handle imports from non-compliant countries? Carbon border adjustments are promising but politically and logistically complex.</p>
+      </div>
+      <div class="question-item reveal reveal-delay-4">
+        <span class="question-num"></span>
+        <p class="question-text" data-i18n="q4">What is the realistic path to political feasibility within EU structures &#8212; and how do we build the coalition to get there?</p>
+      </div>
+      <div class="question-item reveal">
+        <span class="question-num"></span>
+        <p class="question-text" data-i18n="q5">How fast can we transition without destabilizing livelihoods? What does the right balance between urgency and social stability look like?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="join">
+  <div class="section-inner">
+    <div class="join-content reveal">
+      <p class="section-label" data-i18n="join_label">05 &#8212; Take Action</p>
+      <h2 class="section-title" data-i18n="join_title">Join the movement</h2>
+      <p class="section-desc" data-i18n="join_desc">This idea needs economists, policy makers, activists, and citizens who believe that price &#8212; not guilt &#8212; is what changes the world. Add your voice.</p>
+      <form class="join-form" id="join-form">
+        <input type="email" data-i18n-placeholder="join_placeholder" placeholder="your@email.com" required>
+        <button type="submit" data-i18n="join_btn">Sign Up</button>
+      </form>
+      <p class="join-note" data-i18n="join_note">No spam. Updates on policy progress, research, and actions you can take.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-text"><span data-i18n="nav_logo">Price The Damage</span> &#169; 2026</span>
+    <span class="footer-text">
+      <a href="#how-it-works" data-i18n="footer_mechanism">Mechanism</a> &middot;
+      <a href="#principles" data-i18n="nav_principles">Principles</a> &middot;
+      <a href="#examples" data-i18n="footer_data">Data</a> &middot;
+      <a href="#join" data-i18n="nav_join">Join</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+
+const TRANS_WEST = {
+  fr: {
+    nav_logo: "Tarifer les D\u00e9g\u00e2ts",
+    nav_how: "Fonctionnement",
+    nav_principles: "Principes",
+    nav_examples: "Exemples",
+    nav_questions: "Questions ouvertes",
+    nav_join: "Rejoindre",
+    hero_label: "Un cadre politique pour la crise climatique",
+    hero_title: "Rendre la pollution<br><em>co\u00fbteuse</em>.",
+    hero_subtitle: "Chaque produit comporte un co\u00fbt environnemental cach\u00e9. Nous proposons une redevance en \u00e9quivalent CO\u2082 sur l\u2019ensemble de la cha\u00eene d\u2019approvisionnement \u2014 transformant les d\u00e9g\u00e2ts \u00e9cologiques en pression \u00e9conomique, tout en redistribuant les recettes pour prot\u00e9ger les citoyens.",
+    hero_btn_primary: "D\u00e9couvrir le fonctionnement \u2193",
+    hero_btn_secondary: "Rejoindre le mouvement",
+    how_label: "01 \u2014 M\u00e9canisme",
+    how_title: "Une redevance \u00e0 chaque \u00e9tape",
+    how_desc: "Des redevances en \u00e9quivalent CO\u2082 sont appliqu\u00e9es en amont, \u00e0 chaque \u00e9tape de la cha\u00eene d\u2019approvisionnement. Le co\u00fbt total s\u2019accumule dans le prix final \u2014 rendant les produits \u00e0 fortes \u00e9missions naturellement plus chers.",
+    stage1_title: "Extraction",
+    stage1_desc: "Extraction mini\u00e8re, forage p\u00e9trolier, r\u00e9colte",
+    stage2_title: "Production",
+    stage2_desc: "Fabrication, raffinage, transformation",
+    stage3_title: "Transport",
+    stage3_desc: "Exp\u00e9dition, fret, logistique",
+    stage4_title: "Distribution &amp; utilisation",
+    stage4_desc: "Distribution, phase d\u2019utilisation par le consommateur",
+    stage5_title: "\u00c9limination",
+    stage5_desc: "Fin de vie via la responsabilit\u00e9 \u00e9largie du producteur",
+    stage_fee: "+ redevance CO\u2082",
+    pipeline_result: "Les donn\u00e9es existent d\u00e9j\u00e0. Les <strong>analyses de cycle de vie (ACV)</strong> et les empreintes carbone des produits couvrent l\u2019ensemble de la cha\u00eene \u2014 de l\u2019extraction \u00e0 l\u2019\u00e9limination. Nous n\u2019avons pas besoin de nouvelles recherches. Nous avons besoin de volont\u00e9 politique.",
+    manifesto: "Transformer l\u2019impact environnemental en <em>pression \u00e9conomique in\u00e9vitable</em>, puis redistribuer l\u2019argent pour maintenir la stabilit\u00e9 sociale tout en for\u00e7ant le march\u00e9 \u00e0 se <em>d\u00e9carboner</em>.",
+    principles_label: "02 \u2014 Principes",
+    principles_title: "Ce que nous d\u00e9fendons",
+    principles_desc: "Il ne s\u2019agit pas de campagnes de sensibilisation ou d\u2019engagements volontaires. Il s\u2019agit de repenser les incitations \u00e9conomiques depuis la base.",
+    p1_title: "Le prix, pas la sensibilisation",
+    p1_text: "Des d\u00e9cennies de campagnes de sensibilisation n\u2019ont pas infl\u00e9chi la courbe des \u00e9missions. Les signaux de prix modifient les comportements \u00e0 grande \u00e9chelle \u2014 automatiquement, universellement et imm\u00e9diatement.",
+    p2_title: "Prot\u00e9ger les citoyens, pas les pollueurs",
+    p2_text: "Les recettes financent les biens publics et un revenu minimum pour compenser la hausse des prix. Pas de subventions pour que les entreprises \u00ab deviennent vertes \u00bb. Si vous polluez, vous payez. L\u2019argent prot\u00e8ge les citoyens.",
+    p3_title: "Co\u00fbt social du carbone",
+    p3_text: "La redevance par tonne est fond\u00e9e sur les d\u00e9g\u00e2ts r\u00e9els caus\u00e9s par le CO\u2082. Un prix plus \u00e9lev\u00e9 entra\u00eene un changement de comportement plus fort \u2014 mais exige aussi une redistribution sociale plus importante pour rester \u00e9quitable.",
+    p4_title: "Mise en \u0153uvre \u00e0 l\u2019\u00e9chelle europ\u00e9enne",
+    p4_text: "Une mise en \u0153uvre exclusivement nationale fausse les \u00e9changes au sein du march\u00e9 unique. Cela n\u00e9cessite une coordination \u00e0 l\u2019\u00e9chelle de l\u2019UE \u2014 ou des taxes nationales soigneusement con\u00e7ues qui ne cr\u00e9ent pas d\u2019avantages d\u00e9loyaux.",
+    examples_label: "03 \u2014 Chiffres concrets",
+    examples_title: "\u00c0 quoi cela ressemble-t-il\u00a0?",
+    examples_desc: "En utilisant les donn\u00e9es existantes d\u2019analyse de cycle de vie et un prix du carbone de $100 par tonne d\u2019\u00e9quivalent CO\u2082.",
+    ex_case: "\u00c9tude de cas",
+    ex_beef: "B\u0153uf",
+    ex_oil: "P\u00e9trole brut",
+    ex_lifecycle: "\u00c9missions sur le cycle de vie",
+    ex_carbon_price: "Prix du carbone appliqu\u00e9",
+    ex_additional_kg: "Co\u00fbt suppl\u00e9mentaire par kg",
+    ex_additional_barrel: "Co\u00fbt suppl\u00e9mentaire par baril",
+    ex_beef_insight: "Inclut la production d\u2019aliments pour animaux (engrais d\u2019origine p\u00e9troli\u00e8re), le m\u00e9thane du b\u00e9tail, le changement d\u2019affectation des sols et la transformation. La majeure partie des \u00e9missions provient de la biologie \u2014 pas seulement des intrants \u00e9nerg\u00e9tiques.",
+    ex_oil_insight: "Impact significatif sur le prix \u2014 mais les co\u00fbts se diluent lorsque le p\u00e9trole est r\u00e9parti entre des milliers de produits d\u00e9riv\u00e9s. L\u2019impact le plus fort touche les processus concentr\u00e9s \u00e0 fortes \u00e9missions comme l\u2019\u00e9levage, pas uniquement les intrants industriels.",
+    questions_label: "04 \u2014 Zones d\u2019ombre",
+    questions_title: "Questions ouvertes",
+    questions_desc: "Nous ne pr\u00e9tendons pas avoir toutes les r\u00e9ponses. Voici les probl\u00e8mes difficiles qui n\u00e9cessitent une intelligence collective.",
+    q1: "Quel prix exact du carbone est n\u00e9cessaire pour modifier significativement le comportement des consommateurs et de l\u2019industrie sans provoquer de choc \u00e9conomique\u00a0?",
+    q2: "Comment garantir une comptabilit\u00e9 pr\u00e9cise du cycle de vie \u00e0 l\u2019\u00e9chelle mondiale, lorsque les cha\u00eenes d\u2019approvisionnement traversent des dizaines de pays aux normes diff\u00e9rentes\u00a0?",
+    q3: "Comment traiter les importations en provenance de pays non conformes\u00a0? Les ajustements carbone aux fronti\u00e8res sont prometteurs mais politiquement et logistiquement complexes.",
+    q4: "Quelle est la voie r\u00e9aliste vers la faisabilit\u00e9 politique au sein des structures europ\u00e9ennes \u2014 et comment construire la coalition n\u00e9cessaire\u00a0?",
+    q5: "Quelle vitesse de transition est possible sans d\u00e9stabiliser les moyens de subsistance\u00a0? Quel est le juste \u00e9quilibre entre urgence et stabilit\u00e9 sociale\u00a0?",
+    join_label: "05 \u2014 Agir",
+    join_title: "Rejoignez le mouvement",
+    join_desc: "Cette id\u00e9e a besoin d\u2019\u00e9conomistes, de d\u00e9cideurs politiques, de militants et de citoyens convaincus que c\u2019est le prix \u2014 et non la culpabilit\u00e9 \u2014 qui change le monde. Faites entendre votre voix.",
+    join_placeholder: "votre@email.com",
+    join_btn: "S\u2019inscrire",
+    join_btn_done: "Ajout\u00e9 \u2713",
+    join_note: "Pas de spam. Des mises \u00e0 jour sur l\u2019avanc\u00e9e des politiques, la recherche et les actions que vous pouvez entreprendre.",
+    footer_mechanism: "M\u00e9canisme",
+    footer_data: "Donn\u00e9es",
+  },
+
+  de: {
+    nav_logo: "Sch\u00e4den bepreisen",
+    nav_how: "Funktionsweise",
+    nav_principles: "Grunds\u00e4tze",
+    nav_examples: "Beispiele",
+    nav_questions: "Offene Fragen",
+    nav_join: "Mitmachen",
+    hero_label: "Ein politischer Rahmen f\u00fcr die Klimakrise",
+    hero_title: "Verschmutzung<br><em>teuer</em> machen.",
+    hero_subtitle: "Jedes Produkt verursacht versteckte Umweltkosten. Wir schlagen eine CO\u2082-\u00c4quivalent-Abgabe entlang der gesamten Lieferkette vor \u2014 \u00f6kologische Sch\u00e4den werden zu \u00f6konomischem Druck, w\u00e4hrend die Einnahmen umverteilt werden, um die Menschen zu sch\u00fctzen.",
+    hero_btn_primary: "So funktioniert es \u2193",
+    hero_btn_secondary: "Bewegung beitreten",
+    how_label: "01 \u2014 Mechanismus",
+    how_title: "Eine Abgabe auf jeder Stufe",
+    how_desc: "CO\u2082-\u00c4quivalent-Abgaben werden vorgelagert an jedem Punkt der Lieferkette erhoben. Die Gesamtkosten akkumulieren sich im Endpreis \u2014 so werden emissionsintensive Produkte nat\u00fcrlicherweise teurer.",
+    stage1_title: "Gewinnung",
+    stage1_desc: "Rohstoffabbau, \u00d6lbohrung, Ernte",
+    stage2_title: "Produktion",
+    stage2_desc: "Fertigung, Raffinierung, Verarbeitung",
+    stage3_title: "Transport",
+    stage3_desc: "Versand, Fracht, Logistik",
+    stage4_title: "Handel &amp; Nutzung",
+    stage4_desc: "Distribution, Nutzungsphase durch Verbraucher",
+    stage5_title: "Entsorgung",
+    stage5_desc: "Lebensende durch erweiterte Herstellerverantwortung",
+    stage_fee: "+ CO\u2082-Abgabe",
+    pipeline_result: "Die Daten existieren bereits. <strong>\u00d6kobilanzen (LCAs)</strong> und produktbezogene CO\u2082-Fu\u00dfabdr\u00fccke decken die gesamte Kette ab \u2014 von der Gewinnung bis zur Entsorgung. Wir brauchen keine neue Wissenschaft. Wir brauchen politischen Willen.",
+    manifesto: "Umweltauswirkungen in <em>unvermeidbaren \u00f6konomischen Druck</em> verwandeln, dann das Geld umverteilen, um die Gesellschaft stabil zu halten und den Markt zur <em>Dekarbonisierung</em> zu zwingen.",
+    principles_label: "02 \u2014 Grunds\u00e4tze",
+    principles_title: "Wof\u00fcr wir stehen",
+    principles_desc: "Es geht nicht um Aufkl\u00e4rungskampagnen oder freiwillige Selbstverpflichtungen. Es geht darum, wirtschaftliche Anreize von Grund auf neu zu gestalten.",
+    p1_title: "Preis statt Bewusstsein",
+    p1_text: "Jahrzehntelange Aufkl\u00e4rungskampagnen haben die Emissionskurve nicht gesenkt. Preissignale ver\u00e4ndern Verhalten in gro\u00dfem Ma\u00dfstab \u2014 automatisch, universell und sofort.",
+    p2_title: "Menschen sch\u00fctzen, nicht Verschmutzer",
+    p2_text: "Die Einnahmen flie\u00dfen in \u00f6ffentliche G\u00fcter und ein Mindesteinkommen, um h\u00f6here Preise auszugleichen. Keine Subventionen, damit Unternehmen \u201egr\u00fcn werden\u201c. Wer verschmutzt, zahlt. Das Geld sch\u00fctzt die B\u00fcrgerinnen und B\u00fcrger.",
+    p3_title: "Soziale Kosten des Kohlenstoffs",
+    p3_text: "Die Abgabe pro Tonne basiert auf dem tats\u00e4chlichen Schaden, den CO\u2082 verursacht. Ein h\u00f6herer Preis bewirkt st\u00e4rkere Verhaltens\u00e4nderungen \u2014 erfordert aber auch eine st\u00e4rkere soziale Umverteilung, um gerecht zu bleiben.",
+    p4_title: "EU-weite Umsetzung",
+    p4_text: "Eine rein nationale Umsetzung verzerrt den Handel im Binnenmarkt. Dies erfordert eine EU-weite Koordination \u2014 oder sorgf\u00e4ltig gestaltete nationale Steuern, die keine unfairen Vorteile schaffen.",
+    examples_label: "03 \u2014 Konkrete Zahlen",
+    examples_title: "Wie sieht das aus?",
+    examples_desc: "Auf Grundlage bestehender \u00d6kobilanzdaten und eines CO\u2082-Preises von $100 pro Tonne CO\u2082-\u00c4quivalent.",
+    ex_case: "Fallstudie",
+    ex_beef: "Rindfleisch",
+    ex_oil: "Roh\u00f6l",
+    ex_lifecycle: "Lebenszyklusemissionen",
+    ex_carbon_price: "Angewandter CO\u2082-Preis",
+    ex_additional_kg: "Mehrkosten pro kg",
+    ex_additional_barrel: "Mehrkosten pro Barrel",
+    ex_beef_insight: "Umfasst Futtermittelproduktion (erd\u00f6lbasierte D\u00fcngemittel), Methan aus der Rinderhaltung, Landnutzungs\u00e4nderungen und Verarbeitung. Der Gro\u00dfteil der Emissionen stammt aus biologischen Prozessen \u2014 nicht nur aus Energieeinsatz.",
+    ex_oil_insight: "Erhebliche Preisauswirkung \u2014 aber die Kosten verd\u00fcnnen sich, wenn \u00d6l auf Tausende nachgelagerter Produkte verteilt wird. Die gr\u00f6\u00dfte Wirkung trifft konzentrierte emissionsintensive Prozesse wie die Viehwirtschaft, nicht nur industrielle Inputs.",
+    questions_label: "04 \u2014 Offene Punkte",
+    questions_title: "Offene Fragen",
+    questions_desc: "Wir geben nicht vor, auf alles eine Antwort zu haben. Dies sind die schwierigen Probleme, f\u00fcr die wir kollektive Intelligenz brauchen.",
+    q1: "Welcher genaue CO\u2082-Preis ist erforderlich, um das Verhalten von Verbrauchern und Industrie sp\u00fcrbar zu ver\u00e4ndern, ohne einen wirtschaftlichen Schock auszul\u00f6sen?",
+    q2: "Wie l\u00e4sst sich eine pr\u00e4zise Lebenszyklusbilanzierung weltweit durchsetzen, wenn Lieferketten Dutzende L\u00e4nder mit unterschiedlichen Standards umfassen?",
+    q3: "Wie sollen Importe aus nicht konformen L\u00e4ndern behandelt werden? CO\u2082-Grenzausgleichsmechanismen sind vielversprechend, aber politisch und logistisch komplex.",
+    q4: "Was ist der realistische Weg zur politischen Machbarkeit innerhalb der EU-Strukturen \u2014 und wie bauen wir die n\u00f6tige Koalition auf?",
+    q5: "Wie schnell k\u00f6nnen wir den \u00dcbergang gestalten, ohne Existenzgrundlagen zu gef\u00e4hrden? Wie sieht die richtige Balance zwischen Dringlichkeit und sozialer Stabilit\u00e4t aus?",
+    join_label: "05 \u2014 Handeln",
+    join_title: "Werden Sie Teil der Bewegung",
+    join_desc: "Diese Idee braucht \u00d6konomen, politische Entscheidungstr\u00e4ger, Aktivisten und B\u00fcrger, die \u00fcberzeugt sind, dass der Preis \u2014 nicht das schlechte Gewissen \u2014 die Welt ver\u00e4ndert. Erheben Sie Ihre Stimme.",
+    join_placeholder: "ihre@email.com",
+    join_btn: "Anmelden",
+    join_btn_done: "Hinzugef\u00fcgt \u2713",
+    join_note: "Kein Spam. Neuigkeiten zu politischen Fortschritten, Forschung und M\u00f6glichkeiten zum Handeln.",
+    footer_mechanism: "Mechanismus",
+    footer_data: "Daten",
+  },
+
+  es: {
+    nav_logo: "Poner precio al da\u00f1o",
+    nav_how: "C\u00f3mo funciona",
+    nav_principles: "Principios",
+    nav_examples: "Ejemplos",
+    nav_questions: "Preguntas abiertas",
+    nav_join: "Unirse",
+    hero_label: "Un marco pol\u00edtico para la crisis clim\u00e1tica",
+    hero_title: "Hacer que contaminar<br>sea <em>caro</em>.",
+    hero_subtitle: "Cada producto conlleva un coste ambiental oculto. Proponemos una tasa de equivalente de CO\u2082 a lo largo de toda la cadena de suministro \u2014 convirtiendo el da\u00f1o ecol\u00f3gico en presi\u00f3n econ\u00f3mica, al tiempo que se redistribuyen los ingresos para proteger a la ciudadan\u00eda.",
+    hero_btn_primary: "Ver c\u00f3mo funciona \u2193",
+    hero_btn_secondary: "Unirse al movimiento",
+    how_label: "01 \u2014 Mecanismo",
+    how_title: "Una tasa en cada etapa",
+    how_desc: "Las tasas de equivalente de CO\u2082 se aplican aguas arriba en cada punto de la cadena de suministro. El coste total se acumula en el precio final \u2014 haciendo que los productos con altas emisiones sean naturalmente m\u00e1s caros.",
+    stage1_title: "Extracci\u00f3n",
+    stage1_desc: "Miner\u00eda de materias primas, perforaci\u00f3n petrol\u00edfera, cosecha",
+    stage2_title: "Producci\u00f3n",
+    stage2_desc: "Fabricaci\u00f3n, refinado, procesamiento",
+    stage3_title: "Transporte",
+    stage3_desc: "Env\u00edo, carga, log\u00edstica",
+    stage4_title: "Comercio &amp; uso",
+    stage4_desc: "Distribuci\u00f3n, fase de uso por el consumidor",
+    stage5_title: "Eliminaci\u00f3n",
+    stage5_desc: "Fin de vida mediante responsabilidad ampliada del productor",
+    stage_fee: "+ tasa CO\u2082",
+    pipeline_result: "Los datos ya existen. Los <strong>an\u00e1lisis de ciclo de vida (ACV)</strong> y las huellas de carbono de productos cubren toda la cadena \u2014 de la extracci\u00f3n a la eliminaci\u00f3n. No necesitamos nueva ciencia. Necesitamos voluntad pol\u00edtica.",
+    manifesto: "Convertir el impacto ambiental en <em>presi\u00f3n econ\u00f3mica inevitable</em>, y luego redistribuir el dinero para mantener la estabilidad social mientras se obliga al mercado a <em>descarbonizarse</em>.",
+    principles_label: "02 \u2014 Principios",
+    principles_title: "Lo que defendemos",
+    principles_desc: "No se trata de campa\u00f1as de concienciaci\u00f3n ni de compromisos voluntarios. Se trata de redise\u00f1ar los incentivos econ\u00f3micos desde la base.",
+    p1_title: "Precio, no concienciaci\u00f3n",
+    p1_text: "D\u00e9cadas de campa\u00f1as de concienciaci\u00f3n no han doblado la curva de emisiones. Las se\u00f1ales de precio cambian el comportamiento a gran escala \u2014 de forma autom\u00e1tica, universal e inmediata.",
+    p2_title: "Proteger a las personas, no a los contaminadores",
+    p2_text: "Los ingresos se destinan a bienes p\u00fablicos y a una renta m\u00ednima para compensar el aumento de precios. Sin subvenciones para que las empresas \u00abse vuelvan verdes\u00bb. Si contaminas, pagas. El dinero protege a la ciudadan\u00eda.",
+    p3_title: "Coste social del carbono",
+    p3_text: "La tasa por tonelada se basa en el da\u00f1o real que causa el CO\u2082. Un precio m\u00e1s alto produce un mayor cambio de comportamiento \u2014 pero tambi\u00e9n exige una redistribuci\u00f3n social m\u00e1s fuerte para que sea justo.",
+    p4_title: "Implementaci\u00f3n a escala europea",
+    p4_text: "Una implementaci\u00f3n exclusivamente nacional distorsiona el comercio dentro del mercado \u00fanico. Se necesita coordinaci\u00f3n a escala de la UE \u2014 o impuestos nacionales cuidadosamente dise\u00f1ados que no generen ventajas desleales.",
+    examples_label: "03 \u2014 Cifras reales",
+    examples_title: "\u00bfC\u00f3mo se traduce esto?",
+    examples_desc: "Utilizando datos existentes de an\u00e1lisis de ciclo de vida y un precio del carbono de $100 por tonelada de equivalente de CO\u2082.",
+    ex_case: "Caso pr\u00e1ctico",
+    ex_beef: "Carne de vacuno",
+    ex_oil: "Petr\u00f3leo crudo",
+    ex_lifecycle: "Emisiones del ciclo de vida",
+    ex_carbon_price: "Precio del carbono aplicado",
+    ex_additional_kg: "Coste adicional por kg",
+    ex_additional_barrel: "Coste adicional por barril",
+    ex_beef_insight: "Incluye la producci\u00f3n de pienso (fertilizantes derivados del petr\u00f3leo), el metano del ganado, el cambio de uso del suelo y el procesamiento. La mayor\u00eda de las emisiones provienen de la biolog\u00eda \u2014 no solo de los insumos energ\u00e9ticos.",
+    ex_oil_insight: "Impacto significativo en el precio \u2014 pero los costes se diluyen cuando el petr\u00f3leo se distribuye entre miles de productos derivados. El mayor impacto recae sobre procesos concentrados de altas emisiones como la ganader\u00eda, no solo sobre los insumos industriales.",
+    questions_label: "04 \u2014 Cuestiones pendientes",
+    questions_title: "Preguntas abiertas",
+    questions_desc: "No pretendemos tener todas las respuestas. Estos son los problemas dif\u00edciles que requieren inteligencia colectiva.",
+    q1: "\u00bfQu\u00e9 precio exacto del carbono se necesita para modificar significativamente el comportamiento de consumidores e industria sin provocar un shock econ\u00f3mico?",
+    q2: "\u00bfC\u00f3mo garantizar una contabilidad precisa del ciclo de vida a nivel global, cuando las cadenas de suministro atraviesan decenas de pa\u00edses con est\u00e1ndares diferentes?",
+    q3: "\u00bfC\u00f3mo deber\u00edan tratarse las importaciones de pa\u00edses no conformes? Los ajustes de carbono en frontera son prometedores, pero pol\u00edtica y log\u00edsticamente complejos.",
+    q4: "\u00bfCu\u00e1l es la v\u00eda realista hacia la viabilidad pol\u00edtica dentro de las estructuras de la UE \u2014 y c\u00f3mo construimos la coalici\u00f3n necesaria?",
+    q5: "\u00bfCon qu\u00e9 rapidez podemos realizar la transici\u00f3n sin desestabilizar los medios de vida? \u00bfCu\u00e1l es el equilibrio adecuado entre urgencia y estabilidad social?",
+    join_label: "05 \u2014 Act\u00fae",
+    join_title: "\u00danase al movimiento",
+    join_desc: "Esta idea necesita economistas, responsables pol\u00edticos, activistas y ciudadanos que crean que el precio \u2014 no la culpa \u2014 es lo que cambia el mundo. Haga o\u00edr su voz.",
+    join_placeholder: "su@email.com",
+    join_btn: "Suscribirse",
+    join_btn_done: "A\u00f1adido \u2713",
+    join_note: "Sin spam. Actualizaciones sobre avances pol\u00edticos, investigaci\u00f3n y acciones que puede emprender.",
+    footer_mechanism: "Mecanismo",
+    footer_data: "Datos",
+  },
+
+  it: {
+    nav_logo: "Dare un prezzo al danno",
+    nav_how: "Come funziona",
+    nav_principles: "Principi",
+    nav_examples: "Esempi",
+    nav_questions: "Domande aperte",
+    nav_join: "Unisciti",
+    hero_label: "Un quadro politico per la crisi climatica",
+    hero_title: "Rendere l\u2019inquinamento<br><em>costoso</em>.",
+    hero_subtitle: "Ogni prodotto comporta un costo ambientale nascosto. Proponiamo un contributo in equivalente di CO\u2082 lungo l\u2019intera catena di fornitura \u2014 trasformando il danno ecologico in pressione economica, redistribuendo al contempo le entrate per proteggere i cittadini.",
+    hero_btn_primary: "Scopri come funziona \u2193",
+    hero_btn_secondary: "Unisciti al movimento",
+    how_label: "01 \u2014 Meccanismo",
+    how_title: "Un contributo a ogni fase",
+    how_desc: "I contributi in equivalente di CO\u2082 vengono applicati a monte in ogni punto della catena di fornitura. Il costo totale si accumula nel prezzo finale \u2014 rendendo i prodotti ad alte emissioni naturalmente pi\u00f9 costosi.",
+    stage1_title: "Estrazione",
+    stage1_desc: "Estrazione mineraria, trivellazione petrolifera, raccolta",
+    stage2_title: "Produzione",
+    stage2_desc: "Manifattura, raffinazione, lavorazione",
+    stage3_title: "Trasporto",
+    stage3_desc: "Spedizione, trasporto merci, logistica",
+    stage4_title: "Commercio &amp; utilizzo",
+    stage4_desc: "Distribuzione, fase d\u2019uso da parte del consumatore",
+    stage5_title: "Smaltimento",
+    stage5_desc: "Fine vita tramite responsabilit\u00e0 estesa del produttore",
+    stage_fee: "+ contributo CO\u2082",
+    pipeline_result: "I dati esistono gi\u00e0. Le <strong>analisi del ciclo di vita (LCA)</strong> e le impronte di carbonio dei prodotti coprono l\u2019intera catena \u2014 dall\u2019estrazione allo smaltimento. Non servono nuove scoperte scientifiche. Serve volont\u00e0 politica.",
+    manifesto: "Trasformare l\u2019impatto ambientale in <em>pressione economica inevitabile</em>, poi redistribuire il denaro per mantenere la stabilit\u00e0 sociale costringendo il mercato a <em>decarbonizzarsi</em>.",
+    principles_label: "02 \u2014 Principi",
+    principles_title: "Cosa sosteniamo",
+    principles_desc: "Non si tratta di campagne di sensibilizzazione o impegni volontari. Si tratta di riprogettare gli incentivi economici dalle fondamenta.",
+    p1_title: "Il prezzo, non la sensibilizzazione",
+    p1_text: "Decenni di campagne di sensibilizzazione non hanno piegato la curva delle emissioni. I segnali di prezzo cambiano i comportamenti su larga scala \u2014 in modo automatico, universale e immediato.",
+    p2_title: "Proteggere le persone, non chi inquina",
+    p2_text: "Le entrate vanno ai beni pubblici e a un reddito minimo per compensare l\u2019aumento dei prezzi. Nessun sussidio alle imprese per \u00abdiventare verdi\u00bb. Chi inquina, paga. Il denaro protegge i cittadini.",
+    p3_title: "Costo sociale del carbonio",
+    p3_text: "Il contributo per tonnellata si basa sul danno reale causato dal CO\u2082. Un prezzo pi\u00f9 alto produce un cambiamento comportamentale pi\u00f9 forte \u2014 ma richiede anche una redistribuzione sociale pi\u00f9 incisiva per garantire l\u2019equit\u00e0.",
+    p4_title: "Attuazione a livello europeo",
+    p4_text: "Un\u2019attuazione esclusivamente nazionale distorce gli scambi all\u2019interno del mercato unico. Serve un coordinamento a livello UE \u2014 o imposte nazionali attentamente progettate che non creino vantaggi sleali.",
+    examples_label: "03 \u2014 Numeri concreti",
+    examples_title: "Come si presenta nella pratica?",
+    examples_desc: "Utilizzando dati esistenti di analisi del ciclo di vita e un prezzo del carbonio di $100 per tonnellata di equivalente di CO\u2082.",
+    ex_case: "Caso di studio",
+    ex_beef: "Carne bovina",
+    ex_oil: "Petrolio greggio",
+    ex_lifecycle: "Emissioni del ciclo di vita",
+    ex_carbon_price: "Prezzo del carbonio applicato",
+    ex_additional_kg: "Costo aggiuntivo per kg",
+    ex_additional_barrel: "Costo aggiuntivo per barile",
+    ex_beef_insight: "Include la produzione di mangimi (fertilizzanti di origine petrolifera), il metano bovino, il cambiamento di destinazione d\u2019uso dei suoli e la lavorazione. La maggior parte delle emissioni deriva dalla biologia \u2014 non solo dagli input energetici.",
+    ex_oil_insight: "Impatto significativo sul prezzo \u2014 ma i costi si diluiscono quando il petrolio viene distribuito su migliaia di prodotti derivati. L\u2019impatto maggiore ricade sui processi concentrati ad alte emissioni come l\u2019allevamento, non solo sugli input industriali.",
+    questions_label: "04 \u2014 Nodi aperti",
+    questions_title: "Domande aperte",
+    questions_desc: "Non pretendiamo di avere tutte le risposte. Questi sono i problemi complessi che richiedono intelligenza collettiva.",
+    q1: "Quale prezzo esatto del carbonio \u00e8 necessario per modificare in modo significativo il comportamento di consumatori e industria senza provocare uno shock economico?",
+    q2: "Come garantire una contabilit\u00e0 accurata del ciclo di vita a livello globale, quando le catene di fornitura attraversano decine di paesi con standard diversi?",
+    q3: "Come gestire le importazioni da paesi non conformi? I meccanismi di adeguamento del carbonio alle frontiere sono promettenti ma politicamente e logisticamente complessi.",
+    q4: "Qual \u00e8 il percorso realistico verso la fattibilit\u00e0 politica all\u2019interno delle strutture dell\u2019UE \u2014 e come costruiamo la coalizione necessaria?",
+    q5: "Quanto velocemente possiamo effettuare la transizione senza destabilizzare i mezzi di sussistenza? Qual \u00e8 il giusto equilibrio tra urgenza e stabilit\u00e0 sociale?",
+    join_label: "05 \u2014 Agire",
+    join_title: "Unisciti al movimento",
+    join_desc: "Questa idea ha bisogno di economisti, decisori politici, attivisti e cittadini convinti che sia il prezzo \u2014 non il senso di colpa \u2014 a cambiare il mondo. Fai sentire la tua voce.",
+    join_placeholder: "tua@email.com",
+    join_btn: "Iscriviti",
+    join_btn_done: "Aggiunto \u2713",
+    join_note: "Niente spam. Aggiornamenti sui progressi politici, la ricerca e le azioni che puoi intraprendere.",
+    footer_mechanism: "Meccanismo",
+    footer_data: "Dati",
+  },
+
+  pt: {
+    nav_logo: "Precificar o Dano",
+    nav_how: "Como Funciona",
+    nav_principles: "Princ\u00edpios",
+    nav_examples: "Exemplos",
+    nav_questions: "Quest\u00f5es em Aberto",
+    nav_join: "Aderir",
+    hero_label: "Um quadro pol\u00edtico para a crise clim\u00e1tica",
+    hero_title: "Tornar a polui\u00e7\u00e3o<br><em>cara</em>.",
+    hero_subtitle: "Cada produto acarreta um custo ambiental oculto. Propomos uma taxa de equivalente de CO\u2082 ao longo de toda a cadeia de abastecimento \u2014 transformando o dano ecol\u00f3gico em press\u00e3o econ\u00f3mica, ao mesmo tempo que se redistribuem as receitas para proteger as pessoas.",
+    hero_btn_primary: "Veja como funciona \u2193",
+    hero_btn_secondary: "Junte-se ao movimento",
+    how_label: "01 \u2014 Mecanismo",
+    how_title: "Uma taxa em cada etapa",
+    how_desc: "Taxas de equivalente de CO\u2082 s\u00e3o aplicadas a montante em cada ponto da cadeia de abastecimento. O custo total acumula-se no pre\u00e7o final \u2014 tornando os produtos de elevadas emiss\u00f5es naturalmente mais caros.",
+    stage1_title: "Extra\u00e7\u00e3o",
+    stage1_desc: "Extra\u00e7\u00e3o mineira, perfura\u00e7\u00e3o petrol\u00edfera, colheita",
+    stage2_title: "Produ\u00e7\u00e3o",
+    stage2_desc: "Fabrico, refina\u00e7\u00e3o, processamento",
+    stage3_title: "Transporte",
+    stage3_desc: "Expedi\u00e7\u00e3o, carga, log\u00edstica",
+    stage4_title: "Com\u00e9rcio &amp; utiliza\u00e7\u00e3o",
+    stage4_desc: "Distribui\u00e7\u00e3o, fase de utiliza\u00e7\u00e3o pelo consumidor",
+    stage5_title: "Elimina\u00e7\u00e3o",
+    stage5_desc: "Fim de vida atrav\u00e9s da responsabilidade alargada do produtor",
+    stage_fee: "+ taxa CO\u2082",
+    pipeline_result: "Os dados j\u00e1 existem. As <strong>an\u00e1lises de ciclo de vida (ACV)</strong> e as pegadas de carbono dos produtos cobrem toda a cadeia \u2014 da extra\u00e7\u00e3o \u00e0 elimina\u00e7\u00e3o. N\u00e3o precisamos de nova ci\u00eancia. Precisamos de vontade pol\u00edtica.",
+    manifesto: "Transformar o impacto ambiental em <em>press\u00e3o econ\u00f3mica inevit\u00e1vel</em>, e depois redistribuir o dinheiro para manter a estabilidade social enquanto se obriga o mercado a <em>descarbonizar-se</em>.",
+    principles_label: "02 \u2014 Princ\u00edpios",
+    principles_title: "O que defendemos",
+    principles_desc: "N\u00e3o se trata de campanhas de sensibiliza\u00e7\u00e3o ou compromissos volunt\u00e1rios. Trata-se de redesenhar os incentivos econ\u00f3micos desde a base.",
+    p1_title: "Pre\u00e7o, n\u00e3o sensibiliza\u00e7\u00e3o",
+    p1_text: "D\u00e9cadas de campanhas de sensibiliza\u00e7\u00e3o n\u00e3o dobraram a curva das emiss\u00f5es. Os sinais de pre\u00e7o alteram comportamentos em grande escala \u2014 de forma autom\u00e1tica, universal e imediata.",
+    p2_title: "Proteger as pessoas, n\u00e3o os poluidores",
+    p2_text: "As receitas destinam-se a bens p\u00fablicos e a um rendimento m\u00ednimo para compensar o aumento dos pre\u00e7os. Sem subs\u00eddios para que as empresas \u00abse tornem verdes\u00bb. Se polui, paga. O dinheiro protege os cidad\u00e3os.",
+    p3_title: "Custo social do carbono",
+    p3_text: "A taxa por tonelada baseia-se no dano real causado pelo CO\u2082. Um pre\u00e7o mais elevado gera uma mudan\u00e7a de comportamento mais forte \u2014 mas tamb\u00e9m exige uma redistribui\u00e7\u00e3o social mais robusta para garantir a equidade.",
+    p4_title: "Implementa\u00e7\u00e3o \u00e0 escala europeia",
+    p4_text: "Uma implementa\u00e7\u00e3o exclusivamente nacional distorce o com\u00e9rcio no mercado \u00fanico. \u00c9 necess\u00e1ria uma coordena\u00e7\u00e3o \u00e0 escala da UE \u2014 ou impostos nacionais cuidadosamente concebidos que n\u00e3o criem vantagens desleais.",
+    examples_label: "03 \u2014 N\u00fameros reais",
+    examples_title: "Como \u00e9 que isto se traduz?",
+    examples_desc: "Utilizando dados existentes de an\u00e1lise de ciclo de vida e um pre\u00e7o do carbono de $100 por tonelada de equivalente de CO\u2082.",
+    ex_case: "Estudo de caso",
+    ex_beef: "Carne de bovino",
+    ex_oil: "Petr\u00f3leo bruto",
+    ex_lifecycle: "Emiss\u00f5es do ciclo de vida",
+    ex_carbon_price: "Pre\u00e7o do carbono aplicado",
+    ex_additional_kg: "Custo adicional por kg",
+    ex_additional_barrel: "Custo adicional por barril",
+    ex_beef_insight: "Inclui a produ\u00e7\u00e3o de ra\u00e7\u00e3o (fertilizantes de base petrol\u00edfera), o metano do gado, a mudan\u00e7a de uso do solo e o processamento. A maioria das emiss\u00f5es prov\u00e9m da biologia \u2014 n\u00e3o apenas dos insumos energ\u00e9ticos.",
+    ex_oil_insight: "Impacto significativo no pre\u00e7o \u2014 mas os custos diluem-se quando o petr\u00f3leo \u00e9 distribu\u00eddo por milhares de produtos derivados. O maior impacto recai sobre processos concentrados de elevadas emiss\u00f5es como a pecu\u00e1ria, n\u00e3o apenas sobre os insumos industriais.",
+    questions_label: "04 \u2014 Lacunas honestas",
+    questions_title: "Quest\u00f5es em aberto",
+    questions_desc: "N\u00e3o pretendemos ter todas as respostas. Estes s\u00e3o os problemas dif\u00edceis que exigem intelig\u00eancia coletiva.",
+    q1: "Qual o pre\u00e7o exato do carbono necess\u00e1rio para alterar significativamente o comportamento de consumidores e da ind\u00fastria sem provocar um choque econ\u00f3mico?",
+    q2: "Como garantir uma contabiliza\u00e7\u00e3o precisa do ciclo de vida a n\u00edvel global, quando as cadeias de abastecimento atravessam dezenas de pa\u00edses com padr\u00f5es diferentes?",
+    q3: "Como devem ser tratadas as importa\u00e7\u00f5es de pa\u00edses n\u00e3o conformes? Os ajustes de carbono na fronteira s\u00e3o promissores, mas politica e logisticamente complexos.",
+    q4: "Qual \u00e9 o caminho realista para a viabilidade pol\u00edtica dentro das estruturas da UE \u2014 e como constru\u00edmos a coaliz\u00e3o necess\u00e1ria?",
+    q5: "Com que rapidez podemos fazer a transi\u00e7\u00e3o sem desestabilizar os meios de subsist\u00eancia? Qual \u00e9 o equil\u00edbrio adequado entre urg\u00eancia e estabilidade social?",
+    join_label: "05 \u2014 Agir",
+    join_title: "Junte-se ao movimento",
+    join_desc: "Esta ideia precisa de economistas, decisores pol\u00edticos, ativistas e cidad\u00e3os que acreditem que \u00e9 o pre\u00e7o \u2014 e n\u00e3o a culpa \u2014 que muda o mundo. Fa\u00e7a ouvir a sua voz.",
+    join_placeholder: "seu@email.com",
+    join_btn: "Inscrever-se",
+    join_btn_done: "Adicionado \u2713",
+    join_note: "Sem spam. Atualiza\u00e7\u00f5es sobre avan\u00e7os pol\u00edticos, investiga\u00e7\u00e3o e a\u00e7\u00f5es que pode empreender.",
+    footer_mechanism: "Mecanismo",
+    footer_data: "Dados",
+  },
+
+  nl: {
+    nav_logo: "Prijs de Schade",
+    nav_how: "Hoe het werkt",
+    nav_principles: "Principes",
+    nav_examples: "Voorbeelden",
+    nav_questions: "Open vragen",
+    nav_join: "Meedoen",
+    hero_label: "Een beleidskader voor de klimaatcrisis",
+    hero_title: "Maak vervuiling<br><em>duur</em>.",
+    hero_subtitle: "Elk product brengt verborgen milieukosten met zich mee. Wij stellen een CO\u2082-equivalentheffing voor over de gehele toeleveringsketen \u2014 ecologische schade wordt omgezet in economische druk, terwijl de opbrengsten worden herverdeeld om burgers te beschermen.",
+    hero_btn_primary: "Bekijk hoe het werkt \u2193",
+    hero_btn_secondary: "Doe mee met de beweging",
+    how_label: "01 \u2014 Mechanisme",
+    how_title: "Een heffing in elke fase",
+    how_desc: "CO\u2082-equivalentheffingen worden stroomopwaarts toegepast op elk punt in de toeleveringsketen. De totale kosten accumuleren in de eindprijs \u2014 waardoor producten met hoge emissies vanzelf duurder worden.",
+    stage1_title: "Winning",
+    stage1_desc: "Grondstoffenwinning, olieboring, oogst",
+    stage2_title: "Productie",
+    stage2_desc: "Fabricage, raffinage, verwerking",
+    stage3_title: "Transport",
+    stage3_desc: "Verzending, vrachtvervoer, logistiek",
+    stage4_title: "Handel &amp; gebruik",
+    stage4_desc: "Distributie, gebruiksfase door de consument",
+    stage5_title: "Verwerking",
+    stage5_desc: "Einde levensduur via uitgebreide producentenverantwoordelijkheid",
+    stage_fee: "+ CO\u2082-heffing",
+    pipeline_result: "De data bestaan al. <strong>Levenscyclusanalyses (LCA\u2019s)</strong> en productgerelateerde CO\u2082-voetafdrukken bestrijken de gehele keten \u2014 van winning tot verwerking. We hebben geen nieuwe wetenschap nodig. We hebben politieke wil nodig.",
+    manifesto: "Milieu-impact omzetten in <em>onvermijdelijke economische druk</em>, vervolgens het geld herverdelen om de samenleving stabiel te houden en de markt te dwingen tot <em>decarbonisatie</em>.",
+    principles_label: "02 \u2014 Principes",
+    principles_title: "Waar wij voor staan",
+    principles_desc: "Dit gaat niet over bewustwordingscampagnes of vrijwillige beloften. Het gaat over het herontwerpen van economische prikkels vanaf de basis.",
+    p1_title: "Prijs, geen bewustwording",
+    p1_text: "Decennia van bewustwordingscampagnes hebben de emissiecurve niet omgebogen. Prijssignalen veranderen gedrag op grote schaal \u2014 automatisch, universeel en onmiddellijk.",
+    p2_title: "Mensen beschermen, niet vervuilers",
+    p2_text: "De opbrengsten gaan naar publieke voorzieningen en een minimuminkomen om hogere prijzen te compenseren. Geen subsidies voor bedrijven om \u201egroen te worden\u201d. Wie vervuilt, betaalt. Het geld beschermt de burgers.",
+    p3_title: "Maatschappelijke kosten van koolstof",
+    p3_text: "De heffing per ton is gebaseerd op de werkelijke schade die CO\u2082 veroorzaakt. Een hogere prijs leidt tot sterkere gedragsverandering \u2014 maar vereist ook een sterkere sociale herverdeling om eerlijk te blijven.",
+    p4_title: "EU-brede implementatie",
+    p4_text: "Een uitsluitend nationale implementatie verstoort de handel binnen de interne markt. Dit vereist EU-brede co\u00f6rdinatie \u2014 of zorgvuldig ontworpen nationale belastingen die geen oneerlijke voordelen cre\u00ebren.",
+    examples_label: "03 \u2014 Concrete cijfers",
+    examples_title: "Hoe ziet dit eruit?",
+    examples_desc: "Op basis van bestaande levenscyclusanalysegegevens en een koolstofprijs van $100 per ton CO\u2082-equivalent.",
+    ex_case: "Casus",
+    ex_beef: "Rundvlees",
+    ex_oil: "Ruwe aardolie",
+    ex_lifecycle: "Levenscyclusemissies",
+    ex_carbon_price: "Toegepaste koolstofprijs",
+    ex_additional_kg: "Meerkosten per kg",
+    ex_additional_barrel: "Meerkosten per vat",
+    ex_beef_insight: "Omvat de productie van veevoer (op aardolie gebaseerde meststoffen), methaan van vee, verandering in landgebruik en verwerking. Het grootste deel van de emissies komt voort uit biologische processen \u2014 niet alleen uit energie-inputs.",
+    ex_oil_insight: "Aanzienlijk prijseffect \u2014 maar de kosten verdunnen wanneer olie wordt verdeeld over duizenden afgeleide producten. De grootste impact treft geconcentreerde emisie-intensieve processen zoals veeteelt, niet alleen industri\u00eble inputs.",
+    questions_label: "04 \u2014 Eerlijke hiaten",
+    questions_title: "Open vragen",
+    questions_desc: "We pretenderen niet alle antwoorden te hebben. Dit zijn de moeilijke problemen waarvoor we collectieve intelligentie nodig hebben.",
+    q1: "Welke exacte koolstofprijs is nodig om het gedrag van consumenten en industrie wezenlijk te veranderen zonder een economische schok te veroorzaken?",
+    q2: "Hoe handhaven we nauwkeurige levenscyclusboekhouding op wereldschaal, wanneer toeleveringsketens tientallen landen met verschillende normen omvatten?",
+    q3: "Hoe moeten we omgaan met import uit niet-conforme landen? Koolstofgrenscorrecties zijn veelbelovend, maar politiek en logistiek complex.",
+    q4: "Wat is het realistische pad naar politieke haalbaarheid binnen de EU-structuren \u2014 en hoe bouwen we de benodigde coalitie op?",
+    q5: "Hoe snel kunnen we de transitie doorvoeren zonder bestaansmiddelen te destabiliseren? Hoe ziet de juiste balans tussen urgentie en sociale stabiliteit eruit?",
+    join_label: "05 \u2014 Actie ondernemen",
+    join_title: "Doe mee met de beweging",
+    join_desc: "Dit idee heeft economen, beleidsmakers, activisten en burgers nodig die geloven dat de prijs \u2014 niet schuldgevoel \u2014 de wereld verandert. Laat uw stem horen.",
+    join_placeholder: "uw@email.com",
+    join_btn: "Aanmelden",
+    join_btn_done: "Toegevoegd \u2713",
+    join_note: "Geen spam. Updates over beleidsvoortgang, onderzoek en acties die u kunt ondernemen.",
+    footer_mechanism: "Mechanisme",
+    footer_data: "Data",
+  },
+};
+
+const TRANS_NORDIC = {
+  da: {
+    nav_logo: "Prissæt skaden",
+    nav_how: "Sådan virker det",
+    nav_principles: "Principper",
+    nav_examples: "Eksempler",
+    nav_questions: "Åbne spørgsmål",
+    nav_join: "Deltag",
+    hero_label: "En politisk ramme for klimakrisen",
+    hero_title: "Gør forurening<br><em>dyrt</em>.",
+    hero_subtitle: "Ethvert produkt bærer en skjult miljøomkostning. Vi foreslår en CO₂-ækvivalent afgift gennem hele forsyningskæden — der omsætter økologisk skade til økonomisk pres, mens indtægterne omfordeles for at beskytte mennesker.",
+    hero_btn_primary: "Se hvordan det virker ↓",
+    hero_btn_secondary: "Deltag i bevægelsen",
+    how_label: "01 — Mekanisme",
+    how_title: "En afgift på hvert trin",
+    how_desc: "CO₂-ækvivalente afgifter pålægges opstrøms på hvert punkt i forsyningskæden. De samlede omkostninger akkumuleres i den endelige pris — hvilket naturligt gør højemissionsprodukter dyrere.",
+    stage1_title: "Udvinding",
+    stage1_desc: "Råstofudvinding, olieboring, høst",
+    stage2_title: "Produktion",
+    stage2_desc: "Fremstilling, raffinering, forarbejdning",
+    stage3_title: "Transport",
+    stage3_desc: "Fragt, godstransport, logistik",
+    stage4_title: "Detail &amp; forbrug",
+    stage4_desc: "Distribution, forbrugsfase",
+    stage5_title: "Bortskaffelse",
+    stage5_desc: "Slutfase via udvidet producentansvar",
+    stage_fee: "+ CO₂-afgift",
+    pipeline_result: "Dataene findes allerede. <strong>Livscyklusvurderinger (LCA)</strong> og produkters CO₂-fodaftryk dækker hele kæden — fra udvinding til bortskaffelse. Vi behøver ikke ny videnskab. Vi behøver politisk vilje.",
+    manifesto: "Omsæt miljøpåvirkning til <em>uundgåeligt økonomisk pres</em>, og omfordel derefter pengene for at holde samfundet stabilt, mens markedet tvinges til at <em>dekarbonisere</em>.",
+    principles_label: "02 — Principper",
+    principles_title: "Hvad vi står for",
+    principles_desc: "Det handler ikke om oplysningskampagner eller frivillige løfter. Det handler om at redesigne økonomiske incitamenter fra bunden.",
+    p1_title: "Pris, ikke oplysning",
+    p1_text: "Årtiers oplysningskampagner har ikke bøjet udledningskurven. Prissignaler ændrer adfærd i stor skala — automatisk, universelt og øjeblikkeligt.",
+    p2_title: "Beskyt mennesker, ikke forurenere",
+    p2_text: "Indtægterne går til offentlige goder og minimumsindkomst for at kompensere for højere priser. Ingen subsidier til virksomheder for at \"blive grønne\". Hvis du forurener, betaler du. Pengene beskytter borgerne.",
+    p3_title: "Samfundsomkostningen ved CO₂",
+    p3_text: "Afgiften per ton er baseret på den reelle skade, CO₂ forårsager. Højere pris betyder stærkere adfærdsændring — men kræver også stærkere social omfordeling for at holde det retfærdigt.",
+    p4_title: "EU-dækkende implementering",
+    p4_text: "Kun national implementering forvrider handelen inden for det indre marked. Det kræver EU-dækkende koordinering — eller omhyggeligt designede nationale afgifter, der ikke skaber uretfærdige fordele.",
+    examples_label: "03 — Konkrete tal",
+    examples_title: "Hvordan ser det ud?",
+    examples_desc: "Baseret på eksisterende livscyklusvurderinger og en CO₂-pris på $100 per ton CO₂-ækvivalent.",
+    ex_case: "Case-studie",
+    ex_beef: "Oksekød",
+    ex_oil: "Råolie",
+    ex_lifecycle: "Livscyklusudledninger",
+    ex_carbon_price: "Anvendt CO₂-pris",
+    ex_additional_kg: "Meromkostning per kg",
+    ex_additional_barrel: "Meromkostning per tønde",
+    ex_beef_insight: "Inkluderer foderproduktion (oliebaseret gødning), metan fra kvæg, ændret arealanvendelse og forarbejdning. De fleste udledninger kommer fra biologi — ikke kun energi-input.",
+    ex_oil_insight: "Betydelig prispåvirkning — men omkostningerne fortyndes, når olie fordeles på tusindvis af downstream-produkter. Den største påvirkning rammer koncentrerede højemissionsprocesser som husdyrbrug, ikke blot industrielle input.",
+    questions_label: "04 — Ærlige huller",
+    questions_title: "Åbne spørgsmål",
+    questions_desc: "Vi påstår ikke at have alle svar. Dette er de svære problemer, vi har brug for kollektiv intelligens til at løse.",
+    q1: "Hvilken præcis CO₂-pris er nødvendig for meningsfuldt at ændre forbruger- og industriadfærd uden at forårsage økonomisk chok?",
+    q2: "Hvordan håndhæver vi nøjagtig livscyklusregnskab globalt, når forsyningskæder spænder over snesevis af lande med forskellige standarder?",
+    q3: "Hvordan bør vi håndtere import fra ikke-kompatible lande? CO₂-grænsetilpasninger er lovende, men politisk og logistisk komplekse.",
+    q4: "Hvad er den realistiske vej til politisk gennemførlighed inden for EU's strukturer — og hvordan opbygger vi koalitionen til at nå dertil?",
+    q5: "Hvor hurtigt kan vi omstille uden at destabilisere levebrød? Hvordan ser den rette balance mellem hastværk og social stabilitet ud?",
+    join_label: "05 — Handling",
+    join_title: "Deltag i bevægelsen",
+    join_desc: "Denne idé har brug for økonomer, politiske beslutningstagere, aktivister og borgere, der tror på, at pris — ikke skyld — er det, der ændrer verden. Giv din stemme.",
+    join_placeholder: "din@email.dk",
+    join_btn: "Tilmeld dig",
+    join_btn_done: "Tilføjet ✓",
+    join_note: "Ingen spam. Opdateringer om politiske fremskridt, forskning og handlinger du kan tage.",
+    footer_mechanism: "Mekanisme",
+    footer_data: "Data",
+  },
+  sv: {
+    nav_logo: "Prissätt skadan",
+    nav_how: "Så fungerar det",
+    nav_principles: "Principer",
+    nav_examples: "Exempel",
+    nav_questions: "Öppna frågor",
+    nav_join: "Gå med",
+    hero_label: "Ett politiskt ramverk för klimatkrisen",
+    hero_title: "Gör föroreningar<br><em>dyra</em>.",
+    hero_subtitle: "Varje produkt bär en dold miljökostnad. Vi föreslår en CO₂-ekvivalent avgift genom hela leveranskedjan — som omvandlar ekologisk skada till ekonomiskt tryck, samtidigt som intäkterna omfördelas för att skydda människor.",
+    hero_btn_primary: "Se hur det fungerar ↓",
+    hero_btn_secondary: "Gå med i rörelsen",
+    how_label: "01 — Mekanism",
+    how_title: "En avgift i varje steg",
+    how_desc: "CO₂-ekvivalenta avgifter tillämpas uppströms vid varje punkt i leveranskedjan. Den totala kostnaden ackumuleras i slutpriset — vilket naturligt gör högutsläppsprodukter dyrare.",
+    stage1_title: "Utvinning",
+    stage1_desc: "Råvarubrytning, oljeborrning, skörd",
+    stage2_title: "Produktion",
+    stage2_desc: "Tillverkning, raffinering, bearbetning",
+    stage3_title: "Transport",
+    stage3_desc: "Sjöfrakt, godstransport, logistik",
+    stage4_title: "Detaljhandel &amp; användning",
+    stage4_desc: "Distribution, konsumentanvändningsfas",
+    stage5_title: "Avfallshantering",
+    stage5_desc: "Slutskede via utökat producentansvar",
+    stage_fee: "+ CO₂-avgift",
+    pipeline_result: "Datan finns redan. <strong>Livscykelanalyser (LCA)</strong> och produkters koldioxidavtryck täcker hela kedjan — från utvinning till avfallshantering. Vi behöver inte ny vetenskap. Vi behöver politisk vilja.",
+    manifesto: "Omvandla miljöpåverkan till <em>oundvikligt ekonomiskt tryck</em> och omfördela sedan pengarna för att hålla samhället stabilt medan marknaden tvingas <em>avkarbonisera</em>.",
+    principles_label: "02 — Principer",
+    principles_title: "Vad vi står för",
+    principles_desc: "Det handlar inte om informationskampanjer eller frivilliga löften. Det handlar om att omforma ekonomiska incitament från grunden.",
+    p1_title: "Pris, inte medvetenhet",
+    p1_text: "Årtionden av informationskampanjer har inte böjt utsläppskurvan. Prissignaler förändrar beteende i stor skala — automatiskt, universellt och omedelbart.",
+    p2_title: "Skydda människor, inte förorenare",
+    p2_text: "Intäkterna går till offentliga nyttigheter och minimiinkomst för att kompensera högre priser. Inga subventioner till företag för att \"bli gröna\". Förorenar du, betalar du. Pengarna skyddar medborgarna.",
+    p3_title: "Samhällskostnaden för CO₂",
+    p3_text: "Avgiften per ton baseras på den verkliga skada CO₂ orsakar. Högre pris innebär starkare beteendeförändring — men kräver också starkare social omfördelning för att hålla det rättvist.",
+    p4_title: "EU-omfattande implementering",
+    p4_text: "Enbart nationell implementering snedvrider handeln inom den inre marknaden. Det krävs EU-omfattande samordning — eller noggrant utformade nationella skatter som inte skapar orättvisa fördelar.",
+    examples_label: "03 — Verkliga siffror",
+    examples_title: "Hur ser det ut?",
+    examples_desc: "Baserat på befintliga livscykelanalyser och ett koldioxidpris på $100 per ton CO₂-ekvivalent.",
+    ex_case: "Fallstudie",
+    ex_beef: "Nötkött",
+    ex_oil: "Råolja",
+    ex_lifecycle: "Livscykelutsläpp",
+    ex_carbon_price: "Tillämpad koldioxidpris",
+    ex_additional_kg: "Merkostnad per kg",
+    ex_additional_barrel: "Merkostnad per fat",
+    ex_beef_insight: "Inkluderar foderproduktion (oljebaserade gödselmedel), metan från nötkreatur, förändrad markanvändning och bearbetning. De flesta utsläppen kommer från biologi — inte bara energiinsatser.",
+    ex_oil_insight: "Betydande prispåverkan — men kostnaderna späds ut när olja fördelas på tusentals nedströmsprodukter. Den största påverkan drabbar koncentrerade högutsläppsprocesser som djurhållning, inte bara industriella insatsvaror.",
+    questions_label: "04 — Ärliga luckor",
+    questions_title: "Öppna frågor",
+    questions_desc: "Vi påstår inte att vi har alla svar. Det här är de svåra problemen som kräver kollektiv intelligens att lösa.",
+    q1: "Vilket exakt koldioxidpris behövs för att meningsfullt förändra konsument- och industribeteende utan att orsaka ekonomisk chock?",
+    q2: "Hur säkerställer vi korrekt livscykelredovisning globalt, när leveranskedjor spänner över dussintals länder med olika standarder?",
+    q3: "Hur bör vi hantera import från icke-kompatibla länder? Koldioxidgränsjusteringar är lovande men politiskt och logistiskt komplexa.",
+    q4: "Vad är den realistiska vägen till politisk genomförbarhet inom EU:s strukturer — och hur bygger vi koalitionen för att nå dit?",
+    q5: "Hur snabbt kan vi ställa om utan att destabilisera försörjningsmöjligheter? Hur ser den rätta balansen mellan brådska och social stabilitet ut?",
+    join_label: "05 — Agera",
+    join_title: "Gå med i rörelsen",
+    join_desc: "Denna idé behöver ekonomer, beslutsfattare, aktivister och medborgare som tror att pris — inte skuld — är det som förändrar världen. Lägg till din röst.",
+    join_placeholder: "din@epost.se",
+    join_btn: "Anmäl dig",
+    join_btn_done: "Tillagd ✓",
+    join_note: "Ingen spam. Uppdateringar om politiska framsteg, forskning och åtgärder du kan vidta.",
+    footer_mechanism: "Mekanism",
+    footer_data: "Data",
+  },
+  fi: {
+    nav_logo: "Hinnoittele vahinko",
+    nav_how: "Näin se toimii",
+    nav_principles: "Periaatteet",
+    nav_examples: "Esimerkit",
+    nav_questions: "Avoimet kysymykset",
+    nav_join: "Liity",
+    hero_label: "Poliittinen viitekehys ilmastokriisille",
+    hero_title: "Tee saastuttamisesta<br><em>kallista</em>.",
+    hero_subtitle: "Jokaisella tuotteella on piilotettu ympäristökustannus. Ehdotamme CO₂-ekvivalenttimaksua koko toimitusketjuun — muuntaen ekologisen vahingon taloudelliseksi paineeksi ja jakaen tulot uudelleen ihmisten suojelemiseksi.",
+    hero_btn_primary: "Katso miten se toimii ↓",
+    hero_btn_secondary: "Liity liikkeeseen",
+    how_label: "01 — Mekanismi",
+    how_title: "Maksu jokaisessa vaiheessa",
+    how_desc: "CO₂-ekvivalenttimaksut peritään alkupäässä jokaisessa toimitusketjun vaiheessa. Kokonaiskustannus kertyy lopulliseen hintaan — tehden korkean päästötason tuotteista luonnollisesti kalliimpia.",
+    stage1_title: "Louhinta",
+    stage1_desc: "Raaka-aineiden louhinta, öljynporaus, korjuu",
+    stage2_title: "Tuotanto",
+    stage2_desc: "Valmistus, jalostus, prosessointi",
+    stage3_title: "Kuljetus",
+    stage3_desc: "Laivaus, rahti, logistiikka",
+    stage4_title: "Vähittäiskauppa &amp; käyttö",
+    stage4_desc: "Jakelu, kuluttajan käyttövaihe",
+    stage5_title: "Hävittäminen",
+    stage5_desc: "Elinkaaren loppu laajennetun tuottajavastuun kautta",
+    stage_fee: "+ CO₂-maksu",
+    pipeline_result: "Data on jo olemassa. <strong>Elinkaariarvioinnit (LCA)</strong> ja tuotteiden hiilijalanjäljet kattavat koko ketjun — louhinnasta hävittämiseen. Emme tarvitse uutta tiedettä. Tarvitsemme poliittista tahtoa.",
+    manifesto: "Muunna ympäristövaikutus <em>väistämättömäksi taloudelliseksi paineeksi</em> ja jaa sitten rahat uudelleen pitääksesi yhteiskunnan vakaana samalla kun markkinat pakotetaan <em>irtautumaan hiilestä</em>.",
+    principles_label: "02 — Periaatteet",
+    principles_title: "Mitä kannatamme",
+    principles_desc: "Kyse ei ole tiedotuskampanjoista tai vapaaehtoisista lupauksista. Kyse on taloudellisten kannustimien uudelleensuunnittelusta perustasolta lähtien.",
+    p1_title: "Hinta, ei tietoisuus",
+    p1_text: "Vuosikymmenten tiedotuskampanjat eivät ole taivuttaneet päästökäyrää. Hintasignaalit muuttavat käyttäytymistä laajassa mittakaavassa — automaattisesti, yleismaailmallisesti ja välittömästi.",
+    p2_title: "Suojele ihmisiä, älä saastuttajia",
+    p2_text: "Tulot ohjataan julkisiin palveluihin ja vähimmäistuloon korkeampien hintojen kompensoimiseksi. Ei tukia yrityksille \"vihertyäkseen\". Jos saastutat, maksat. Rahat suojaavat kansalaisia.",
+    p3_title: "CO₂:n yhteiskunnallinen kustannus",
+    p3_text: "Maksu per tonni perustuu CO₂:n todelliseen aiheuttamaan vahinkoon. Korkeampi hinta tarkoittaa voimakkaampaa käyttäytymisen muutosta — mutta vaatii myös vahvempaa sosiaalista uudelleenjakoa oikeudenmukaisuuden säilyttämiseksi.",
+    p4_title: "EU:n laajuinen toteutus",
+    p4_text: "Pelkästään kansallinen toteutus vääristää kauppaa sisämarkkinoilla. Tämä vaatii EU:n laajuista koordinointia — tai huolellisesti suunniteltuja kansallisia veroja, jotka eivät luo epäreiluja etuja.",
+    examples_label: "03 — Todelliset luvut",
+    examples_title: "Miltä tämä näyttää?",
+    examples_desc: "Olemassa olevien elinkaariarviointien ja $100 per tonni CO₂-ekvivalentti -hiilihinnan perusteella.",
+    ex_case: "Tapaustutkimus",
+    ex_beef: "Naudanliha",
+    ex_oil: "Raakaöljy",
+    ex_lifecycle: "Elinkaaren päästöt",
+    ex_carbon_price: "Sovellettu hiilihinta",
+    ex_additional_kg: "Lisäkustannus per kg",
+    ex_additional_barrel: "Lisäkustannus per tynnyri",
+    ex_beef_insight: "Sisältää rehuntuotannon (öljypohjaiset lannoitteet), karjan metaanipäästöt, maankäytön muutoksen ja prosessoinnin. Suurin osa päästöistä tulee biologiasta — ei pelkästään energiapanoksista.",
+    ex_oil_insight: "Merkittävä hintavaikutus — mutta kustannukset laimeutuvat, kun öljy jakautuu tuhansiin jatkotuotteisiin. Suurin vaikutus kohdistuu keskittyneisiin korkeiden päästöjen prosesseihin kuten karjankasvatukseen, ei pelkästään teollisiin panoksiin.",
+    questions_label: "04 — Avoimet aukot",
+    questions_title: "Avoimet kysymykset",
+    questions_desc: "Emme väitä, että meillä on kaikki vastaukset. Nämä ovat vaikeita ongelmia, joiden ratkaiseminen vaatii yhteistä älykkyyttä.",
+    q1: "Mikä tarkka hiilihinta tarvitaan kuluttaja- ja teollisuuskäyttäytymisen merkitykselliseen muuttamiseen aiheuttamatta taloudellista sokkia?",
+    q2: "Miten valvomme tarkkaa elinkaarikirjanpitoa maailmanlaajuisesti, kun toimitusketjut ulottuvat kymmeniin maihin, joilla on erilaiset standardit?",
+    q3: "Miten meidän tulisi käsitellä tuontia sääntöjä noudattamattomista maista? Hiilirajamekanismit ovat lupaavia, mutta poliittisesti ja logistisesti monimutkaisia.",
+    q4: "Mikä on realistinen polku poliittiseen toteutettavuuteen EU:n rakenteiden puitteissa — ja miten rakennamme koalition sen saavuttamiseksi?",
+    q5: "Kuinka nopeasti voimme siirtyä horjuttamatta elinkeinoja? Miltä oikea tasapaino kiireellisyyden ja sosiaalisen vakauden välillä näyttää?",
+    join_label: "05 — Toimi",
+    join_title: "Liity liikkeeseen",
+    join_desc: "Tämä idea tarvitsee ekonomisteja, päätöksentekijöitä, aktivisteja ja kansalaisia, jotka uskovat, että hinta — ei syyllisyys — muuttaa maailman. Lisää äänesi.",
+    join_placeholder: "sinun@sahkoposti.fi",
+    join_btn: "Rekisteröidy",
+    join_btn_done: "Lisätty ✓",
+    join_note: "Ei roskapostia. Päivityksiä politiikan edistymisestä, tutkimuksesta ja toimista, joihin voit ryhtyä.",
+    footer_mechanism: "Mekanismi",
+    footer_data: "Data",
+  },
+  et: {
+    nav_logo: "Hinnasta kahju",
+    nav_how: "Kuidas see toimib",
+    nav_principles: "Põhimõtted",
+    nav_examples: "Näited",
+    nav_questions: "Avatud küsimused",
+    nav_join: "Liitu",
+    hero_label: "Poliitiline raamistik kliimakriisile",
+    hero_title: "Muuda saastamine<br><em>kulukaks</em>.",
+    hero_subtitle: "Igal tootel on varjatud keskkonnamaksumus. Me pakume CO₂-ekvivalentset tasu kogu tarneahela ulatuses — muutes ökoloogiline kahju majanduslikuks surveks, samal ajal jaotades tulu ümber inimeste kaitseks.",
+    hero_btn_primary: "Vaata, kuidas see toimib ↓",
+    hero_btn_secondary: "Liitu liikumisega",
+    how_label: "01 — Mehhanism",
+    how_title: "Tasu igal etapil",
+    how_desc: "CO₂-ekvivalentsed tasud rakendatakse tarneahela igal punktil ülesvoolu. Kogumaksumus koguneb lõpphinda — muutes suure heitega tooted loomulikult kallimaks.",
+    stage1_title: "Kaevandamine",
+    stage1_desc: "Toorainete kaevandamine, nafta puurimine, koristamine",
+    stage2_title: "Tootmine",
+    stage2_desc: "Valmistamine, rafineerimine, töötlemine",
+    stage3_title: "Transport",
+    stage3_desc: "Laevandus, kaubavedu, logistika",
+    stage4_title: "Jaemüük &amp; kasutamine",
+    stage4_desc: "Jaotamine, tarbija kasutamisfaas",
+    stage5_title: "Kõrvaldamine",
+    stage5_desc: "Elutsükli lõpp laiendatud tootjavastutuse kaudu",
+    stage_fee: "+ CO₂-tasu",
+    pipeline_result: "Andmed on juba olemas. <strong>Olelusringi hindamised (LCA)</strong> ja toodete süsiniku jalajäljed katavad kogu ahela — kaevandamisest kõrvaldamiseni. Me ei vaja uut teadust. Me vajame poliitilist tahet.",
+    manifesto: "Muuda keskkonnamõju <em>vältimatuks majanduslikuks surveks</em>, seejärel jaota raha ümber, et hoida ühiskonda stabiilsena, sundides turgu samal ajal <em>dekarboniseeruma</em>.",
+    principles_label: "02 — Põhimõtted",
+    principles_title: "Mille eest me seisame",
+    principles_desc: "See ei puuduta teadlikkuse kampaaniaid ega vabatahtlikke lubadusi. See puudutab majanduslike stiimulite ümberkujundamist nullist.",
+    p1_title: "Hind, mitte teadlikkus",
+    p1_text: "Aastakümnete pikkused teadlikkuse kampaaniad pole heitkõverat painutanud. Hinnasignaalid muudavad käitumist laiaulatuslikult — automaatselt, universaalselt ja kohe.",
+    p2_title: "Kaitse inimesi, mitte saastajaid",
+    p2_text: "Tulu läheb avalikele hüvedele ja miinimumsissetulekule kõrgemate hindade kompenseerimiseks. Ei mingeid toetusi ettevõtetele, et \"muutuda roheliseks\". Kui saastad, maksad. Raha kaitseb kodanikke.",
+    p3_title: "CO₂ sotsiaalne maksumus",
+    p3_text: "Tasu tonni kohta põhineb CO₂ tegelikul kahjul. Kõrgem hind tähendab tugevamat käitumismuutust — kuid nõuab ka tugevamat sotsiaalset ümberjaotust, et hoida see õiglasena.",
+    p4_title: "EL-ülene rakendamine",
+    p4_text: "Ainult riiklik rakendamine moonutab kaubandust ühisturul. See vajab EL-ülest koordineerimist — või hoolikalt kavandatud riiklikke makse, mis ei loo ebaõiglasi eeliseid.",
+    examples_label: "03 — Tegelikud arvud",
+    examples_title: "Kuidas see välja näeb?",
+    examples_desc: "Olemasolevate olelusringi hindamiste ja $100 tonni CO₂-ekvivalendi kohta süsinikuhinna põhjal.",
+    ex_case: "Juhtumiuuring",
+    ex_beef: "Veiseliha",
+    ex_oil: "Toornafta",
+    ex_lifecycle: "Olelusringi heited",
+    ex_carbon_price: "Rakendatud süsinikuhind",
+    ex_additional_kg: "Lisakulu kg kohta",
+    ex_additional_barrel: "Lisakulu barreli kohta",
+    ex_beef_insight: "Hõlmab söödatootmist (naftapõhised väetised), veiste metaani, maakasutuse muutust ja töötlemist. Enamik heiteid tuleb bioloogiast — mitte ainult energiasisenditest.",
+    ex_oil_insight: "Märkimisväärne hinnmõju — kuid kulud hajuvad, kuna nafta jaotub tuhandete järeltoodete vahel. Suurim mõju langeb kontsentreeritud suure heitega protsessidele nagu loomakasvatus, mitte ainult tööstuslikele sisenditele.",
+    questions_label: "04 — Ausad lüngad",
+    questions_title: "Avatud küsimused",
+    questions_desc: "Me ei teeskle, et meil on kõik vastused. Need on rasked probleemid, mille lahendamiseks vajame kollektiivset intelligentsi.",
+    q1: "Milline täpne süsinikuhind on vajalik tarbija- ja tööstuskäitumise sisukaks muutmiseks ilma majandusliku šoki tekitamiseta?",
+    q2: "Kuidas tagame täpse olelusringi arvestuse globaalselt, kui tarneahelad ulatuvad kümnetesse riikidesse erinevate standarditega?",
+    q3: "Kuidas peaksime käsitlema importi mittevastavatelt riikidelt? Süsiniku piirimeetmed on paljulubavad, kuid poliitiliselt ja logistiliselt keerukad.",
+    q4: "Milline on realistlik tee poliitilise teostatavuseni EL-i struktuurides — ja kuidas ehitame koalitsiooni selle saavutamiseks?",
+    q5: "Kui kiiresti saame üle minna elatusallikaid destabiliseerimata? Milline näeb välja õige tasakaal kiireloomulisuse ja sotsiaalse stabiilsuse vahel?",
+    join_label: "05 — Tegutse",
+    join_title: "Liitu liikumisega",
+    join_desc: "See idee vajab majandusteadlasi, poliitikakujundajaid, aktiviste ja kodanikke, kes usuvad, et hind — mitte süütunne — on see, mis muudab maailma. Lisa oma hääl.",
+    join_placeholder: "sinu@email.ee",
+    join_btn: "Registreeru",
+    join_btn_done: "Lisatud ✓",
+    join_note: "Ei rämpsposti. Uuendused poliitika edenemise, uuringute ja tegevuste kohta, mida saad ette võtta.",
+    footer_mechanism: "Mehhanism",
+    footer_data: "Andmed",
+  },
+  lv: {
+    nav_logo: "Novērtē kaitējumu",
+    nav_how: "Kā tas darbojas",
+    nav_principles: "Principi",
+    nav_examples: "Piemēri",
+    nav_questions: "Atklāti jautājumi",
+    nav_join: "Pievienojies",
+    hero_label: "Politikas ietvars klimata krīzei",
+    hero_title: "Padari piesārņošanu<br><em>dārgu</em>.",
+    hero_subtitle: "Katram produktam ir slēptas vides izmaksas. Mēs piedāvājam CO₂-ekvivalenta maksu visā piegādes ķēdē — pārvēršot ekoloģisko kaitējumu ekonomiskā spiedienā, vienlaikus pārdalot ieņēmumus cilvēku aizsardzībai.",
+    hero_btn_primary: "Uzzini, kā tas darbojas ↓",
+    hero_btn_secondary: "Pievienojies kustībai",
+    how_label: "01 — Mehānisms",
+    how_title: "Maksa katrā posmā",
+    how_desc: "CO₂-ekvivalenta maksas tiek piemērotas augšpus katrā piegādes ķēdes punktā. Kopējās izmaksas uzkrājas gala cenā — dabiski padarot augstu emisiju produktus dārgākus.",
+    stage1_title: "Ieguve",
+    stage1_desc: "Izejvielu ieguve, naftas urbšana, ievākšana",
+    stage2_title: "Ražošana",
+    stage2_desc: "Rūpnieciskā ražošana, rafinēšana, apstrāde",
+    stage3_title: "Transports",
+    stage3_desc: "Kuģošana, kravas pārvadājumi, loģistika",
+    stage4_title: "Mazumtirdzniecība &amp; lietošana",
+    stage4_desc: "Izplatīšana, patērētāja lietošanas fāze",
+    stage5_title: "Utilizācija",
+    stage5_desc: "Dzīves cikla beigas ar paplašinātu ražotāja atbildību",
+    stage_fee: "+ CO₂ maksa",
+    pipeline_result: "Dati jau pastāv. <strong>Dzīves cikla novērtējumi (LCA)</strong> un produktu oglekļa pēdas nospiedumi aptver visu ķēdi — no ieguves līdz utilizācijai. Mums nav vajadzīga jauna zinātne. Mums ir vajadzīga politiskā griba.",
+    manifesto: "Pārvērt vides ietekmi <em>neizbēgamā ekonomiskā spiedienā</em>, pēc tam pārdali naudu, lai uzturētu sabiedrību stabilu, kamēr tirgus tiek spiests <em>dekarbonizēties</em>.",
+    principles_label: "02 — Principi",
+    principles_title: "Par ko mēs iestājamies",
+    principles_desc: "Runa nav par informēšanas kampaņām vai brīvprātīgiem solījumiem. Runa ir par ekonomisko stimulu pārveidošanu no pamatiem.",
+    p1_title: "Cena, nevis informētība",
+    p1_text: "Gadu desmitiem ilgas informēšanas kampaņas nav liektušas emisiju līkni. Cenu signāli maina uzvedību plašā mērogā — automātiski, universāli un nekavējoties.",
+    p2_title: "Aizsargā cilvēkus, nevis piesārņotājus",
+    p2_text: "Ieņēmumi tiek novirzīti sabiedriskiem labumiem un minimālajiem ienākumiem, lai kompensētu augstākas cenas. Nekādu subsidiju uzņēmumiem, lai \"kļūtu zaļi\". Ja piesārņo — maksā. Nauda aizsargā iedzīvotājus.",
+    p3_title: "CO₂ sociālās izmaksas",
+    p3_text: "Maksa par tonnu ir balstīta uz reālo kaitējumu, ko rada CO₂. Augstāka cena nozīmē spēcīgāku uzvedības maiņu — bet prasa arī spēcīgāku sociālo pārdali, lai saglabātu taisnīgumu.",
+    p4_title: "ES mēroga ieviešana",
+    p4_text: "Tikai valsts līmeņa ieviešana kropļo tirdzniecību vienotajā tirgū. Tam nepieciešama ES mēroga koordinācija — vai rūpīgi izstrādāti valsts nodokļi, kas nerada negodīgas priekšrocības.",
+    examples_label: "03 — Reāli skaitļi",
+    examples_title: "Kā tas izskatās?",
+    examples_desc: "Izmantojot esošos dzīves cikla novērtējumus un oglekļa cenu $100 par tonnu CO₂-ekvivalenta.",
+    ex_case: "Gadījuma izpēte",
+    ex_beef: "Liellopu gaļa",
+    ex_oil: "Jēlnafta",
+    ex_lifecycle: "Dzīves cikla emisijas",
+    ex_carbon_price: "Piemērotā oglekļa cena",
+    ex_additional_kg: "Papildu izmaksas par kg",
+    ex_additional_barrel: "Papildu izmaksas par barelu",
+    ex_beef_insight: "Ietver barības ražošanu (naftas bāzes mēslojumi), liellopu metānu, zemes izmantošanas maiņu un apstrādi. Lielākā daļa emisiju nāk no bioloģijas — ne tikai enerģijas ieguldījumiem.",
+    ex_oil_insight: "Būtiska ietekme uz cenu — taču izmaksas izšķīst, kad nafta sadalās tūkstošiem pakārtotu produktu. Lielākā ietekme skar koncentrētus augstu emisiju procesus kā lopkopību, ne tikai rūpnieciskos ieguldījumus.",
+    questions_label: "04 — Godīgas nepilnības",
+    questions_title: "Atklāti jautājumi",
+    questions_desc: "Mēs neizliekamies, ka mums ir visas atbildes. Šīs ir grūtās problēmas, kuru risināšanai nepieciešams kolektīvais intelekts.",
+    q1: "Kāda precīza oglekļa cena ir nepieciešama, lai jēgpilni mainītu patērētāju un rūpniecības uzvedību, neizraisot ekonomisku šoku?",
+    q2: "Kā mēs nodrošinām precīzu dzīves cikla uzskaiti globālā mērogā, ja piegādes ķēdes aptver desmitiem valstu ar dažādiem standartiem?",
+    q3: "Kā mums būtu jārīkojas ar importu no neatbilstošām valstīm? Oglekļa robežkorekcijas ir daudzsološas, bet politiski un loģistiski sarežģītas.",
+    q4: "Kāds ir reālistisks ceļš uz politisko īstenojamību ES struktūrās — un kā mēs veidojam koalīciju, lai to sasniegtu?",
+    q5: "Cik ātri mēs varam pāriet, nedestabilizējot iztiku? Kā izskatās pareizais līdzsvars starp steidzamību un sociālo stabilitāti?",
+    join_label: "05 — Rīkojies",
+    join_title: "Pievienojies kustībai",
+    join_desc: "Šai idejai ir nepieciešami ekonomisti, politikas veidotāji, aktīvisti un pilsoņi, kas tic, ka cena — nevis vainas apziņa — ir tas, kas maina pasauli. Pievieno savu balsi.",
+    join_placeholder: "tavs@epasts.lv",
+    join_btn: "Reģistrēties",
+    join_btn_done: "Pievienots ✓",
+    join_note: "Nekāda surogātpasta. Jaunumi par politikas virzību, pētījumiem un darbībām, ko vari veikt.",
+    footer_mechanism: "Mehānisms",
+    footer_data: "Dati",
+  },
+  lt: {
+    nav_logo: "Įkainok žalą",
+    nav_how: "Kaip tai veikia",
+    nav_principles: "Principai",
+    nav_examples: "Pavyzdžiai",
+    nav_questions: "Atviri klausimai",
+    nav_join: "Prisijunk",
+    hero_label: "Politikos sistema klimato krizei",
+    hero_title: "Padaryk taršą<br><em>brangią</em>.",
+    hero_subtitle: "Kiekvienas produktas turi paslėptą aplinkosauginę kainą. Siūlome CO₂-ekvivalento mokestį visoje tiekimo grandinėje — paverčiant ekologinę žalą ekonominiu spaudimu ir perskirstant pajamas žmonių apsaugai.",
+    hero_btn_primary: "Sužinok, kaip tai veikia ↓",
+    hero_btn_secondary: "Prisijunk prie judėjimo",
+    how_label: "01 — Mechanizmas",
+    how_title: "Mokestis kiekviename etape",
+    how_desc: "CO₂-ekvivalento mokesčiai taikomi prieš srovę kiekviename tiekimo grandinės taške. Bendra kaina kaupiasi galutinėje kainoje — natūraliai brangindama didelių išmetimų produktus.",
+    stage1_title: "Gavyba",
+    stage1_desc: "Žaliavų kasimas, naftos gręžimas, derliaus nuėmimas",
+    stage2_title: "Gamyba",
+    stage2_desc: "Pramoninė gamyba, rafinavimas, apdorojimas",
+    stage3_title: "Transportas",
+    stage3_desc: "Laivyba, krovinių pervežimas, logistika",
+    stage4_title: "Mažmeninė prekyba &amp; naudojimas",
+    stage4_desc: "Platinimas, vartotojo naudojimo fazė",
+    stage5_title: "Šalinimas",
+    stage5_desc: "Gyvavimo ciklo pabaiga pagal išplėstinę gamintojo atsakomybę",
+    stage_fee: "+ CO₂ mokestis",
+    pipeline_result: "Duomenys jau egzistuoja. <strong>Gyvavimo ciklo vertinimai (LCA)</strong> ir produktų anglies pėdsakai apima visą grandinę — nuo gavybos iki šalinimo. Mums nereikia naujo mokslo. Mums reikia politinės valios.",
+    manifesto: "Paverskite aplinkos poveikį <em>neišvengiamu ekonominiu spaudimu</em>, tada perskirstykite pinigus, kad visuomenė išliktų stabili, kol rinka priverčiama <em>dekarbonizuotis</em>.",
+    principles_label: "02 — Principai",
+    principles_title: "Už ką mes pasisakome",
+    principles_desc: "Tai ne apie informavimo kampanijas ar savanoriškus įsipareigojimus. Tai apie ekonominių paskatų pertvarkymą iš pagrindų.",
+    p1_title: "Kaina, ne sąmoningumas",
+    p1_text: "Dešimtmečiai informavimo kampanijų nepalenkė išmetimų kreivės. Kainų signalai keičia elgesį dideliu mastu — automatiškai, universaliai ir nedelsiant.",
+    p2_title: "Saugok žmones, ne teršėjus",
+    p2_text: "Pajamos skiriamos viešosioms gėrybėms ir minimalioms pajamoms, kad kompensuotų aukštesnes kainas. Jokių subsidijų įmonėms \"tapti žaliomis\". Jei terši — moki. Pinigai saugo piliečius.",
+    p3_title: "Socialinė CO₂ kaina",
+    p3_text: "Mokestis už toną grindžiamas realia CO₂ daroma žala. Aukštesnė kaina reiškia stipresnį elgesio pokytį — bet taip pat reikalauja stipresnio socialinio perskirstymo, kad tai būtų teisinga.",
+    p4_title: "ES masto įgyvendinimas",
+    p4_text: "Vien tik nacionalinis įgyvendinimas iškraipo prekybą bendrojoje rinkoje. Tam reikia ES masto koordinavimo — arba kruopščiai suprojektuotų nacionalinių mokesčių, kurie nesukuria nesąžiningų pranašumų.",
+    examples_label: "03 — Tikri skaičiai",
+    examples_title: "Kaip tai atrodo?",
+    examples_desc: "Remiantis esamais gyvavimo ciklo vertinimais ir $100 už toną CO₂-ekvivalento anglies kaina.",
+    ex_case: "Atvejo analizė",
+    ex_beef: "Jautiena",
+    ex_oil: "Žaliavinė nafta",
+    ex_lifecycle: "Gyvavimo ciklo išmetimai",
+    ex_carbon_price: "Taikoma anglies kaina",
+    ex_additional_kg: "Papildoma kaina už kg",
+    ex_additional_barrel: "Papildoma kaina už barelį",
+    ex_beef_insight: "Apima pašarų gamybą (naftos pagrindu pagamintų trąšų), galvijų metaną, žemės naudojimo pokytį ir perdirbimą. Dauguma išmetimų kyla iš biologijos — ne vien iš energijos sąnaudų.",
+    ex_oil_insight: "Reikšmingas poveikis kainai — tačiau išlaidos praskiedžiamos, kai nafta pasiskirsto tarp tūkstančių tolesnių produktų. Didžiausias poveikis tenka koncentruotiems didelių išmetimų procesams, tokiems kaip gyvulininkystė, o ne vien pramoninėms žaliavoms.",
+    questions_label: "04 — Sąžiningos spragos",
+    questions_title: "Atviri klausimai",
+    questions_desc: "Mes neapsimetame, kad turime visus atsakymus. Tai sudėtingos problemos, kurioms spręsti reikia kolektyvinio intelekto.",
+    q1: "Kokia tiksli anglies kaina reikalinga, kad prasmingai pakeistų vartotojų ir pramonės elgesį nesukeliant ekonominio šoko?",
+    q2: "Kaip užtikrinsime tikslią gyvavimo ciklo apskaitą globaliai, kai tiekimo grandinės apima dešimtis šalių su skirtingais standartais?",
+    q3: "Kaip turėtume elgtis su importu iš neatitinkančių šalių? Anglies pasienio koregavimai yra perspektyvūs, bet politiškai ir logistiškai sudėtingi.",
+    q4: "Koks yra realistinis kelias į politinį įgyvendinamumą ES struktūrose — ir kaip suformuosime koaliciją tam pasiekti?",
+    q5: "Kaip greitai galime pereiti nedestabilizuodami pragyvenimo šaltinių? Kaip atrodo tinkama pusiausvyra tarp skubos ir socialinio stabilumo?",
+    join_label: "05 — Veik",
+    join_title: "Prisijunk prie judėjimo",
+    join_desc: "Šiai idėjai reikia ekonomistų, politikos formuotojų, aktyvistų ir piliečių, kurie tiki, kad kaina — ne kaltė — yra tai, kas keičia pasaulį. Pridėk savo balsą.",
+    join_placeholder: "tavo@elpastas.lt",
+    join_btn: "Registruotis",
+    join_btn_done: "Pridėta ✓",
+    join_note: "Jokio brukalų. Naujienos apie politikos pažangą, tyrimus ir veiksmus, kurių galite imtis.",
+    footer_mechanism: "Mechanizmas",
+    footer_data: "Duomenys",
+  },
+};
+
+const TRANS_EAST = {
+  pl: {
+    nav_logo: "Wyceniaj Szkody",
+    nav_how: "Jak to działa",
+    nav_principles: "Zasady",
+    nav_examples: "Przykłady",
+    nav_questions: "Otwarte pytania",
+    nav_join: "Dołącz",
+    hero_label: "Ramy polityczne dla kryzysu klimatycznego",
+    hero_title: "Niech zanieczyszczanie<br><em>kosztuje</em>.",
+    hero_subtitle: "Każdy produkt niesie ze sobą ukryty koszt środowiskowy. Proponujemy opłatę za ekwiwalent CO₂ na każdym etapie łańcucha dostaw — przekształcając szkody ekologiczne w presję ekonomiczną i jednocześnie redystrybuując przychody, aby chronić ludzi.",
+    hero_btn_primary: "Zobacz, jak to działa ↓",
+    hero_btn_secondary: "Dołącz do ruchu",
+    how_label: "01 — Mechanizm",
+    how_title: "Opłata na każdym etapie",
+    how_desc: "Opłaty za ekwiwalent CO₂ są naliczane na każdym etapie łańcucha dostaw. Całkowity koszt kumuluje się w cenie końcowej — sprawiając, że produkty o wysokiej emisji są naturalnie droższe.",
+    stage1_title: "Wydobycie",
+    stage1_desc: "Wydobycie surowców, odwierty naftowe, pozyskiwanie zasobów",
+    stage2_title: "Produkcja",
+    stage2_desc: "Wytwarzanie, rafinacja, przetwarzanie",
+    stage3_title: "Transport",
+    stage3_desc: "Żegluga, fracht, logistyka",
+    stage4_title: "Handel i&nbsp;użytkowanie",
+    stage4_desc: "Dystrybucja, faza użytkowania przez konsumenta",
+    stage5_title: "Utylizacja",
+    stage5_desc: "Koniec cyklu życia w ramach rozszerzonej odpowiedzialności producenta",
+    stage_fee: "+ opłata CO₂",
+    pipeline_result: "Dane już istnieją. <strong>Oceny cyklu życia (LCA)</strong> i ślady węglowe produktów obejmują cały łańcuch — od wydobycia po utylizację. Nie potrzebujemy nowej nauki. Potrzebujemy woli politycznej.",
+    manifesto: "Przekształć wpływ na środowisko w <em>nieuniknioną presję ekonomiczną</em>, a następnie redystrybuuj pieniądze, aby utrzymać stabilność społeczną, zmuszając jednocześnie rynek do <em>dekarbonizacji</em>.",
+    principles_label: "02 — Zasady",
+    principles_title: "Za czym się opowiadamy",
+    principles_desc: "Nie chodzi o kampanie uświadamiające ani dobrowolne zobowiązania. Chodzi o przebudowę bodźców ekonomicznych od podstaw.",
+    p1_title: "Cena, nie świadomość",
+    p1_text: "Dziesięciolecia kampanii uświadamiających nie zmieniły krzywej emisji. Sygnały cenowe zmieniają zachowania na masową skalę — automatycznie, powszechnie i natychmiast.",
+    p2_title: "Chrońmy ludzi, nie trucicieli",
+    p2_text: "Przychody trafiają na dobra publiczne i dochód minimalny, aby zrekompensować wyższe ceny. Żadnych dotacji dla firm na „zazielenianie się". Jeśli zanieczyszczasz, płacisz. Pieniądze chronią obywateli.",
+    p3_title: "Społeczny koszt węgla",
+    p3_text: "Opłata za tonę opiera się na rzeczywistych szkodach powodowanych przez CO₂. Wyższa cena oznacza silniejszą zmianę zachowań — ale wymaga też silniejszej redystrybucji społecznej, aby zachować sprawiedliwość.",
+    p4_title: "Wdrożenie na poziomie UE",
+    p4_text: "Wdrożenie wyłącznie na poziomie krajowym zakłóca handel na jednolitym rynku. Potrzebna jest koordynacja na szczeblu UE — lub starannie zaprojektowane podatki krajowe, które nie tworzą nieuczciwej przewagi.",
+    examples_label: "03 — Konkretne liczby",
+    examples_title: "Jak to wygląda w praktyce?",
+    examples_desc: "Na podstawie istniejących danych z ocen cyklu życia i ceny węgla wynoszącej $100 / ton ekwiwalentu CO₂.",
+    ex_case: "Studium przypadku",
+    ex_beef: "Wołowina",
+    ex_oil: "Ropa naftowa",
+    ex_lifecycle: "Emisje w cyklu życia",
+    ex_carbon_price: "Zastosowana cena węgla",
+    ex_additional_kg: "Dodatkowy koszt za kg",
+    ex_additional_barrel: "Dodatkowy koszt za baryłkę",
+    ex_beef_insight: "Obejmuje produkcję pasz (nawozy na bazie ropy), metan od bydła, zmianę użytkowania gruntów i przetwórstwo. Większość emisji pochodzi z biologii — nie tylko z nakładów energetycznych.",
+    ex_oil_insight: "Znaczący wpływ na cenę — ale koszty rozkładają się, gdy ropa jest dystrybuowana na tysiące produktów pochodnych. Największy wpływ dotyczy skoncentrowanych procesów o wysokiej emisji, jak hodowla zwierząt, a nie samych surowców przemysłowych.",
+    questions_label: "04 — Uczciwe luki",
+    questions_title: "Otwarte pytania",
+    questions_desc: "Nie udajemy, że mamy odpowiedzi na wszystko. Oto trudne problemy, które wymagają zbiorowej inteligencji.",
+    q1: "Jaka dokładna cena węgla jest potrzebna, aby w sposób znaczący zmienić zachowania konsumentów i przemysłu, nie wywołując szoku gospodarczego?",
+    q2: "Jak egzekwować dokładne rozliczanie cyklu życia na skalę globalną, skoro łańcuchy dostaw obejmują dziesiątki krajów o różnych standardach?",
+    q3: "Jak powinniśmy traktować import z krajów niestosujących się do systemu? Graniczne mechanizmy węglowe są obiecujące, ale politycznie i logistycznie złożone.",
+    q4: "Jaka jest realistyczna droga do wykonalności politycznej w strukturach UE — i jak zbudować koalicję, by to osiągnąć?",
+    q5: "Jak szybko możemy przeprowadzić transformację, nie destabilizując źródeł utrzymania? Jak wygląda właściwa równowaga między pilnością a stabilnością społeczną?",
+    join_label: "05 — Działaj",
+    join_title: "Dołącz do ruchu",
+    join_desc: "Ta idea potrzebuje ekonomistów, decydentów politycznych, aktywistów i obywateli, którzy wierzą, że to cena — nie poczucie winy — zmienia świat. Dołącz swój głos.",
+    join_placeholder: "twoj@email.pl",
+    join_btn: "Zapisz się",
+    join_btn_done: "Dodano ✓",
+    join_note: "Żadnego spamu. Informacje o postępach politycznych, badaniach i działaniach, które możesz podjąć.",
+    footer_mechanism: "Mechanizm",
+    footer_data: "Dane",
+  },
+  cs: {
+    nav_logo: "Oceňte škody",
+    nav_how: "Jak to funguje",
+    nav_principles: "Principy",
+    nav_examples: "Příklady",
+    nav_questions: "Otevřené otázky",
+    nav_join: "Přidejte se",
+    hero_label: "Politický rámec pro klimatickou krizi",
+    hero_title: "Ať znečišťování<br><em>stojí</em>.",
+    hero_subtitle: "Každý produkt nese skryté environmentální náklady. Navrhujeme poplatek za ekvivalent CO₂ v celém dodavatelském řetězci — přeměňující ekologické škody na ekonomický tlak a zároveň přerozdělující příjmy na ochranu lidí.",
+    hero_btn_primary: "Podívejte se, jak to funguje ↓",
+    hero_btn_secondary: "Přidejte se k hnutí",
+    how_label: "01 — Mechanismus",
+    how_title: "Poplatek v každé fázi",
+    how_desc: "Poplatky za ekvivalent CO₂ se uplatňují v každém bodě dodavatelského řetězce. Celkové náklady se kumulují do konečné ceny — produkty s vysokými emisemi jsou tak přirozeně dražší.",
+    stage1_title: "Těžba",
+    stage1_desc: "Těžba surovin, vrtání ropy, sklizeň",
+    stage2_title: "Výroba",
+    stage2_desc: "Zpracování, rafinace, průmyslová výroba",
+    stage3_title: "Doprava",
+    stage3_desc: "Lodní přeprava, nákladní doprava, logistika",
+    stage4_title: "Prodej a&nbsp;užívání",
+    stage4_desc: "Distribuce, fáze spotřebitelského užívání",
+    stage5_title: "Likvidace",
+    stage5_desc: "Konec životního cyklu v rámci rozšířené odpovědnosti výrobce",
+    stage_fee: "+ poplatek CO₂",
+    pipeline_result: "Data již existují. <strong>Posouzení životního cyklu (LCA)</strong> a uhlíkové stopy produktů pokrývají celý řetězec — od těžby po likvidaci. Nepotřebujeme novou vědu. Potřebujeme politickou vůli.",
+    manifesto: "Přeměňte dopad na životní prostředí v <em>nevyhnutelný ekonomický tlak</em> a poté přerozdělte peníze, aby společnost zůstala stabilní, zatímco trh bude nucen k <em>dekarbonizaci</em>.",
+    principles_label: "02 — Principy",
+    principles_title: "Za čím stojíme",
+    principles_desc: "Nejde o osvětové kampaně ani dobrovolné závazky. Jde o přestavbu ekonomických pobídek od základů.",
+    p1_title: "Cena, nikoli osvěta",
+    p1_text: "Desetiletí osvětových kampaní nezměnila křivku emisí. Cenové signály mění chování ve velkém měřítku — automaticky, univerzálně a okamžitě.",
+    p2_title: "Chraňme lidi, ne znečišťovatele",
+    p2_text: "Příjmy směřují na veřejné statky a minimální příjem k vyrovnání vyšších cen. Žádné dotace firmám na „ekologizaci". Kdo znečišťuje, platí. Peníze chrání občany.",
+    p3_title: "Společenské náklady uhlíku",
+    p3_text: "Poplatek za tunu vychází ze skutečných škod způsobených CO₂. Vyšší cena znamená silnější změnu chování — ale také vyžaduje silnější sociální přerozdělování, aby to zůstalo spravedlivé.",
+    p4_title: "Celoevropská implementace",
+    p4_text: "Implementace pouze na národní úrovni narušuje obchod na jednotném trhu. Je zapotřebí celoevropská koordinace — nebo pečlivě navržené národní daně, které nevytvářejí nespravedlivé výhody.",
+    examples_label: "03 — Reálná čísla",
+    examples_title: "Jak to vypadá v praxi?",
+    examples_desc: "Na základě existujících dat z posouzení životního cyklu a ceny uhlíku $100 / ton ekvivalentu CO₂.",
+    ex_case: "Případová studie",
+    ex_beef: "Hovězí maso",
+    ex_oil: "Ropa",
+    ex_lifecycle: "Emise za životní cyklus",
+    ex_carbon_price: "Uplatněná cena uhlíku",
+    ex_additional_kg: "Dodatečné náklady na kg",
+    ex_additional_barrel: "Dodatečné náklady na barel",
+    ex_beef_insight: "Zahrnuje výrobu krmiv (ropná hnojiva), metan ze skotu, změnu využití půdy a zpracování. Většina emisí pochází z biologie — nejen z energetických vstupů.",
+    ex_oil_insight: "Výrazný dopad na cenu — ale náklady se rozmělňují, když se ropa distribuuje do tisíců navazujících produktů. Největší dopad dopadá na koncentrované procesy s vysokými emisemi, jako je chov dobytka, nikoli jen na průmyslové vstupy.",
+    questions_label: "04 — Upřímné mezery",
+    questions_title: "Otevřené otázky",
+    questions_desc: "Nepředstíráme, že máme všechny odpovědi. Toto jsou obtížné problémy, které vyžadují kolektivní inteligenci.",
+    q1: "Jaká přesná cena uhlíku je potřeba k významné změně spotřebitelského a průmyslového chování, aniž by způsobila ekonomický šok?",
+    q2: "Jak zajistit přesné celosvětové účtování životního cyklu, když dodavatelské řetězce procházejí desítkami zemí s různými standardy?",
+    q3: "Jak bychom měli zacházet s dovozem ze zemí, které systém nedodržují? Uhlíkové hraniční mechanismy jsou slibné, ale politicky a logisticky složité.",
+    q4: "Jaká je realistická cesta k politické proveditelnosti v rámci struktur EU — a jak vybudovat koalici, která toho dosáhne?",
+    q5: "Jak rychle můžeme provést transformaci, aniž bychom destabilizovali živobytí? Jak vypadá správná rovnováha mezi naléhavostí a společenskou stabilitou?",
+    join_label: "05 — Jednejte",
+    join_title: "Přidejte se k hnutí",
+    join_desc: "Tato myšlenka potřebuje ekonomy, tvůrce politik, aktivisty a občany, kteří věří, že cena — nikoli pocit viny — mění svět. Přidejte svůj hlas.",
+    join_placeholder: "vas@email.cz",
+    join_btn: "Zaregistrovat se",
+    join_btn_done: "Přidáno ✓",
+    join_note: "Žádný spam. Informace o pokroku politik, výzkumu a akcích, které můžete podniknout.",
+    footer_mechanism: "Mechanismus",
+    footer_data: "Data",
+  },
+  sk: {
+    nav_logo: "Oceňte škody",
+    nav_how: "Ako to funguje",
+    nav_principles: "Princípy",
+    nav_examples: "Príklady",
+    nav_questions: "Otvorené otázky",
+    nav_join: "Pridajte sa",
+    hero_label: "Politický rámec pre klimatickú krízu",
+    hero_title: "Nech znečisťovanie<br><em>stojí</em>.",
+    hero_subtitle: "Každý produkt nesie skryté environmentálne náklady. Navrhujeme poplatok za ekvivalent CO₂ v celom dodávateľskom reťazci — premieňajúc ekologické škody na ekonomický tlak a zároveň prerozdeľujúc príjmy na ochranu ľudí.",
+    hero_btn_primary: "Pozrite sa, ako to funguje ↓",
+    hero_btn_secondary: "Pridajte sa k hnutiu",
+    how_label: "01 — Mechanizmus",
+    how_title: "Poplatok v každej fáze",
+    how_desc: "Poplatky za ekvivalent CO₂ sa uplatňujú v každom bode dodávateľského reťazca. Celkové náklady sa kumulujú do konečnej ceny — produkty s vysokými emisiami sú tak prirodzene drahšie.",
+    stage1_title: "Ťažba",
+    stage1_desc: "Ťažba surovín, vŕtanie ropy, zber",
+    stage2_title: "Výroba",
+    stage2_desc: "Spracovanie, rafinácia, priemyselná výroba",
+    stage3_title: "Doprava",
+    stage3_desc: "Lodná preprava, nákladná doprava, logistika",
+    stage4_title: "Predaj a&nbsp;používanie",
+    stage4_desc: "Distribúcia, fáza spotrebiteľského používania",
+    stage5_title: "Likvidácia",
+    stage5_desc: "Koniec životného cyklu v rámci rozšírenej zodpovednosti výrobcu",
+    stage_fee: "+ poplatok CO₂",
+    pipeline_result: "Údaje už existujú. <strong>Posúdenia životného cyklu (LCA)</strong> a uhlíkové stopy produktov pokrývajú celý reťazec — od ťažby po likvidáciu. Nepotrebujeme novú vedu. Potrebujeme politickú vôľu.",
+    manifesto: "Premeňte vplyv na životné prostredie na <em>neodvrátiteľný ekonomický tlak</em> a potom prerozdeľte peniaze, aby spoločnosť zostala stabilná, zatiaľ čo trh bude nútený k <em>dekarbonizácii</em>.",
+    principles_label: "02 — Princípy",
+    principles_title: "Za čím stojíme",
+    principles_desc: "Nejde o osvetové kampane ani dobrovoľné záväzky. Ide o prestavbu ekonomických stimulov od základov.",
+    p1_title: "Cena, nie osveta",
+    p1_text: "Desaťročia osvetových kampaní nezmenili krivku emisií. Cenové signály menia správanie vo veľkom meradle — automaticky, univerzálne a okamžite.",
+    p2_title: "Chráňme ľudí, nie znečisťovateľov",
+    p2_text: "Príjmy smerujú na verejné statky a minimálny príjem na kompenzáciu vyšších cien. Žiadne dotácie pre firmy na „ekologizáciu". Kto znečisťuje, platí. Peniaze chránia občanov.",
+    p3_title: "Spoločenské náklady uhlíka",
+    p3_text: "Poplatok za tonu vychádza zo skutočných škôd spôsobených CO₂. Vyššia cena znamená silnejšiu zmenu správania — ale vyžaduje aj silnejšie sociálne prerozdeľovanie, aby to zostalo spravodlivé.",
+    p4_title: "Celoeurópska implementácia",
+    p4_text: "Implementácia iba na národnej úrovni narúša obchod na jednotnom trhu. Je potrebná celoeurópska koordinácia — alebo starostlivo navrhnuté národné dane, ktoré nevytvárajú nespravodlivé výhody.",
+    examples_label: "03 — Reálne čísla",
+    examples_title: "Ako to vyzerá v praxi?",
+    examples_desc: "Na základe existujúcich údajov z posúdení životného cyklu a ceny uhlíka $100 / ton ekvivalentu CO₂.",
+    ex_case: "Prípadová štúdia",
+    ex_beef: "Hovädzie mäso",
+    ex_oil: "Ropa",
+    ex_lifecycle: "Emisie za životný cyklus",
+    ex_carbon_price: "Uplatnená cena uhlíka",
+    ex_additional_kg: "Dodatočné náklady na kg",
+    ex_additional_barrel: "Dodatočné náklady na barel",
+    ex_beef_insight: "Zahŕňa výrobu krmív (ropné hnojivá), metán z dobytka, zmenu využívania pôdy a spracovanie. Väčšina emisií pochádza z biológie — nielen z energetických vstupov.",
+    ex_oil_insight: "Výrazný vplyv na cenu — ale náklady sa rozkladajú, keď sa ropa distribuuje do tisícov nadväzujúcich produktov. Najväčší vplyv dopadá na koncentrované procesy s vysokými emisiami, ako je chov dobytka, nie len na priemyselné vstupy.",
+    questions_label: "04 — Úprimné medzery",
+    questions_title: "Otvorené otázky",
+    questions_desc: "Nepredstierame, že máme všetky odpovede. Toto sú ťažké problémy, ktoré vyžadujú kolektívnu inteligenciu.",
+    q1: "Aká presná cena uhlíka je potrebná na významnú zmenu spotrebiteľského a priemyselného správania bez vyvolania ekonomického šoku?",
+    q2: "Ako presadiť presné celosvetové účtovanie životného cyklu, keď dodávateľské reťazce prechádzajú desiatkami krajín s rôznymi štandardmi?",
+    q3: "Ako by sme mali zaobchádzať s dovozom z krajín, ktoré systém nedodržiavajú? Uhlíkové hraničné mechanizmy sú sľubné, ale politicky a logisticky zložité.",
+    q4: "Aká je realistická cesta k politickej uskutočniteľnosti v rámci štruktúr EÚ — a ako vybudovať koalíciu, ktorá to dosiahne?",
+    q5: "Ako rýchlo môžeme uskutočniť transformáciu bez destabilizácie živobytia? Ako vyzerá správna rovnováha medzi naliehavosťou a spoločenskou stabilitou?",
+    join_label: "05 — Konajte",
+    join_title: "Pridajte sa k hnutiu",
+    join_desc: "Táto myšlienka potrebuje ekonómov, tvorcov politík, aktivistov a občanov, ktorí veria, že cena — nie pocit viny — mení svet. Pridajte svoj hlas.",
+    join_placeholder: "vas@email.sk",
+    join_btn: "Zaregistrovať sa",
+    join_btn_done: "Pridané ✓",
+    join_note: "Žiadny spam. Informácie o pokroku politík, výskume a akciách, ktoré môžete podniknúť.",
+    footer_mechanism: "Mechanizmus",
+    footer_data: "Údaje",
+  },
+  hu: {
+    nav_logo: "Árazd be a kárt",
+    nav_how: "Hogyan működik",
+    nav_principles: "Alapelvek",
+    nav_examples: "Példák",
+    nav_questions: "Nyitott kérdések",
+    nav_join: "Csatlakozz",
+    hero_label: "Szakpolitikai keretrendszer a klímaválságra",
+    hero_title: "Legyen a szennyezés<br><em>drága</em>.",
+    hero_subtitle: "Minden termék rejtett környezeti költséget hordoz. CO₂-egyenérték-díjat javasolunk az ellátási lánc minden szakaszára — az ökológiai károkat gazdasági nyomássá alakítva, miközben a bevételeket az emberek védelmére osztjuk újra.",
+    hero_btn_primary: "Nézd meg, hogyan működik ↓",
+    hero_btn_secondary: "Csatlakozz a mozgalomhoz",
+    how_label: "01 — Mechanizmus",
+    how_title: "Díj minden szakaszban",
+    how_desc: "A CO₂-egyenérték-díjak az ellátási lánc minden pontján érvényesülnek. Az összköltség beépül a végső árba — így a magas kibocsátású termékek természetesen drágábbak lesznek.",
+    stage1_title: "Kitermelés",
+    stage1_desc: "Nyersanyag-bányászat, olajfúrás, betakarítás",
+    stage2_title: "Gyártás",
+    stage2_desc: "Előállítás, finomítás, feldolgozás",
+    stage3_title: "Szállítás",
+    stage3_desc: "Hajózás, áruszállítás, logisztika",
+    stage4_title: "Kereskedelem és&nbsp;használat",
+    stage4_desc: "Forgalmazás, fogyasztói használati fázis",
+    stage5_title: "Ártalmatlanítás",
+    stage5_desc: "Életciklus vége a kiterjesztett gyártói felelősség keretében",
+    stage_fee: "+ CO₂-díj",
+    pipeline_result: "Az adatok már rendelkezésre állnak. Az <strong>életciklus-értékelések (LCA)</strong> és a termékek szénlábnyomai lefedik a teljes láncot — a kitermeléstől az ártalmatlanításig. Nem új tudományra van szükségünk. Politikai akaratra van szükségünk.",
+    manifesto: "Alakítsd a környezeti hatást <em>elkerülhetetlen gazdasági nyomássá</em>, majd oszd újra a pénzt, hogy a társadalom stabil maradjon, miközben a piacot <em>dekarbonizációra</em> kényszeríted.",
+    principles_label: "02 — Alapelvek",
+    principles_title: "Amiért kiállunk",
+    principles_desc: "Ez nem tudatosságnövelő kampányokról vagy önkéntes vállalásokról szól. A gazdasági ösztönzők alapjainak újratervezéséről van szó.",
+    p1_title: "Ár, nem tudatosság",
+    p1_text: "Évtizedes tudatosságnövelő kampányok sem változtatták meg a kibocsátási görbét. Az árjelzések nagy léptékben változtatnak viselkedést — automatikusan, egyetemlegesen és azonnal.",
+    p2_title: "Védjük az embereket, ne a szennyezőket",
+    p2_text: "A bevételek közjavakra és minimáljövedelemre fordítódnak a magasabb árak kompenzálására. Nincs szubvenció vállalatoknak a „zöldülésre". Ha szennyezel, fizetsz. A pénz az állampolgárokat védi.",
+    p3_title: "A szén társadalmi költsége",
+    p3_text: "A tonnánkénti díj a CO₂ által okozott valós káron alapul. A magasabb ár erősebb viselkedésváltozást jelent — de erősebb társadalmi újraelosztást is megkövetel a méltányosság érdekében.",
+    p4_title: "EU-szintű bevezetés",
+    p4_text: "A kizárólag nemzeti szintű bevezetés torzítja a kereskedelmet az egységes piacon. EU-szintű koordinációra van szükség — vagy gondosan megtervezett nemzeti adókra, amelyek nem teremtenek tisztességtelen előnyt.",
+    examples_label: "03 — Valós számok",
+    examples_title: "Hogyan néz ez ki a gyakorlatban?",
+    examples_desc: "Meglévő életciklus-értékelési adatok és $100 / ton CO₂-egyenérték szénár alapján.",
+    ex_case: "Esettanulmány",
+    ex_beef: "Marhahús",
+    ex_oil: "Nyersolaj",
+    ex_lifecycle: "Életciklus-kibocsátás",
+    ex_carbon_price: "Alkalmazott szénár",
+    ex_additional_kg: "Többletköltség kg-onként",
+    ex_additional_barrel: "Többletköltség hordónként",
+    ex_beef_insight: "Tartalmazza a takarmánytermelést (kőolaj alapú műtrágyák), a szarvasmarhák metánkibocsátását, a földhasználat-változást és a feldolgozást. A kibocsátás nagy része biológiai eredetű — nem csupán energetikai.",
+    ex_oil_insight: "Jelentős hatás az árra — de a költségek eloszlanak, ahogy az olaj ezer és ezer továbbfeldolgozott termékbe kerül. A legnagyobb hatás a koncentrált, magas kibocsátású folyamatokra, például az állattenyésztésre esik, nem csupán az ipari alapanyagokra.",
+    questions_label: "04 — Őszinte hiányosságok",
+    questions_title: "Nyitott kérdések",
+    questions_desc: "Nem teszünk úgy, mintha minden válasszal rendelkeznénk. Ezek azok a nehéz problémák, amelyek megoldásához kollektív intelligenciára van szükség.",
+    q1: "Pontosan mekkora szénár szükséges ahhoz, hogy érdemben megváltoztassa a fogyasztói és ipari viselkedést gazdasági sokk kiváltása nélkül?",
+    q2: "Hogyan kényszeríthetjük ki a pontos életciklus-elszámolást globálisan, amikor az ellátási láncok különböző szabványokkal rendelkező tucatnyi országon átívelnek?",
+    q3: "Hogyan kezeljük a nem megfelelő országokból származó importot? A szénhatár-kiigazítások ígéretesek, de politikailag és logisztikailag összetettek.",
+    q4: "Mi a realista út a politikai megvalósíthatósághoz az EU struktúráin belül — és hogyan építjük ki az ehhez szükséges koalíciót?",
+    q5: "Milyen gyorsan hajthatjuk végre az átmenetet a megélhetések destabilizálása nélkül? Hogyan néz ki a helyes egyensúly a sürgősség és a társadalmi stabilitás között?",
+    join_label: "05 — Cselekedj",
+    join_title: "Csatlakozz a mozgalomhoz",
+    join_desc: "Ennek az ötletnek közgazdászokra, döntéshozókra, aktivistákra és állampolgárokra van szüksége, akik hisznek abban, hogy az ár — nem a bűntudat — változtatja meg a világot. Add hozzá a hangodat.",
+    join_placeholder: "neved@email.hu",
+    join_btn: "Feliratkozás",
+    join_btn_done: "Hozzáadva ✓",
+    join_note: "Nincs spam. Tájékoztatás a szakpolitikai haladásról, kutatásokról és a lehetséges lépésekről.",
+    footer_mechanism: "Mechanizmus",
+    footer_data: "Adatok",
+  },
+  ro: {
+    nav_logo: "Prețul pagubelor",
+    nav_how: "Cum funcționează",
+    nav_principles: "Principii",
+    nav_examples: "Exemple",
+    nav_questions: "Întrebări deschise",
+    nav_join: "Alătură-te",
+    hero_label: "Un cadru politic pentru criza climatică",
+    hero_title: "Fă poluarea<br><em>costisitoare</em>.",
+    hero_subtitle: "Fiecare produs poartă un cost de mediu ascuns. Propunem o taxă pe echivalentul CO₂ de-a lungul întregului lanț de aprovizionare — transformând daunele ecologice în presiune economică și redistribuind veniturile pentru a proteja oamenii.",
+    hero_btn_primary: "Vezi cum funcționează ↓",
+    hero_btn_secondary: "Alătură-te mișcării",
+    how_label: "01 — Mecanism",
+    how_title: "O taxă în fiecare etapă",
+    how_desc: "Taxele pe echivalentul CO₂ se aplică în fiecare punct al lanțului de aprovizionare. Costul total se acumulează în prețul final — făcând produsele cu emisii ridicate în mod natural mai scumpe.",
+    stage1_title: "Extracție",
+    stage1_desc: "Extragerea materiilor prime, forarea petrolului, recoltarea",
+    stage2_title: "Producție",
+    stage2_desc: "Fabricare, rafinare, prelucrare",
+    stage3_title: "Transport",
+    stage3_desc: "Expediție, transport de marfă, logistică",
+    stage4_title: "Comerț și&nbsp;utilizare",
+    stage4_desc: "Distribuție, faza de utilizare de către consumator",
+    stage5_title: "Eliminare",
+    stage5_desc: "Sfârșitul ciclului de viață prin responsabilitatea extinsă a producătorului",
+    stage_fee: "+ taxă CO₂",
+    pipeline_result: "Datele există deja. <strong>Evaluările ciclului de viață (LCA)</strong> și amprentele de carbon ale produselor acoperă întregul lanț — de la extracție până la eliminare. Nu avem nevoie de știință nouă. Avem nevoie de voință politică.",
+    manifesto: "Transformă impactul asupra mediului în <em>presiune economică inevitabilă</em>, apoi redistribuie banii pentru a menține societatea stabilă, forțând totodată piața să se <em>decarbonizeze</em>.",
+    principles_label: "02 — Principii",
+    principles_title: "Ce susținem",
+    principles_desc: "Nu este vorba despre campanii de conștientizare sau angajamente voluntare. Este vorba despre reproiectarea stimulentelor economice de la zero.",
+    p1_title: "Preț, nu conștientizare",
+    p1_text: "Decenii de campanii de conștientizare nu au modificat curba emisiilor. Semnalele de preț schimbă comportamentul la scară largă — automat, universal și imediat.",
+    p2_title: "Protejăm oamenii, nu poluatorii",
+    p2_text: "Veniturile sunt direcționate către bunuri publice și un venit minim pentru a compensa prețurile mai mari. Nicio subvenție pentru companii să „devină verzi". Dacă poluezi, plătești. Banii îi protejează pe cetățeni.",
+    p3_title: "Costul social al carbonului",
+    p3_text: "Taxa pe tonă se bazează pe daunele reale cauzate de CO₂. Un preț mai mare înseamnă o schimbare comportamentală mai puternică — dar necesită și o redistribuire socială mai puternică pentru a rămâne echitabil.",
+    p4_title: "Implementare la nivel european",
+    p4_text: "Implementarea doar la nivel național distorsionează comerțul pe piața unică. Este nevoie de coordonare la nivelul UE — sau de taxe naționale concepute cu grijă care să nu creeze avantaje neloiale.",
+    examples_label: "03 — Cifre reale",
+    examples_title: "Cum arată în practică?",
+    examples_desc: "Pe baza datelor existente din evaluările ciclului de viață și a unui preț al carbonului de $100 / ton de echivalent CO₂.",
+    ex_case: "Studiu de caz",
+    ex_beef: "Carne de vită",
+    ex_oil: "Petrol brut",
+    ex_lifecycle: "Emisii pe ciclul de viață",
+    ex_carbon_price: "Preț de carbon aplicat",
+    ex_additional_kg: "Cost suplimentar per kg",
+    ex_additional_barrel: "Cost suplimentar per baril",
+    ex_beef_insight: "Include producția de furaje (îngrășăminte pe bază de petrol), metanul de la bovine, schimbarea utilizării terenurilor și prelucrarea. Majoritatea emisiilor provin din biologie — nu doar din inputuri energetice.",
+    ex_oil_insight: "Impact semnificativ asupra prețului — dar costurile se diluează pe măsură ce petrolul este distribuit în mii de produse derivate. Cel mai mare impact cade asupra proceselor concentrate cu emisii ridicate, precum creșterea animalelor, nu doar asupra inputurilor industriale.",
+    questions_label: "04 — Lacune oneste",
+    questions_title: "Întrebări deschise",
+    questions_desc: "Nu pretindem că avem toate răspunsurile. Acestea sunt problemele dificile care necesită inteligență colectivă.",
+    q1: "Ce preț exact al carbonului este necesar pentru a schimba semnificativ comportamentul consumatorilor și al industriei fără a provoca un șoc economic?",
+    q2: "Cum impunem o contabilizare precisă a ciclului de viață la nivel global, când lanțurile de aprovizionare traversează zeci de țări cu standarde diferite?",
+    q3: "Cum ar trebui să gestionăm importurile din țări care nu respectă sistemul? Ajustările de frontieră pentru carbon sunt promițătoare, dar complexe din punct de vedere politic și logistic.",
+    q4: "Care este calea realistă către fezabilitatea politică în cadrul structurilor UE — și cum construim coaliția necesară?",
+    q5: "Cât de repede putem realiza tranziția fără a destabiliza mijloacele de trai? Cum arată echilibrul corect între urgență și stabilitate socială?",
+    join_label: "05 — Acționează",
+    join_title: "Alătură-te mișcării",
+    join_desc: "Această idee are nevoie de economiști, factori de decizie, activiști și cetățeni care cred că prețul — nu vinovăția — schimbă lumea. Adaugă-ți vocea.",
+    join_placeholder: "adresa@email.ro",
+    join_btn: "Înscrie-te",
+    join_btn_done: "Adăugat ✓",
+    join_note: "Fără spam. Actualizări despre progresul politicilor, cercetare și acțiuni pe care le poți întreprinde.",
+    footer_mechanism: "Mecanism",
+    footer_data: "Date",
+  },
+  sl: {
+    nav_logo: "Določi ceno škode",
+    nav_how: "Kako deluje",
+    nav_principles: "Načela",
+    nav_examples: "Primeri",
+    nav_questions: "Odprta vprašanja",
+    nav_join: "Pridruži se",
+    hero_label: "Politični okvir za podnebno krizo",
+    hero_title: "Naj onesnaževanje<br><em>stane</em>.",
+    hero_subtitle: "Vsak izdelek nosi skrite okoljske stroške. Predlagamo dajatev na ekvivalent CO₂ vzdolž celotne dobavne verige — ekološko škodo spreminjamo v gospodarski pritisk, hkrati pa prihodke prerazporejamo za zaščito ljudi.",
+    hero_btn_primary: "Poglej, kako deluje ↓",
+    hero_btn_secondary: "Pridruži se gibanju",
+    how_label: "01 — Mehanizem",
+    how_title: "Dajatev na vsaki stopnji",
+    how_desc: "Dajatve na ekvivalent CO₂ se zaračunavajo na vsaki točki dobavne verige. Skupni strošek se kopiči v končni ceni — izdelki z visokimi izpusti so tako naravno dražji.",
+    stage1_title: "Pridobivanje",
+    stage1_desc: "Rudarjenje surovin, črpanje nafte, žetev",
+    stage2_title: "Proizvodnja",
+    stage2_desc: "Izdelava, rafiniranje, predelava",
+    stage3_title: "Prevoz",
+    stage3_desc: "Ladijski prevoz, tovorni promet, logistika",
+    stage4_title: "Prodaja in&nbsp;uporaba",
+    stage4_desc: "Distribucija, faza potrošniške uporabe",
+    stage5_title: "Odstranjevanje",
+    stage5_desc: "Konec življenjskega cikla v okviru razširjene odgovornosti proizvajalca",
+    stage_fee: "+ dajatev CO₂",
+    pipeline_result: "Podatki že obstajajo. <strong>Ocene življenjskega cikla (LCA)</strong> in ogljični odtisi izdelkov pokrivajo celotno verigo — od pridobivanja do odstranjevanja. Ne potrebujemo nove znanosti. Potrebujemo politično voljo.",
+    manifesto: "Pretvori okoljski vpliv v <em>neizogiben gospodarski pritisk</em>, nato prerazdeli denar, da bo družba ostala stabilna, medtem ko trg prisiljen v <em>dekarbonizacijo</em>.",
+    principles_label: "02 — Načela",
+    principles_title: "Za kaj se zavzemamo",
+    principles_desc: "Ne gre za ozaveščevalne kampanje ali prostovoljne zaveze. Gre za preoblikovanje gospodarskih spodbud od temeljev.",
+    p1_title: "Cena, ne ozaveščanje",
+    p1_text: "Desetletja ozaveščevalnih kampanj niso spremenila krivulje izpustov. Cenovni signali spreminjajo vedenje v velikem obsegu — samodejno, univerzalno in takoj.",
+    p2_title: "Zaščitimo ljudi, ne onesnaževalce",
+    p2_text: "Prihodki se namenijo javnim dobrinam in minimalnemu dohodku za izravnavo višjih cen. Brez subvencij podjetjem za „ozelenitev". Kdor onesnažuje, plača. Denar ščiti državljane.",
+    p3_title: "Družbeni stroški ogljika",
+    p3_text: "Dajatev na tono temelji na dejanski škodi, ki jo povzroča CO₂. Višja cena pomeni močnejšo spremembo vedenja — a zahteva tudi močnejšo družbeno prerazporeditev, da ostane pravična.",
+    p4_title: "Uvedba na ravni EU",
+    p4_text: "Zgolj nacionalna uvedba izkrivlja trgovino na enotnem trgu. Potrebna je koordinacija na ravni EU — ali skrbno zasnovani nacionalni davki, ki ne ustvarjajo nepoštene prednosti.",
+    examples_label: "03 — Dejanske številke",
+    examples_title: "Kako to izgleda v praksi?",
+    examples_desc: "Na podlagi obstoječih podatkov iz ocen življenjskega cikla in cene ogljika $100 / ton ekvivalenta CO₂.",
+    ex_case: "Študija primera",
+    ex_beef: "Goveje meso",
+    ex_oil: "Surova nafta",
+    ex_lifecycle: "Izpusti v življenjskem ciklu",
+    ex_carbon_price: "Upoštevana cena ogljika",
+    ex_additional_kg: "Dodatni strošek na kg",
+    ex_additional_barrel: "Dodatni strošek na sodček",
+    ex_beef_insight: "Vključuje pridelavo krme (gnojila na osnovi nafte), metan goveda, spremembo rabe zemljišč in predelavo. Večina izpustov izvira iz biologije — ne le iz energetskih vnosov.",
+    ex_oil_insight: "Znaten vpliv na ceno — a stroški se razpršijo, ko se nafta razdeli na tisoče nadaljnjih izdelkov. Največji vpliv pade na koncentrirane procese z visokimi izpusti, kot je živinoreja, ne le na industrijske vhodne surovine.",
+    questions_label: "04 — Iskrene vrzeli",
+    questions_title: "Odprta vprašanja",
+    questions_desc: "Ne pretvarjamo se, da imamo vse odgovore. To so težki problemi, ki zahtevajo kolektivno inteligenco.",
+    q1: "Kakšna natančna cena ogljika je potrebna, da smiselno spremeni vedenje potrošnikov in industrije brez povzročanja gospodarskega šoka?",
+    q2: "Kako uveljaviti natančno globalno obračunavanje življenjskega cikla, ko dobavne verige segajo čez desetine držav z različnimi standardi?",
+    q3: "Kako naj obravnavamo uvoz iz držav, ki sistema ne spoštujejo? Ogljične mejne prilagoditve so obetavne, a politično in logistično zapletene.",
+    q4: "Kakšna je realistična pot do politične izvedljivosti znotraj struktur EU — in kako zgraditi koalicijo za to?",
+    q5: "Kako hitro lahko izvedemo prehod, ne da bi destabilizirali preživetje? Kako izgleda pravo ravnovesje med nujnostjo in družbeno stabilnostjo?",
+    join_label: "05 — Ukrepaj",
+    join_title: "Pridruži se gibanju",
+    join_desc: "Ta ideja potrebuje ekonomiste, oblikovalce politik, aktiviste in državljane, ki verjamejo, da cena — ne krivda — spreminja svet. Dodaj svoj glas.",
+    join_placeholder: "tvoj@email.si",
+    join_btn: "Prijavi se",
+    join_btn_done: "Dodano ✓",
+    join_note: "Brez neželene pošte. Obvestila o napredku politik, raziskavah in ukrepih, ki jih lahko izvedeš.",
+    footer_mechanism: "Mehanizem",
+    footer_data: "Podatki",
+  },
+  hr: {
+    nav_logo: "Odredi cijenu štete",
+    nav_how: "Kako funkcionira",
+    nav_principles: "Načela",
+    nav_examples: "Primjeri",
+    nav_questions: "Otvorena pitanja",
+    nav_join: "Pridruži se",
+    hero_label: "Politički okvir za klimatsku krizu",
+    hero_title: "Neka zagađivanje<br><em>košta</em>.",
+    hero_subtitle: "Svaki proizvod nosi skriveni okolišni trošak. Predlažemo naknadu za ekvivalent CO₂ duž cijelog opskrbnog lanca — pretvarajući ekološku štetu u ekonomski pritisak, uz preraspodjelu prihoda radi zaštite ljudi.",
+    hero_btn_primary: "Pogledaj kako funkcionira ↓",
+    hero_btn_secondary: "Pridruži se pokretu",
+    how_label: "01 — Mehanizam",
+    how_title: "Naknada u svakoj fazi",
+    how_desc: "Naknade za ekvivalent CO₂ primjenjuju se u svakoj točki opskrbnog lanca. Ukupni trošak se akumulira u konačnoj cijeni — čineći proizvode s visokim emisijama prirodno skupljima.",
+    stage1_title: "Vađenje",
+    stage1_desc: "Rudarenje sirovina, bušenje nafte, žetva",
+    stage2_title: "Proizvodnja",
+    stage2_desc: "Prerađivanje, rafiniranje, obrada",
+    stage3_title: "Prijevoz",
+    stage3_desc: "Brodski prijevoz, teretni promet, logistika",
+    stage4_title: "Prodaja i&nbsp;korištenje",
+    stage4_desc: "Distribucija, faza potrošačkog korištenja",
+    stage5_title: "Zbrinjavanje",
+    stage5_desc: "Kraj životnog ciklusa u okviru proširene odgovornosti proizvođača",
+    stage_fee: "+ naknada CO₂",
+    pipeline_result: "Podaci već postoje. <strong>Procjene životnog ciklusa (LCA)</strong> i ugljični otisci proizvoda pokrivaju cijeli lanac — od vađenja do zbrinjavanja. Ne trebamo novu znanost. Trebamo političku volju.",
+    manifesto: "Pretvori utjecaj na okoliš u <em>neizbježan ekonomski pritisak</em>, zatim preraspodjeli novac kako bi društvo ostalo stabilno dok se tržište prisiljava na <em>dekarbonizaciju</em>.",
+    principles_label: "02 — Načela",
+    principles_title: "Za što se zalažemo",
+    principles_desc: "Ovo nije o kampanjama podizanja svijesti niti o dobrovoljnim obvezama. Radi se o preoblikovanju ekonomskih poticaja iz temelja.",
+    p1_title: "Cijena, ne svijest",
+    p1_text: "Desetljeća kampanja podizanja svijesti nisu promijenila krivulju emisija. Cjenovni signali mijenjaju ponašanje na velikoj razini — automatski, univerzalno i odmah.",
+    p2_title: "Zaštitimo ljude, ne zagađivače",
+    p2_text: "Prihodi idu za javna dobra i minimalni dohodak radi kompenzacije viših cijena. Nema subvencija za tvrtke da „postanu zelene". Tko zagađuje, plaća. Novac štiti građane.",
+    p3_title: "Društveni trošak ugljika",
+    p3_text: "Naknada po toni temelji se na stvarnoj šteti koju uzrokuje CO₂. Viša cijena znači snažniju promjenu ponašanja — ali zahtijeva i snažniju socijalnu preraspodjelu kako bi sustav ostao pravedan.",
+    p4_title: "Provedba na razini EU",
+    p4_text: "Provedba samo na nacionalnoj razini iskrivljuje trgovinu na jedinstvenom tržištu. Potrebna je koordinacija na razini EU — ili pažljivo osmišljeni nacionalni porezi koji ne stvaraju nepoštene prednosti.",
+    examples_label: "03 — Stvarni brojevi",
+    examples_title: "Kako to izgleda u praksi?",
+    examples_desc: "Na temelju postojećih podataka iz procjena životnog ciklusa i cijene ugljika od $100 / ton ekvivalenta CO₂.",
+    ex_case: "Studija slučaja",
+    ex_beef: "Govedina",
+    ex_oil: "Sirova nafta",
+    ex_lifecycle: "Emisije u životnom ciklusu",
+    ex_carbon_price: "Primijenjena cijena ugljika",
+    ex_additional_kg: "Dodatni trošak po kg",
+    ex_additional_barrel: "Dodatni trošak po barelu",
+    ex_beef_insight: "Uključuje proizvodnju stočne hrane (gnojiva na bazi nafte), metan goveda, promjenu korištenja zemljišta i preradu. Većina emisija potječe iz biologije — ne samo iz energetskih inputa.",
+    ex_oil_insight: "Značajan utjecaj na cijenu — ali troškovi se razrjeđuju kad se nafta distribuira u tisuće nizvodnih proizvoda. Najveći utjecaj pada na koncentrirane procese s visokim emisijama poput stočarstva, a ne samo na industrijske inpute.",
+    questions_label: "04 — Iskrene praznine",
+    questions_title: "Otvorena pitanja",
+    questions_desc: "Ne pretvaramo se da imamo sve odgovore. Ovo su teški problemi koji zahtijevaju kolektivnu inteligenciju.",
+    q1: "Koja je točna cijena ugljika potrebna za značajnu promjenu ponašanja potrošača i industrije bez izazivanja gospodarskog šoka?",
+    q2: "Kako osigurati točno globalno praćenje životnog ciklusa kad opskrbni lanci prolaze kroz desetke zemalja s različitim standardima?",
+    q3: "Kako bismo trebali postupati s uvozom iz zemalja koje ne poštuju sustav? Ugljične granične prilagodbe su obećavajuće, ali politički i logistički složene.",
+    q4: "Koji je realan put do političke izvedivosti unutar struktura EU — i kako izgraditi koaliciju koja će to postići?",
+    q5: "Koliko brzo možemo provesti tranziciju bez destabilizacije sredstava za život? Kako izgleda prava ravnoteža između hitnosti i društvene stabilnosti?",
+    join_label: "05 — Djeluj",
+    join_title: "Pridruži se pokretu",
+    join_desc: "Ova ideja treba ekonomiste, kreatore politika, aktiviste i građane koji vjeruju da cijena — ne krivnja — mijenja svijet. Dodaj svoj glas.",
+    join_placeholder: "tvoj@email.hr",
+    join_btn: "Prijavi se",
+    join_btn_done: "Dodano ✓",
+    join_note: "Bez neželjene pošte. Obavijesti o napretku politika, istraživanjima i akcijama koje možeš poduzeti.",
+    footer_mechanism: "Mehanizam",
+    footer_data: "Podaci",
+  },
+};
+
+const TRANS_SOUTH = {
+  bg: {
+    nav_logo: "Оцени щетите",
+    nav_how: "Как работи",
+    nav_principles: "Принципи",
+    nav_examples: "Примери",
+    nav_questions: "Отворени въпроси",
+    nav_join: "Присъедини се",
+    hero_label: "Политическа рамка за климатичната криза",
+    hero_title: "Направи замърсяването<br><em>скъпо</em>.",
+    hero_subtitle: "Всеки продукт носи скрита екологична цена. Ние предлагаме такса за CO₂-еквивалент по цялата верига на доставки — превръщайки екологичните щети в икономически натиск, като същевременно преразпределяме приходите за защита на хората.",
+    hero_btn_primary: "Вижте как работи ↓",
+    hero_btn_secondary: "Присъединете се към движението",
+    how_label: "01 — Механизъм",
+    how_title: "Такса на всеки етап",
+    how_desc: "Таксите за CO₂-еквивалент се прилагат нагоре по веригата, на всяка точка от веригата на доставки. Общата стойност се натрупва в крайната цена — правейки продуктите с високи емисии естествено по-скъпи.",
+    stage1_title: "Добив",
+    stage1_desc: "Добив на суровини, нефтен добив, прибиране на реколта",
+    stage2_title: "Производство",
+    stage2_desc: "Преработка, рафиниране, обработка",
+    stage3_title: "Транспорт",
+    stage3_desc: "Корабоплаване, товарен превоз, логистика",
+    stage4_title: "Търговия &amp; Употреба",
+    stage4_desc: "Дистрибуция, фаза на потребителска употреба",
+    stage5_title: "Обезвреждане",
+    stage5_desc: "Край на жизнения цикъл чрез разширена отговорност на производителя",
+    stage_fee: "+ CO₂ такса",
+    pipeline_result: "Данните вече съществуват. <strong>Оценките на жизнения цикъл (LCA)</strong> и въглеродните отпечатъци на продуктите обхващат цялата верига — от добива до обезвреждането. Не се нуждаем от нова наука. Нуждаем се от политическа воля.",
+    manifesto: "Превърнете въздействието върху околната среда в <em>неизбежен икономически натиск</em>, след което преразпределете средствата, за да поддържате обществото стабилно, докато принуждавате пазара да се <em>декарбонизира</em>.",
+    principles_label: "02 — Принципи",
+    principles_title: "За какво се борим",
+    principles_desc: "Тук не става дума за кампании за осведоменост или доброволни ангажименти. Става дума за преосмисляне на икономическите стимули от основата.",
+    p1_title: "Цена, не осведоменост",
+    p1_text: "Десетилетия кампании за осведоменост не успяха да обърнат кривата на емисиите. Ценовите сигнали променят поведението в мащаб — автоматично, универсално и незабавно.",
+    p2_title: "Защита на хората, не на замърсителите",
+    p2_text: "Приходите отиват за обществени блага и минимален доход, за да компенсират по-високите цени. Никакви субсидии за компании да „позеленеят". Който замърсява — плаща. Парите защитават гражданите.",
+    p3_title: "Социална цена на въглерода",
+    p3_text: "Таксата на тон се основава на реалните щети, причинени от CO₂. По-високата цена означава по-силна промяна в поведението — но също така изисква по-силно социално преразпределение, за да остане справедливо.",
+    p4_title: "Прилагане в целия ЕС",
+    p4_text: "Прилагането само на национално ниво изкривява търговията в рамките на единния пазар. Необходима е координация на ниво ЕС — или внимателно проектирани национални данъци, които не създават нелоялни предимства.",
+    examples_label: "03 — Реални числа",
+    examples_title: "Как изглежда на практика?",
+    examples_desc: "На базата на съществуващи данни от оценки на жизнения цикъл и цена на въглерода от $100 / ton CO₂-еквивалент.",
+    ex_case: "Казус",
+    ex_beef: "Говеждо месо",
+    ex_oil: "Суров петрол",
+    ex_lifecycle: "Емисии през жизнения цикъл",
+    ex_carbon_price: "Приложена цена на въглерода",
+    ex_additional_kg: "Допълнителна цена на kg",
+    ex_additional_barrel: "Допълнителна цена на барел",
+    ex_beef_insight: "Включва производство на фуражи (торове на основата на нефт), метан от добитъка, промяна на земеползването и преработка. Повечето емисии идват от биологията — не само от енергийните суровини.",
+    ex_oil_insight: "Значително въздействие върху цената — но разходите се разпределят, когато нефтът се разпространява в хиляди последващи продукти. Най-голямото въздействие е върху концентрирани процеси с високи емисии като животновъдството, а не само върху промишлените суровини.",
+    questions_label: "04 — Открити пропуски",
+    questions_title: "Отворени въпроси",
+    questions_desc: "Не претендираме, че имаме всички отговори. Това са трудните проблеми, за които се нуждаем от колективен интелект.",
+    q1: "Каква точно цена на въглерода е необходима, за да промени съществено потребителското и промишленото поведение, без да причини икономически шок?",
+    q2: "Как да наложим точно отчитане на жизнения цикъл в глобален мащаб, когато веригите на доставки обхващат десетки държави с различни стандарти?",
+    q3: "Как трябва да третираме вноса от страни, които не спазват правилата? Граничните корекции за въглерод са обещаващи, но политически и логистично сложни.",
+    q4: "Какъв е реалистичният път към политическа осъществимост в рамките на структурите на ЕС — и как да изградим коалицията, за да стигнем дотам?",
+    q5: "Колко бързо можем да осъществим прехода, без да дестабилизираме поминъците? Как изглежда правилният баланс между неотложност и социална стабилност?",
+    join_label: "05 — Действай",
+    join_title: "Присъединете се към движението",
+    join_desc: "Тази идея се нуждае от икономисти, политици, активисти и граждани, които вярват, че цената — а не чувството за вина — е това, което променя света. Добавете вашия глас.",
+    join_placeholder: "вашият@email.com",
+    join_btn: "Запишете се",
+    join_btn_done: "Добавен ✓",
+    join_note: "Без спам. Актуализации за напредъка на политиките, изследвания и действия, които можете да предприемете.",
+    footer_mechanism: "Механизъм",
+    footer_data: "Данни",
+  },
+
+  el: {
+    nav_logo: "Κοστολόγησε τη Ζημιά",
+    nav_how: "Πώς Λειτουργεί",
+    nav_principles: "Αρχές",
+    nav_examples: "Παραδείγματα",
+    nav_questions: "Ανοιχτά Ερωτήματα",
+    nav_join: "Συμμετοχή",
+    hero_label: "Ένα πλαίσιο πολιτικής για την κλιματική κρίση",
+    hero_title: "Κάνε τη ρύπανση<br><em>ακριβή</em>.",
+    hero_subtitle: "Κάθε προϊόν κρύβει ένα περιβαλλοντικό κόστος. Προτείνουμε ένα τέλος ισοδυνάμου CO₂ σε ολόκληρη την αλυσίδα εφοδιασμού — μετατρέποντας την οικολογική ζημιά σε οικονομική πίεση, ενώ παράλληλα αναδιανέμουμε τα έσοδα για την προστασία των πολιτών.",
+    hero_btn_primary: "Δείτε Πώς Λειτουργεί ↓",
+    hero_btn_secondary: "Γίνετε Μέλος του Κινήματος",
+    how_label: "01 — Μηχανισμός",
+    how_title: "Ένα τέλος σε κάθε στάδιο",
+    how_desc: "Τα τέλη ισοδυνάμου CO₂ εφαρμόζονται ανοδικά σε κάθε σημείο της αλυσίδας εφοδιασμού. Το συνολικό κόστος συσσωρεύεται στην τελική τιμή — καθιστώντας τα προϊόντα υψηλών εκπομπών φυσικά ακριβότερα.",
+    stage1_title: "Εξόρυξη",
+    stage1_desc: "Εξόρυξη πρώτων υλών, άντληση πετρελαίου, συγκομιδή",
+    stage2_title: "Παραγωγή",
+    stage2_desc: "Βιομηχανοποίηση, διύλιση, επεξεργασία",
+    stage3_title: "Μεταφορά",
+    stage3_desc: "Ναυτιλία, εμπορευματικές μεταφορές, εφοδιαστική",
+    stage4_title: "Λιανική &amp; Χρήση",
+    stage4_desc: "Διανομή, φάση χρήσης από τον καταναλωτή",
+    stage5_title: "Απόρριψη",
+    stage5_desc: "Τέλος κύκλου ζωής μέσω διευρυμένης ευθύνης του παραγωγού",
+    stage_fee: "+ τέλος CO₂",
+    pipeline_result: "Τα δεδομένα υπάρχουν ήδη. Οι <strong>αξιολογήσεις κύκλου ζωής (LCA)</strong> και τα αποτυπώματα άνθρακα προϊόντων καλύπτουν ολόκληρη την αλυσίδα — από την εξόρυξη έως την απόρριψη. Δεν χρειαζόμαστε νέα επιστήμη. Χρειαζόμαστε πολιτική βούληση.",
+    manifesto: "Μετατρέψτε τον περιβαλλοντικό αντίκτυπο σε <em>αναπόφευκτη οικονομική πίεση</em> και στη συνέχεια αναδιανείμετε τα χρήματα για να διατηρήσετε την κοινωνία σταθερή, ενώ αναγκάζετε την αγορά να <em>απανθρακοποιηθεί</em>.",
+    principles_label: "02 — Αρχές",
+    principles_title: "Τι υποστηρίζουμε",
+    principles_desc: "Δεν πρόκειται για εκστρατείες ευαισθητοποίησης ή εθελοντικές δεσμεύσεις. Πρόκειται για τον επανασχεδιασμό των οικονομικών κινήτρων από τη βάση.",
+    p1_title: "Τιμή, όχι ευαισθητοποίηση",
+    p1_text: "Δεκαετίες εκστρατειών ευαισθητοποίησης δεν κατάφεραν να κάμψουν την καμπύλη εκπομπών. Τα σήματα τιμών αλλάζουν τη συμπεριφορά σε κλίμακα — αυτόματα, καθολικά και άμεσα.",
+    p2_title: "Προστασία των πολιτών, όχι των ρυπαντών",
+    p2_text: "Τα έσοδα κατευθύνονται σε δημόσια αγαθά και ελάχιστο εισόδημα για την αντιστάθμιση των υψηλότερων τιμών. Καμία επιδότηση σε εταιρείες για να «πρασινίσουν». Αν ρυπαίνεις, πληρώνεις. Τα χρήματα προστατεύουν τους πολίτες.",
+    p3_title: "Κοινωνικό κόστος του άνθρακα",
+    p3_text: "Το τέλος ανά τόνο βασίζεται στην πραγματική ζημιά που προκαλεί το CO₂. Υψηλότερη τιμή σημαίνει ισχυρότερη αλλαγή συμπεριφοράς — αλλά απαιτεί επίσης ισχυρότερη κοινωνική αναδιανομή για να παραμείνει δίκαιη.",
+    p4_title: "Εφαρμογή σε επίπεδο ΕΕ",
+    p4_text: "Η εφαρμογή μόνο σε εθνικό επίπεδο στρεβλώνει το εμπόριο εντός της ενιαίας αγοράς. Απαιτείται συντονισμός σε επίπεδο ΕΕ — ή προσεκτικά σχεδιασμένοι εθνικοί φόροι που δεν δημιουργούν αθέμιτα πλεονεκτήματα.",
+    examples_label: "03 — Πραγματικοί Αριθμοί",
+    examples_title: "Πώς φαίνεται στην πράξη;",
+    examples_desc: "Με βάση υπάρχοντα δεδομένα αξιολογήσεων κύκλου ζωής και τιμή άνθρακα $100 / ton ισοδυνάμου CO₂.",
+    ex_case: "Μελέτη Περίπτωσης",
+    ex_beef: "Βοδινό κρέας",
+    ex_oil: "Αργό πετρέλαιο",
+    ex_lifecycle: "Εκπομπές κύκλου ζωής",
+    ex_carbon_price: "Εφαρμοζόμενη τιμή άνθρακα",
+    ex_additional_kg: "Πρόσθετο κόστος ανά kg",
+    ex_additional_barrel: "Πρόσθετο κόστος ανά βαρέλι",
+    ex_beef_insight: "Περιλαμβάνει παραγωγή ζωοτροφών (λιπάσματα με βάση το πετρέλαιο), μεθάνιο από τα βοοειδή, αλλαγή χρήσης γης και επεξεργασία. Οι περισσότερες εκπομπές προέρχονται από τη βιολογία — όχι μόνο από τις ενεργειακές εισροές.",
+    ex_oil_insight: "Σημαντική επίπτωση στην τιμή — αλλά τα κόστη αραιώνουν καθώς το πετρέλαιο διανέμεται σε χιλιάδες προϊόντα κατάντη. Η μεγαλύτερη επίπτωση πέφτει σε συγκεντρωμένες διεργασίες υψηλών εκπομπών όπως η κτηνοτροφία, όχι μόνο στις βιομηχανικές εισροές.",
+    questions_label: "04 — Ειλικρινή Κενά",
+    questions_title: "Ανοιχτά ερωτήματα",
+    questions_desc: "Δεν ισχυριζόμαστε ότι έχουμε κάθε απάντηση. Αυτά είναι τα δύσκολα προβλήματα που χρειάζονται συλλογική νοημοσύνη για να λυθούν.",
+    q1: "Ποια ακριβής τιμή άνθρακα απαιτείται ώστε να μεταβάλει ουσιαστικά τη συμπεριφορά καταναλωτών και βιομηχανίας χωρίς να προκαλέσει οικονομικό σοκ;",
+    q2: "Πώς θα επιβάλουμε ακριβή λογιστική κύκλου ζωής παγκοσμίως, όταν οι αλυσίδες εφοδιασμού εκτείνονται σε δεκάδες χώρες με διαφορετικά πρότυπα;",
+    q3: "Πώς πρέπει να αντιμετωπίζουμε τις εισαγωγές από μη συμμορφούμενες χώρες; Οι συνοριακές προσαρμογές άνθρακα είναι πολλά υποσχόμενες αλλά πολιτικά και υλικοτεχνικά σύνθετες.",
+    q4: "Ποιος είναι ο ρεαλιστικός δρόμος προς την πολιτική εφικτότητα εντός των δομών της ΕΕ — και πώς θα οικοδομήσουμε τον συνασπισμό για να φτάσουμε εκεί;",
+    q5: "Πόσο γρήγορα μπορούμε να πραγματοποιήσουμε τη μετάβαση χωρίς να αποσταθεροποιήσουμε τα μέσα βιοπορισμού; Πώς μοιάζει η σωστή ισορροπία μεταξύ επείγοντος και κοινωνικής σταθερότητας;",
+    join_label: "05 — Δράση",
+    join_title: "Γίνετε μέλος του κινήματος",
+    join_desc: "Αυτή η ιδέα χρειάζεται οικονομολόγους, πολιτικούς, ακτιβιστές και πολίτες που πιστεύουν ότι η τιμή — όχι η ενοχή — είναι αυτό που αλλάζει τον κόσμο. Προσθέστε τη φωνή σας.",
+    join_placeholder: "to@email.σας",
+    join_btn: "Εγγραφή",
+    join_btn_done: "Προστέθηκε ✓",
+    join_note: "Χωρίς spam. Ενημερώσεις για την πρόοδο πολιτικών, έρευνα και δράσεις που μπορείτε να αναλάβετε.",
+    footer_mechanism: "Μηχανισμός",
+    footer_data: "Δεδομένα",
+  },
+
+  mt: {
+    nav_logo: "Agħti Prezz lid-Danni",
+    nav_how: "Kif Taħdem",
+    nav_principles: "Prinċipji",
+    nav_examples: "Eżempji",
+    nav_questions: "Mistoqsijiet Miftuħa",
+    nav_join: "Ingħaqad",
+    hero_label: "Qafas ta' politika għall-kriżi klimatika",
+    hero_title: "Agħmel it-tniġġis<br><em>għali</em>.",
+    hero_subtitle: "Kull prodott iġorr spiża ambjentali moħbija. Nipproponu tariffa ta' ekwivalent CO₂ tul il-katina tal-provvista kollha — nibdlu l-ħsara ekoloġika f'pressjoni ekonomika, filwaqt li nqassmu mill-ġdid id-dħul biex nipproteġu lin-nies.",
+    hero_btn_primary: "Ara Kif Taħdem ↓",
+    hero_btn_secondary: "Ingħaqad mal-Moviment",
+    how_label: "01 — Mekkaniżmu",
+    how_title: "Tariffa f'kull stadju",
+    how_desc: "It-tariffi ta' ekwivalent CO₂ jiġu applikati 'l fuq f'kull punt tal-katina tal-provvista. L-ispiża totali takkumula fil-prezz finali — li tagħmel il-prodotti b'emissjonijiet għoljin naturalment aktar għoljin fil-prezz.",
+    stage1_title: "Estrazzjoni",
+    stage1_desc: "Tħaffir ta' materja prima, tħaffir taż-żejt, ħsad",
+    stage2_title: "Produzzjoni",
+    stage2_desc: "Manifattura, raffinar, ipproċessar",
+    stage3_title: "Trasport",
+    stage3_desc: "Tbaħħir, merkanzija, loġistika",
+    stage4_title: "Bejgħ &amp; Użu",
+    stage4_desc: "Distribuzzjoni, fażi tal-użu mill-konsumatur",
+    stage5_title: "Rimi",
+    stage5_desc: "Tmiem il-ħajja permezz ta' responsabbiltà estiża tal-produttur",
+    stage_fee: "+ tariffa CO₂",
+    pipeline_result: "Id-data diġà teżisti. <strong>Il-valutazzjonijiet taċ-ċiklu tal-ħajja (LCA)</strong> u l-impronta tal-karbonju tal-prodotti jkopru l-katina kollha — mill-estrazzjoni sal-irimi. M'għandniex bżonn xjenza ġdida. Għandna bżonn rieda politika.",
+    manifesto: "Ibdel l-impatt ambjentali f'<em>pressjoni ekonomika inevitabbli</em>, imbagħad qassam il-flus mill-ġdid biex iżżomm is-soċjetà stabbli filwaqt li ġġiegħel is-suq <em>jiddekarbonizza</em>.",
+    principles_label: "02 — Prinċipji",
+    principles_title: "Għalxiex nieqfu",
+    principles_desc: "Din m'hijiex dwar kampanji ta' sensibilizzazzjoni jew wegħdiet volontarji. Hija dwar li nerġgħu nfasslu l-inċentivi ekonomiċi mill-pedamenti.",
+    p1_title: "Prezz, mhux sensibilizzazzjoni",
+    p1_text: "Għexieren ta' snin ta' kampanji ta' sensibilizzazzjoni ma rnexxilhomx ibiddlu l-kurva tal-emissjonijiet. Is-sinjali tal-prezzijiet ibiddlu l-imġiba fuq skala wiesgħa — awtomatikament, universalment, u minnufih.",
+    p2_title: "Ipproteġi lin-nies, mhux lil-min iniġġeż",
+    p2_text: "Id-dħul imur għal oġġetti pubbliċi u dħul minimu biex jikkumpensa l-prezzijiet ogħla. L-ebda sussidji għal kumpaniji biex \"isiru ekoloġiċi\". Jekk tniġġeż, tħallas. Il-flus jipproteġu liċ-ċittadini.",
+    p3_title: "Spiża soċjali tal-karbonju",
+    p3_text: "It-tariffa għal kull tunnellata hija bbażata fuq il-ħsara reali li jikkawża l-CO₂. Prezz ogħla jfisser bidla aktar qawwija fl-imġiba — iżda jitlob ukoll ridistribuzzjoni soċjali aktar qawwija biex tibqa' ġusta.",
+    p4_title: "Implimentazzjoni mal-UE kollha",
+    p4_text: "Implimentazzjoni nazzjonali biss tfixkel il-kummerċ fis-suq uniku. Din teħtieġ koordinazzjoni mal-UE kollha — jew taxxi nazzjonali mfassla b'attenzjoni li ma joħolqux vantaġġi inġusti.",
+    examples_label: "03 — Numri Reali",
+    examples_title: "Kif tidher fil-prattika?",
+    examples_desc: "Bl-użu ta' data eżistenti ta' valutazzjonijiet taċ-ċiklu tal-ħajja u prezz tal-karbonju ta' $100 / ton ta' ekwivalent CO₂.",
+    ex_case: "Studju ta' Każ",
+    ex_beef: "Ċanga",
+    ex_oil: "Żejt Mhux Raffinat",
+    ex_lifecycle: "Emissjonijiet taċ-ċiklu tal-ħajja",
+    ex_carbon_price: "Prezz tal-karbonju applikat",
+    ex_additional_kg: "Spiża addizzjonali għal kull kg",
+    ex_additional_barrel: "Spiża addizzjonali għal kull barmil",
+    ex_beef_insight: "Jinkludi produzzjoni tal-għalf (fertilizzanti bbażati fuq iż-żejt), metan mill-baqar, bidla fl-użu tal-art, u pproċessar. Il-biċċa l-kbira tal-emissjonijiet ġejjin mill-bijoloġija — mhux biss mill-inputs tal-enerġija.",
+    ex_oil_insight: "Impatt sinifikanti fuq il-prezz — iżda l-ispejjeż jiddilwew hekk kif iż-żejt jiġi distribwit f'eluf ta' prodotti 'l isfel. L-akbar impatt jaqa' fuq proċessi kkonċentrati b'emissjonijiet għoljin bħat-trobbija tal-bhejjem, mhux biss fuq inputs industrijali.",
+    questions_label: "04 — Lakuni Onesti",
+    questions_title: "Mistoqsijiet miftuħa",
+    questions_desc: "Ma nippretendu xejn li għandna kull tweġiba. Dawn huma l-problemi diffiċli li għalihom neħtieġu intelliġenza kollettiva.",
+    q1: "Liema prezz eżatt tal-karbonju huwa meħtieġ biex ibiddel b'mod sinifikanti l-imġiba tal-konsumaturi u tal-industrija mingħajr ma jikkawża xokk ekonomiku?",
+    q2: "Kif ninfurzaw kontabbiltà preċiża taċ-ċiklu tal-ħajja globalment, meta l-ktajjen tal-provvista jinfirxu f'għexieren ta' pajjiżi b'standards differenti?",
+    q3: "Kif għandna nittrattaw l-importazzjonijiet minn pajjiżi mhux konformi? L-aġġustamenti tal-karbonju fil-fruntieri huma promettenti iżda politikament u loġistikament kumplessi.",
+    q4: "Liema huwa t-triq realistiku lejn il-fattibbiltà politika fi ħdan l-istrutturi tal-UE — u kif nibnu l-koalizzjoni biex naslu hemm?",
+    q5: "Kemm nistgħu nagħmlu t-tranżizzjoni malajr mingħajr ma niddestabilizzaw il-għajxien? Kif tidher il-bilanċ it-tajba bejn l-urġenza u l-istabbiltà soċjali?",
+    join_label: "05 — Ħu Azzjoni",
+    join_title: "Ingħaqad mal-moviment",
+    join_desc: "Din l-idea teħtieġ ekonomisti, leġiżlaturi, attivisti, u ċittadini li jemmnu li l-prezz — mhux il-ħtija — huwa dak li jibdel id-dinja. Żid il-vuċi tiegħek.",
+    join_placeholder: "tiegħek@email.com",
+    join_btn: "Irreġistra",
+    join_btn_done: "Miżjud ✓",
+    join_note: "L-ebda spam. Aġġornamenti dwar il-progress fil-politika, riċerka, u azzjonijiet li tista' tieħu.",
+    footer_mechanism: "Mekkaniżmu",
+    footer_data: "Data",
+  },
+
+  ga: {
+    nav_logo: "Cuir Praghas ar an Damáiste",
+    nav_how: "Conas a Oibríonn Sé",
+    nav_principles: "Prionsabail",
+    nav_examples: "Samplaí",
+    nav_questions: "Ceisteanna Oscailte",
+    nav_join: "Glac Páirt",
+    hero_label: "Creat beartais don ghéarchéim aeráide",
+    hero_title: "Déan an truailliú<br><em>costasach</em>.",
+    hero_subtitle: "Tá costas comhshaoil folaithe ag gach táirge. Molaimid táille choibhéis CO₂ ar fud an tslabhra soláthair ar fad — ag tiontú damáiste éiceolaíoch ina bhrú eacnamaíoch, agus ioncam á athdháileadh chun daoine a chosaint.",
+    hero_btn_primary: "Féach Conas a Oibríonn Sé ↓",
+    hero_btn_secondary: "Glac Páirt sa Ghluaiseacht",
+    how_label: "01 — Meicníocht",
+    how_title: "Táille ag gach céim",
+    how_desc: "Cuirtear táillí coibhéis CO₂ i bhfeidhm in aghaidh an tsrutha ag gach pointe sa slabhra soláthair. Carntar an costas iomlán sa phraghas deiridh — rud a fhágann go mbíonn táirgí ardastutha go nádúrtha níos costasaí.",
+    stage1_title: "Eastóscadh",
+    stage1_desc: "Mianadóireacht amhábhar, druileáil ola, fómhar",
+    stage2_title: "Táirgeadh",
+    stage2_desc: "Monaraíocht, scagadh, próiseáil",
+    stage3_title: "Iompar",
+    stage3_desc: "Loingseoireacht, lasta, lóistíocht",
+    stage4_title: "Miondíol &amp; Úsáid",
+    stage4_desc: "Dáileadh, céim úsáide an tomhaltóra",
+    stage5_title: "Diúscairt",
+    stage5_desc: "Deireadh saoil trí fhreagracht leathnaithe an táirgeora",
+    stage_fee: "+ táille CO₂",
+    pipeline_result: "Tá na sonraí ann cheana féin. Clúdaíonn <strong>measúnachtaí saolré (LCA)</strong> agus lorg carbóin táirgí an slabhra iomlán — ón eastóscadh go dtí an diúscairt. Ní eolaíocht nua atá de dhíth orainn. Is toil pholaitiúil atá de dhíth orainn.",
+    manifesto: "Athraigh tionchar comhshaoil ina <em>bhrú eacnamaíoch dosheachanta</em>, ansin athdháil an t-airgead chun an tsochaí a choinneáil cobhsaí agus an margadh á iallach <em>dícharbónú</em>.",
+    principles_label: "02 — Prionsabail",
+    principles_title: "Cad a sheasaimid ar a shon",
+    principles_desc: "Ní faoi fheachtais feasachta ná gealltanais dheonacha atá sé seo. Is faoi dhreasachtaí eacnamaíocha a athdhearadh ón mbun aníos atá sé.",
+    p1_title: "Praghas, ní feasacht",
+    p1_text: "Níor éirigh le blianta fada d'fheachtais feasachta cuar na n-astuithe a chasadh. Athraíonn comharthaí praghais iompar ar scála — go huathoibríoch, go huilíoch, agus láithreach.",
+    p2_title: "Cosain daoine, ní truaillitheoirí",
+    p2_text: "Téann an t-ioncam chuig earraí poiblí agus íosioncam chun praghsanna níos airde a fhritháireamh. Gan fóirdheontais do chuideachtaí chun \"éirí glas\". Má thruaillíonn tú, íocann tú. Cosnaíonn an t-airgead na saoránaigh.",
+    p3_title: "Costas sóisialta an charbóin",
+    p3_text: "Tá an táille in aghaidh an tona bunaithe ar an damáiste iarbhír a dhéanann CO₂. Ciallaíonn praghas níos airde athrú iompair níos láidre — ach éilíonn sé freisin athdháileadh sóisialta níos láidre chun é a choinneáil cothrom.",
+    p4_title: "Cur i bhfeidhm ar fud an AE",
+    p4_text: "Déanann cur i bhfeidhm náisiúnta amháin an trádáil a shaobhadh laistigh den mhargadh aonair. Teastaíonn comhordú ar fud an AE — nó cánacha náisiúnta a dheartar go cúramach nach gcruthaíonn buntáistí éagóracha.",
+    examples_label: "03 — Fíoruimhreacha",
+    examples_title: "Conas a fhéachann sé seo?",
+    examples_desc: "Ag úsáid sonraí reatha measúnachta saolré agus praghas carbóin de $100 / ton de choibhéis CO₂.",
+    ex_case: "Cás-Staidéar",
+    ex_beef: "Mairteoil",
+    ex_oil: "Amhola",
+    ex_lifecycle: "Astuithe saolré",
+    ex_carbon_price: "Praghas carbóin curtha i bhfeidhm",
+    ex_additional_kg: "Costas breise in aghaidh an kg",
+    ex_additional_barrel: "Costas breise in aghaidh an bhairille",
+    ex_beef_insight: "Áirítear táirgeadh beatha (leasacháin bunaithe ar ola), meatán ó eallaí, athrú ar úsáid talún, agus próiseáil. Tagann formhór na n-astuithe ón mbitheolaíocht — ní ó ionchuir fuinnimh amháin.",
+    ex_oil_insight: "Tionchar suntasach ar phraghas — ach caolítear na costais de réir mar a dháiltear an ola thar na mílte táirgí iartheachtacha. Is ar phróisis chomhchruinnithe ardastuthe ar nós tréadchur beostoic is mó a thiteann an tionchar, ní ar ionchuir thionsclaíocha amháin.",
+    questions_label: "04 — Bearnaí Macánta",
+    questions_title: "Ceisteanna oscailte",
+    questions_desc: "Ní ligimid orainn go bhfuil gach freagra againn. Seo iad na fadhbanna deacra a dteastaíonn intleacht chomhchoiteann chun iad a réiteach.",
+    q1: "Cén praghas carbóin beacht atá ag teastáil chun iompar tomhaltóirí agus tionsclaíochta a athrú go suntasach gan suaitheadh eacnamaíoch a chruthú?",
+    q2: "Conas a fhorfheidhmímid cuntasaíocht bheacht saolré ar fud an domhain, nuair a shíneann slabhraí soláthair thar na scórtha tíortha le caighdeáin éagsúla?",
+    q3: "Conas ba cheart dúinn déileáil le hallmhairí ó thíortha neamhchomhlíontacha? Tá coigeartuithe carbóin teorann gealltanach ach casta go polaitiúil agus go lóistíochtúil.",
+    q4: "Cad é an cosán réalaíoch chuig indéantacht pholaitiúil laistigh de struchtúir an AE — agus conas a thógaimid an comhghuaillíocht chun é sin a bhaint amach?",
+    q5: "Cé chomh tapa is féidir linn aistriú gan slite beatha a dhíchobhsú? Cén chuma atá ar an gcothromaíocht cheart idir práinn agus cobhsaíocht shóisialta?",
+    join_label: "05 — Glac Beart",
+    join_title: "Glac páirt sa ghluaiseacht",
+    join_desc: "Teastaíonn eacnamaithe, lucht déanta beartas, gníomhaithe, agus saoránaigh ón smaoineamh seo — daoine a chreideann gurb é an praghas — ní an chiontacht — a athraíonn an domhan. Cuir do ghuth leis.",
+    join_placeholder: "do@ríomhphost.com",
+    join_btn: "Cláraigh",
+    join_btn_done: "Curtha leis ✓",
+    join_note: "Gan turscar. Nuashonruithe ar dhul chun cinn beartais, taighde, agus gníomhartha is féidir leat a dhéanamh.",
+    footer_mechanism: "Meicníocht",
+    footer_data: "Sonraí",
+  },
+};
+
+const TRANS_ASIAN = {
+  ja: {
+    nav_logo: "損害に価格を",
+    nav_how: "仕組み",
+    nav_principles: "基本原則",
+    nav_examples: "具体例",
+    nav_questions: "未解決の課題",
+    nav_join: "参加する",
+    hero_label: "気候危機に対する政策フレームワーク",
+    hero_title: "汚染を<br><em>高くつくもの</em>にする。",
+    hero_subtitle: "すべての製品には、目に見えない環境コストが含まれています。私たちは、サプライチェーン全体にCO₂換算の課金を導入することを提案します。生態系への損害を経済的圧力に変え、その収益を人々の保護に再分配します。",
+    hero_btn_primary: "仕組みを見る ↓",
+    hero_btn_secondary: "運動に参加する",
+    how_label: "01 — メカニズム",
+    how_title: "あらゆる段階で課金する",
+    how_desc: "CO₂換算の課金は、サプライチェーンの各段階で上流から適用されます。総コストは最終価格に累積され、高排出製品は自然と割高になります。",
+    stage1_title: "採掘",
+    stage1_desc: "原材料の採掘、石油掘削、収穫",
+    stage2_title: "生産",
+    stage2_desc: "製造、精製、加工",
+    stage3_title: "輸送",
+    stage3_desc: "海運、貨物輸送、物流",
+    stage4_title: "小売・使用",
+    stage4_desc: "流通、消費者の使用段階",
+    stage5_title: "廃棄",
+    stage5_desc: "拡大生産者責任に基づく製品寿命の終了処理",
+    stage_fee: "+ CO₂ 課金",
+    pipeline_result: "データはすでに存在しています。<strong>ライフサイクルアセスメント（LCA）</strong>と製品カーボンフットプリントは、採掘から廃棄までの全工程をカバーしています。新たな科学は不要です。必要なのは政治的意志です。",
+    manifesto: "環境への影響を<em>避けられない経済的圧力</em>に変え、その資金を再分配することで、市場に<em>脱炭素化</em>を迫りながら社会の安定を維持する。",
+    principles_label: "02 — 基本原則",
+    principles_title: "私たちが掲げるもの",
+    principles_desc: "これは啓発キャンペーンや自主的な誓約の話ではありません。経済的インセンティブを根本から再設計することです。",
+    p1_title: "啓発ではなく、価格を",
+    p1_text: "数十年にわたる啓発キャンペーンは、排出曲線を変えることができませんでした。価格シグナルは、自動的に、普遍的に、そして即座に大規模な行動変容を促します。",
+    p2_title: "汚染者ではなく、人々を守る",
+    p2_text: "収益は公共財と最低所得保障に充てられ、物価上昇を相殺します。企業が「グリーン化」するための補助金はありません。汚染すれば対価を払う。その資金が市民を守ります。",
+    p3_title: "炭素の社会的費用",
+    p3_text: "1トンあたりの課金額は、CO₂がもたらす実際の損害に基づきます。価格が高いほど行動変容は強くなりますが、公平性を保つためにより強力な社会的再分配も必要になります。",
+    p4_title: "EU全域での実施",
+    p4_text: "一国のみの実施は域内市場の貿易を歪めます。EU全域の協調が必要です。あるいは、不公平な優位性を生まないよう慎重に設計された国内税制が求められます。",
+    examples_label: "03 — 実際の数字",
+    examples_title: "具体的にどうなるのか？",
+    examples_desc: "既存のライフサイクルアセスメントデータと、CO₂換算1トンあたり$100の炭素価格を使用した場合。",
+    ex_case: "ケーススタディ",
+    ex_beef: "牛肉",
+    ex_oil: "原油",
+    ex_lifecycle: "ライフサイクル排出量",
+    ex_carbon_price: "適用される炭素価格",
+    ex_additional_kg: "1kgあたりの追加コスト",
+    ex_additional_barrel: "1バレルあたりの追加コスト",
+    ex_beef_insight: "飼料生産（石油由来の肥料）、牛のメタン、土地利用変化、加工が含まれます。排出の大部分はエネルギー投入だけでなく、生物学的プロセスから生じます。",
+    ex_oil_insight: "価格への影響は大きいものの、石油が何千もの下流製品に分散されるためコストは希薄化します。最大の影響は産業投入財だけでなく、畜産のような高排出の集中プロセスに及びます。",
+    questions_label: "04 — 率直な課題",
+    questions_title: "未解決の課題",
+    questions_desc: "すべての答えを持っているとは言いません。これらは集合知で解決すべき困難な問題です。",
+    q1: "経済的ショックを引き起こすことなく、消費者と産業界の行動を有意に変えるために必要な正確な炭素価格はいくらか？",
+    q2: "異なる基準を持つ数十か国にまたがるサプライチェーンにおいて、正確なライフサイクル会計をグローバルにどう実施するか？",
+    q3: "非準拠国からの輸入品をどう扱うべきか？炭素国境調整は有望だが、政治的にも物流的にも複雑である。",
+    q4: "EU の制度枠組みの中で政治的に実現可能な現実的な道筋は何か？そしてそのための連合をどう構築するか？",
+    q5: "生活を不安定にすることなく、どれだけ速く移行できるか？緊急性と社会的安定の適切なバランスとはどのようなものか？",
+    join_label: "05 — 行動を起こす",
+    join_title: "運動に参加する",
+    join_desc: "このアイデアには、罪悪感ではなく価格こそが世界を変えると信じる経済学者、政策立案者、活動家、市民が必要です。あなたの声を届けてください。",
+    join_placeholder: "your@email.com",
+    join_btn: "登録する",
+    join_btn_done: "登録完了 ✓",
+    join_note: "スパムはありません。政策の進捗、研究、あなたができるアクションに関する更新情報をお届けします。",
+    footer_mechanism: "メカニズム",
+    footer_data: "データ",
+  },
+  zh: {
+    nav_logo: "为损害定价",
+    nav_how: "运作方式",
+    nav_principles: "基本原则",
+    nav_examples: "实例",
+    nav_questions: "待解决问题",
+    nav_join: "加入",
+    hero_label: "应对气候危机的政策框架",
+    hero_title: "让污染<br><em>付出代价</em>。",
+    hero_subtitle: "每件产品都承载着隐性的环境成本。我们提议在整个供应链中征收CO₂当量费用——将生态损害转化为经济压力，同时将收入重新分配以保护民众。",
+    hero_btn_primary: "了解运作方式 ↓",
+    hero_btn_secondary: "加入运动",
+    how_label: "01 — 机制",
+    how_title: "在每个环节征收费用",
+    how_desc: "CO₂当量费用在供应链的每个环节从上游征收。总成本逐步累积到最终价格中，使高排放产品自然变得更加昂贵。",
+    stage1_title: "开采",
+    stage1_desc: "原材料开采、石油钻探、收获",
+    stage2_title: "生产",
+    stage2_desc: "制造、精炼、加工",
+    stage3_title: "运输",
+    stage3_desc: "航运、货运、物流",
+    stage4_title: "零售与使用",
+    stage4_desc: "分销、消费者使用阶段",
+    stage5_title: "处置",
+    stage5_desc: "基于生产者延伸责任的产品终末处理",
+    stage_fee: "+ CO₂ 费用",
+    pipeline_result: "数据已经存在。<strong>生命周期评估（LCA）</strong>和产品碳足迹覆盖了从开采到处置的完整链条。我们不需要新的科学研究，我们需要的是政治意愿。",
+    manifesto: "将环境影响转化为<em>不可回避的经济压力</em>，然后重新分配资金以维持社会稳定，同时迫使市场<em>脱碳</em>。",
+    principles_label: "02 — 基本原则",
+    principles_title: "我们的立场",
+    principles_desc: "这不是关于宣传活动或自愿承诺，而是从根本上重新设计经济激励机制。",
+    p1_title: "用价格，而非宣传",
+    p1_text: "数十年的宣传活动未能扭转排放曲线。价格信号能够自动地、普遍地、即时地大规模改变行为。",
+    p2_title: "保护民众，而非污染者",
+    p2_text: "收入用于公共产品和最低收入保障，以抵消价格上涨。不向企业提供"绿色转型"补贴。谁污染，谁付费。资金用于保护公民。",
+    p3_title: "碳的社会成本",
+    p3_text: "每吨费用基于CO₂造成的实际损害。价格越高，行为改变越强烈——但也要求更强有力的社会再分配以确保公平。",
+    p4_title: "欧盟范围内实施",
+    p4_text: "仅在单一国家实施会扭曲单一市场内的贸易。这需要欧盟范围内的协调——或精心设计的国内税收，以避免造成不公平的竞争优势。",
+    examples_label: "03 — 真实数据",
+    examples_title: "实际效果如何？",
+    examples_desc: "使用现有的生命周期评估数据，以每吨CO₂当量$100的碳价格计算。",
+    ex_case: "案例研究",
+    ex_beef: "牛肉",
+    ex_oil: "原油",
+    ex_lifecycle: "生命周期排放量",
+    ex_carbon_price: "适用碳价格",
+    ex_additional_kg: "每kg额外成本",
+    ex_additional_barrel: "每桶额外成本",
+    ex_beef_insight: "包括饲料生产（石油基肥料）、牛的甲烷排放、土地利用变化和加工过程。大部分排放源于生物过程，而不仅仅是能源投入。",
+    ex_oil_insight: "对价格影响显著——但随着石油分散到数千种下游产品中，成本会被稀释。最大的影响落在畜牧业等高排放集中过程上，而不仅仅是工业投入。",
+    questions_label: "04 — 坦诚面对差距",
+    questions_title: "待解决问题",
+    questions_desc: "我们不会假装拥有所有答案。这些是需要集体智慧来解决的难题。",
+    q1: "究竟需要多高的碳价格才能有效改变消费者和工业行为，同时不引发经济冲击？",
+    q2: "当供应链横跨数十个标准不同的国家时，如何在全球范围内确保准确的生命周期核算？",
+    q3: "如何处理来自未合规国家的进口？碳边境调节机制前景可期，但在政治和物流上都十分复杂。",
+    q4: "在欧盟制度框架内实现政治可行性的现实路径是什么？我们如何构建推动这一目标的联盟？",
+    q5: "在不破坏民众生计的前提下，转型速度能有多快？紧迫性与社会稳定之间的恰当平衡是什么？",
+    join_label: "05 — 立即行动",
+    join_title: "加入运动",
+    join_desc: "这个理念需要经济学家、政策制定者、活动人士和相信价格——而非愧疚——才能改变世界的公民。请发出你的声音。",
+    join_placeholder: "your@email.com",
+    join_btn: "注册",
+    join_btn_done: "已加入 ✓",
+    join_note: "绝无垃圾邮件。仅发送政策进展、研究动态和您可以采取的行动。",
+    footer_mechanism: "机制",
+    footer_data: "数据",
+  },
+  hi: {
+    nav_logo: "नुकसान की कीमत लगाओ",
+    nav_how: "यह कैसे काम करता है",
+    nav_principles: "सिद्धांत",
+    nav_examples: "उदाहरण",
+    nav_questions: "अनसुलझे प्रश्न",
+    nav_join: "जुड़ें",
+    hero_label: "जलवायु संकट के लिए एक नीतिगत रूपरेखा",
+    hero_title: "प्रदूषण को<br><em>महँगा</em> बनाओ।",
+    hero_subtitle: "हर उत्पाद एक छिपी हुई पर्यावरणीय लागत वहन करता है। हम संपूर्ण आपूर्ति श्रृंखला में CO₂-समतुल्य शुल्क का प्रस्ताव करते हैं — जो पारिस्थितिक क्षति को आर्थिक दबाव में बदले, और राजस्व का पुनर्वितरण कर लोगों की सुरक्षा करे।",
+    hero_btn_primary: "देखें कैसे काम करता है ↓",
+    hero_btn_secondary: "आंदोलन में शामिल हों",
+    how_label: "01 — तंत्र",
+    how_title: "हर चरण पर शुल्क",
+    how_desc: "CO₂-समतुल्य शुल्क आपूर्ति श्रृंखला के प्रत्येक चरण में ऊपरी स्तर पर लागू किया जाता है। कुल लागत अंतिम मूल्य में संचित होती है — जिससे उच्च-उत्सर्जन उत्पाद स्वाभाविक रूप से अधिक महँगे हो जाते हैं।",
+    stage1_title: "निष्कर्षण",
+    stage1_desc: "कच्चे माल का खनन, तेल ड्रिलिंग, कटाई",
+    stage2_title: "उत्पादन",
+    stage2_desc: "विनिर्माण, शोधन, प्रसंस्करण",
+    stage3_title: "परिवहन",
+    stage3_desc: "शिपिंग, माल ढुलाई, रसद",
+    stage4_title: "खुदरा एवं उपयोग",
+    stage4_desc: "वितरण, उपभोक्ता उपयोग चरण",
+    stage5_title: "निपटान",
+    stage5_desc: "विस्तारित उत्पादक उत्तरदायित्व के तहत जीवन-अंत प्रबंधन",
+    stage_fee: "+ CO₂ शुल्क",
+    pipeline_result: "डेटा पहले से मौजूद है। <strong>जीवनचक्र मूल्यांकन (LCA)</strong> और उत्पाद कार्बन फुटप्रिंट पूरी श्रृंखला को कवर करते हैं — निष्कर्षण से लेकर निपटान तक। हमें नए विज्ञान की आवश्यकता नहीं है। हमें राजनीतिक इच्छाशक्ति की आवश्यकता है।",
+    manifesto: "पर्यावरणीय प्रभाव को <em>अपरिहार्य आर्थिक दबाव</em> में बदलो, फिर बाज़ार को <em>डीकार्बनाइज़</em> करने के लिए बाध्य करते हुए समाज को स्थिर रखने के लिए धन का पुनर्वितरण करो।",
+    principles_label: "02 — सिद्धांत",
+    principles_title: "हम किसके पक्ष में खड़े हैं",
+    principles_desc: "यह जागरूकता अभियानों या स्वैच्छिक प्रतिज्ञाओं के बारे में नहीं है। यह आर्थिक प्रोत्साहनों को जड़ से पुनर्रचित करने के बारे में है।",
+    p1_title: "जागरूकता नहीं, कीमत",
+    p1_text: "दशकों के जागरूकता अभियान उत्सर्जन वक्र को मोड़ नहीं पाए। मूल्य संकेत व्यवहार को बड़े पैमाने पर बदलते हैं — स्वचालित रूप से, सार्वभौमिक रूप से और तत्काल।",
+    p2_title: "प्रदूषकों की नहीं, लोगों की रक्षा करो",
+    p2_text: "राजस्व सार्वजनिक सेवाओं और न्यूनतम आय में जाता है ताकि बढ़ी हुई कीमतों की भरपाई हो सके। कंपनियों को \"हरित\" बनने के लिए कोई सब्सिडी नहीं। प्रदूषण करोगे तो भुगतान करोगे। यह धन नागरिकों की ढाल बनता है।",
+    p3_title: "कार्बन की सामाजिक लागत",
+    p3_text: "प्रति टन शुल्क CO₂ द्वारा होने वाली वास्तविक क्षति पर आधारित है। ऊँची कीमत का अर्थ है मज़बूत व्यवहार परिवर्तन — लेकिन इसके लिए निष्पक्षता बनाए रखने हेतु मज़बूत सामाजिक पुनर्वितरण भी आवश्यक है।",
+    p4_title: "EU-व्यापी कार्यान्वयन",
+    p4_text: "केवल राष्ट्रीय स्तर पर कार्यान्वयन एकल बाज़ार के भीतर व्यापार को विकृत करता है। इसके लिए EU-व्यापी समन्वय आवश्यक है — या सावधानीपूर्वक डिज़ाइन किए गए राष्ट्रीय कर जो अनुचित लाभ पैदा न करें।",
+    examples_label: "03 — वास्तविक आँकड़े",
+    examples_title: "यह कैसा दिखेगा?",
+    examples_desc: "मौजूदा जीवनचक्र मूल्यांकन डेटा और प्रति टन CO₂-समतुल्य $100 की कार्बन कीमत का उपयोग करते हुए।",
+    ex_case: "केस स्टडी",
+    ex_beef: "गोमांस",
+    ex_oil: "कच्चा तेल",
+    ex_lifecycle: "जीवनचक्र उत्सर्जन",
+    ex_carbon_price: "लागू कार्बन मूल्य",
+    ex_additional_kg: "प्रति kg अतिरिक्त लागत",
+    ex_additional_barrel: "प्रति बैरल अतिरिक्त लागत",
+    ex_beef_insight: "इसमें चारा उत्पादन (तेल-आधारित उर्वरक), पशुओं से मीथेन, भूमि उपयोग परिवर्तन और प्रसंस्करण शामिल है। अधिकांश उत्सर्जन जैविक प्रक्रियाओं से होता है — केवल ऊर्जा इनपुट से नहीं।",
+    ex_oil_insight: "मूल्य पर महत्वपूर्ण प्रभाव — लेकिन जैसे-जैसे तेल हज़ारों डाउनस्ट्रीम उत्पादों में वितरित होता है, लागत पतली हो जाती है। सबसे बड़ा प्रभाव केवल औद्योगिक इनपुट पर नहीं, बल्कि पशुपालन जैसी केंद्रित उच्च-उत्सर्जन प्रक्रियाओं पर पड़ता है।",
+    questions_label: "04 — ईमानदार कमियाँ",
+    questions_title: "अनसुलझे प्रश्न",
+    questions_desc: "हम हर उत्तर रखने का दावा नहीं करते। ये कठिन समस्याएँ हैं जिन्हें सामूहिक बुद्धि से हल करना होगा।",
+    q1: "आर्थिक आघात पहुँचाए बिना उपभोक्ता और औद्योगिक व्यवहार को सार्थक रूप से बदलने के लिए सटीक कार्बन मूल्य क्या होना चाहिए?",
+    q2: "जब आपूर्ति श्रृंखलाएँ विभिन्न मानकों वाले दर्जनों देशों में फैली हों, तो वैश्विक स्तर पर सटीक जीवनचक्र लेखांकन कैसे लागू करें?",
+    q3: "गैर-अनुपालक देशों से आयात को कैसे संभालें? कार्बन सीमा समायोजन आशाजनक है लेकिन राजनीतिक और रसद दोनों दृष्टियों से जटिल है।",
+    q4: "EU संरचनाओं के भीतर राजनीतिक व्यवहार्यता का यथार्थवादी मार्ग क्या है — और वहाँ तक पहुँचने के लिए गठबंधन कैसे बनाएँ?",
+    q5: "आजीविका को अस्थिर किए बिना हम कितनी तेज़ी से संक्रमण कर सकते हैं? तात्कालिकता और सामाजिक स्थिरता के बीच सही संतुलन कैसा दिखता है?",
+    join_label: "05 — कार्रवाई करें",
+    join_title: "आंदोलन में शामिल हों",
+    join_desc: "इस विचार को अर्थशास्त्रियों, नीति निर्माताओं, कार्यकर्ताओं और उन नागरिकों की आवश्यकता है जो मानते हैं कि दुनिया को बदलने वाली चीज़ अपराधबोध नहीं — कीमत है। अपनी आवाज़ जोड़ें।",
+    join_placeholder: "your@email.com",
+    join_btn: "साइन अप करें",
+    join_btn_done: "जुड़ गए ✓",
+    join_note: "कोई स्पैम नहीं। नीतिगत प्रगति, शोध और आपके लिए उपलब्ध कार्रवाइयों पर अपडेट।",
+    footer_mechanism: "तंत्र",
+    footer_data: "डेटा",
+  },
+};
+
+const TRANS_EN_OBJ = {
+  en: {
+    nav_logo: "Price The Damage",
+    nav_how: "How It Works",
+    nav_principles: "Principles",
+    nav_examples: "Examples",
+    nav_questions: "Open Questions",
+    nav_join: "Join",
+    hero_label: "A policy framework for the climate crisis",
+    hero_title: "Make pollution<br><em>expensive</em>.",
+    hero_subtitle: "Every product carries a hidden environmental cost. We propose a CO\u2082-equivalent fee across the entire supply chain \u2014 turning ecological damage into economic pressure, while redistributing revenue to protect people.",
+    hero_btn_primary: "See How It Works \u2193",
+    hero_btn_secondary: "Join the Movement",
+    how_label: "01 \u2014 Mechanism",
+    how_title: "A fee at every stage",
+    how_desc: "CO\u2082-equivalent fees are applied upstream at each point in the supply chain. The total cost accumulates into the final price \u2014 making high-emission products naturally more expensive.",
+    stage1_title: "Extraction",
+    stage1_desc: "Raw material mining, oil drilling, harvesting",
+    stage2_title: "Production",
+    stage2_desc: "Manufacturing, refining, processing",
+    stage3_title: "Transport",
+    stage3_desc: "Shipping, freight, logistics",
+    stage4_title: "Retail & Use",
+    stage4_desc: "Distribution, consumer use phase",
+    stage5_title: "Disposal",
+    stage5_desc: "End-of-life via extended producer responsibility",
+    stage_fee: "+ CO\u2082 fee",
+    pipeline_result: "The data already exists. <strong>Lifecycle assessments (LCAs)</strong> and product carbon footprints cover the full chain \u2014 extraction through disposal. We don't need new science. We need political will.",
+    manifesto: "Turn environmental impact into <em>unavoidable economic pressure</em>, then redistribute the money to keep society stable while forcing the market to <em>decarbonize</em>.",
+    principles_label: "02 \u2014 Principles",
+    principles_title: "What we stand for",
+    principles_desc: "This isn't about awareness campaigns or voluntary pledges. It's about redesigning economic incentives from the ground up.",
+    p1_title: "Price, not awareness",
+    p1_text: "Decades of awareness campaigns haven't bent the emissions curve. Price signals change behavior at scale \u2014 automatically, universally, and immediately.",
+    p2_title: "Protect people, not polluters",
+    p2_text: "Revenue goes to public goods and minimum income to offset higher prices. No subsidies for companies to \"go green.\" If you pollute, you pay. The money shields citizens.",
+    p3_title: "Social cost of carbon",
+    p3_text: "The fee per ton is based on the real damage CO\u2082 causes. Higher price means stronger behavioral change \u2014 but also demands stronger social redistribution to keep it fair.",
+    p4_title: "EU-wide implementation",
+    p4_text: "National-only implementation distorts trade within the single market. This needs EU-wide coordination \u2014 or carefully designed national taxes that don't create unfair advantages.",
+    examples_label: "03 \u2014 Real Numbers",
+    examples_title: "What does this look like?",
+    examples_desc: "Using existing lifecycle assessment data and a carbon price of $100 per ton of CO\u2082-equivalent.",
+    ex_case: "Case Study",
+    ex_beef: "Beef",
+    ex_oil: "Crude Oil",
+    ex_lifecycle: "Lifecycle emissions",
+    ex_carbon_price: "Carbon price applied",
+    ex_additional_kg: "Additional cost per kg",
+    ex_additional_barrel: "Additional cost per barrel",
+    ex_beef_insight: "Includes feed production (oil-based fertilizers), methane from cattle, land use change, and processing. Most emissions come from biology \u2014 not just energy inputs.",
+    ex_oil_insight: "Significant price impact \u2014 but costs dilute as oil gets distributed across thousands of downstream products. The biggest impact falls on concentrated high-emission processes like livestock, not just industrial inputs.",
+    questions_label: "04 \u2014 Honest Gaps",
+    questions_title: "Open questions",
+    questions_desc: "We don't pretend to have every answer. These are the hard problems we need collective intelligence to solve.",
+    q1: "What exact carbon price is needed to meaningfully shift consumer and industrial behavior without causing economic shock?",
+    q2: "How do we enforce accurate lifecycle accounting globally, when supply chains span dozens of countries with different standards?",
+    q3: "How should we handle imports from non-compliant countries? Carbon border adjustments are promising but politically and logistically complex.",
+    q4: "What is the realistic path to political feasibility within EU structures \u2014 and how do we build the coalition to get there?",
+    q5: "How fast can we transition without destabilizing livelihoods? What does the right balance between urgency and social stability look like?",
+    join_label: "05 \u2014 Take Action",
+    join_title: "Join the movement",
+    join_desc: "This idea needs economists, policy makers, activists, and citizens who believe that price \u2014 not guilt \u2014 is what changes the world. Add your voice.",
+    join_placeholder: "your@email.com",
+    join_btn: "Sign Up",
+    join_btn_done: "Added \u2713",
+    join_note: "No spam. Updates on policy progress, research, and actions you can take.",
+    footer_mechanism: "Mechanism",
+    footer_data: "Data",
+  }
+};
+
+const translations = Object.assign({},
+  TRANS_EN_OBJ,
+  typeof TRANS_WEST !== 'undefined' ? TRANS_WEST : {},
+  typeof TRANS_NORDIC !== 'undefined' ? TRANS_NORDIC : {},
+  typeof TRANS_EAST !== 'undefined' ? TRANS_EAST : {},
+  typeof TRANS_SOUTH !== 'undefined' ? TRANS_SOUTH : {},
+  typeof TRANS_ASIAN !== 'undefined' ? TRANS_ASIAN : {}
+);
+
+function setLang(lang) {
+  var t = translations[lang];
+  if (!t) return;
+
+  document.documentElement.lang = lang;
+
+  var els = document.querySelectorAll('[data-i18n]');
+  for (var i = 0; i < els.length; i++) {
+    var key = els[i].getAttribute('data-i18n');
+    if (t[key]) els[i].innerHTML = t[key];
+  }
+
+  var phs = document.querySelectorAll('[data-i18n-placeholder]');
+  for (var i = 0; i < phs.length; i++) {
+    var key = phs[i].getAttribute('data-i18n-placeholder');
+    if (t[key]) phs[i].placeholder = t[key];
+  }
+
+  localStorage.setItem('ptd-lang', lang);
+  document.getElementById('lang-switcher').value = lang;
+}
+
+// Language switcher
+document.getElementById('lang-switcher').addEventListener('change', function() {
+  setLang(this.value);
+});
+
+// Form handler
+document.getElementById('join-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var t = translations[document.documentElement.lang] || translations.en;
+  var btn = this.querySelector('button');
+  btn.textContent = t.join_btn_done;
+  btn.style.background = 'var(--green-muted)';
+});
+
+// Scroll reveal
+var reveals = document.querySelectorAll('.reveal');
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      var bars = entry.target.querySelectorAll('.example-bar-fill');
+      for (var i = 0; i < bars.length; i++) bars[i].classList.add('animated');
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+for (var i = 0; i < reveals.length; i++) observer.observe(reveals[i]);
+
+// Nav scroll state
+var nav = document.getElementById('nav');
+window.addEventListener('scroll', function() {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
+
+// Smooth scroll for anchor links
+var anchors = document.querySelectorAll('a[href^="#"]');
+for (var i = 0; i < anchors.length; i++) {
+  anchors[i].addEventListener('click', function(e) {
+    e.preventDefault();
+    var target = document.querySelector(this.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}
+
+// Auto-detect language
+var saved = localStorage.getItem('ptd-lang');
+var browserLang = navigator.language.split('-')[0];
+var defaultLang = saved || (translations[browserLang] ? browserLang : 'en');
+if (defaultLang !== 'en') setLang(defaultLang);
+
+</script>
+</body>
+</html>
