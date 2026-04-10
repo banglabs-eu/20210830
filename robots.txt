@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://20210830.eu/sitemap.xml
