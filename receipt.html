@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Scan a receipt — Prices that reflect Cost</title>
+<meta name="description" content="Photograph a supermarket receipt and see the CO₂ damage cost it would carry if environmental impact were priced into every product. Runs entirely in your browser.">
+<meta name="theme-color" content="#0c2340">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="canonical" href="https://20210830.eu/receipt.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://20210830.eu/receipt.html">
+<meta property="og:title" content="Scan a receipt — Prices that reflect Cost">
+<meta property="og:description" content="Photograph a supermarket receipt and see the CO₂ damage cost it would carry if environmental impact were priced into every product.">
+<meta property="og:site_name" content="Prices that reflect Cost">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0c2340;
+    --blue-700: #1a5276;
+    --blue-500: #2980b9;
+    --blue-50: #eaf4fd;
+    --amber: #cf7c0a;
+    --bg: #ffffff;
+    --bg-alt: #f7f8fb;
+    --text: #1a2332;
+    --text-secondary: #50596a;
+    --text-dim: #8a93a5;
+    --border: #dfe4eb;
+    --border-light: #edf0f5;
+    --shadow-sm: 0 1px 3px rgba(12, 35, 64, 0.06), 0 1px 2px rgba(12, 35, 64, 0.04);
+    --shadow-lg: 0 10px 30px rgba(12, 35, 64, 0.1);
+    --font-display: 'Newsreader', Georgia, serif;
+    --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-mono: 'DM Mono', monospace;
+    --radius: 6px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    color: var(--text);
+    background: var(--bg-alt);
+    -webkit-font-smoothing: antialiased;
+    /* room for the fixed total bar */
+    padding-bottom: calc(132px + env(safe-area-inset-bottom));
+  }
+
+  header {
+    background: var(--navy);
+    color: #fff;
+    padding: 1.1rem 1.1rem 1.3rem;
+  }
+  header a.back {
+    color: rgba(255,255,255,0.65);
+    font-size: 0.78rem;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  header a.back:hover { color: #fff; }
+  header h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.55rem;
+    margin: 0.55rem 0 0.35rem;
+    line-height: 1.2;
+  }
+  header p {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.72);
+    max-width: 44ch;
+  }
+
+  main { max-width: 640px; margin: 0 auto; padding: 1.1rem; }
+
+  .card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 1.1rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .card h2 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0 0 0.2rem;
+  }
+  .card .sub {
+    margin: 0 0 0.9rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  button, .btn {
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    font-weight: 600;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    padding: 0.7rem 1rem;
+    cursor: pointer;
+  }
+  button:hover { border-color: var(--blue-500); }
+  button:disabled { opacity: 0.5; cursor: default; }
+
+  .btn-primary {
+    display: block;
+    width: 100%;
+    background: var(--blue-700);
+    border-color: var(--blue-700);
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.95rem 1rem;
+    text-align: center;
+  }
+  .btn-primary:hover { background: var(--blue-500); border-color: var(--blue-500); }
+
+  .btn-row { display: flex; gap: 0.6rem; margin-top: 0.6rem; }
+  .btn-row button { flex: 1; font-size: 0.85rem; padding: 0.6rem 0.5rem; }
+
+  input[type="file"] { display: none; }
+
+  .progress {
+    margin-top: 0.9rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+  }
+  .progress-bar {
+    height: 4px;
+    background: var(--border-light);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 0.45rem;
+  }
+  .progress-bar span {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: var(--blue-500);
+    transition: width 0.25s ease;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 130px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    line-height: 1.55;
+    padding: 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    resize: vertical;
+    color: var(--text);
+  }
+  textarea:focus, select:focus, input:focus { outline: none; border-color: var(--blue-500); }
+
+  .item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.35rem 0.6rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-light);
+    align-items: start;
+  }
+  .item:last-child { border-bottom: none; }
+  .item.off { opacity: 0.42; }
+
+  .item-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.3;
+    word-break: break-word;
+  }
+  .item-co2 {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--navy);
+    white-space: nowrap;
+    text-align: right;
+  }
+  .item-tax {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--amber);
+    white-space: nowrap;
+    text-align: right;
+  }
+  .item-controls {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+    margin-top: 0.1rem;
+  }
+  .item-controls select,
+  .item-controls input[type="number"] {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    padding: 0.35rem 0.45rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--text);
+    max-width: 100%;
+  }
+  .item-controls input[type="number"] { width: 5.4rem; }
+  .item-controls select { flex: 1; min-width: 9rem; }
+  .item-controls .unit { font-size: 0.76rem; color: var(--text-dim); }
+  .item-controls .drop {
+    border: none;
+    background: none;
+    color: var(--text-dim);
+    font-size: 0.78rem;
+    padding: 0.3rem 0.35rem;
+    cursor: pointer;
+  }
+  .item-controls .drop:hover { color: #b03a2e; }
+
+  .assumed {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--amber);
+    background: rgba(207, 124, 10, 0.1);
+    border-radius: 3px;
+    padding: 0.1rem 0.32rem;
+    margin-left: 0.35rem;
+    vertical-align: 1px;
+  }
+
+  .unmatched-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+  }
+  .unmatched-line:last-child { border-bottom: none; }
+  .unmatched-line span { font-family: var(--font-mono); word-break: break-word; }
+  .unmatched-line select { font-size: 0.75rem; padding: 0.3rem; border: 1px solid var(--border); border-radius: 4px; }
+
+  .settings { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center; }
+  .settings label { font-size: 0.82rem; color: var(--text-secondary); }
+  .settings select {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    padding: 0.45rem 0.55rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+  }
+  .settings .eco { display: flex; align-items: center; gap: 0.45rem; width: 100%; }
+  .settings .eco input { width: 1rem; height: 1rem; accent-color: var(--blue-500); }
+
+  .totalbar {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    background: var(--navy);
+    color: #fff;
+    padding: 0.85rem 1.1rem calc(0.85rem + env(safe-area-inset-bottom));
+    box-shadow: 0 -6px 24px rgba(12, 35, 64, 0.22);
+    z-index: 40;
+  }
+  .totalbar-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+  }
+  .totalbar .label {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 0.2rem;
+  }
+  .totalbar .tax {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1;
+    color: #fff;
+  }
+  .totalbar .co2 {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--blue-50);
+    line-height: 1.2;
+  }
+  .totalbar .meta {
+    margin: 0.5rem auto 0;
+    max-width: 640px;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.4;
+  }
+
+  .note {
+    font-size: 0.76rem;
+    color: var(--text-dim);
+    line-height: 1.55;
+  }
+  .note a { color: var(--blue-500); }
+
+  .empty {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    padding: 0.4rem 0 0.1rem;
+    line-height: 1.5;
+  }
+
+  .hidden { display: none !important; }
+
+  @media (min-width: 560px) {
+    .item { grid-template-columns: 1fr auto auto; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="back" href="./">&#8592; Prices that reflect Cost</a>
+  <h1>What did that shop really cost?</h1>
+  <p>Photograph your receipt. We read the products, apply the same lifecycle
+     emission factors as the calculator on the front page, and show the CO&#8322;
+     damage cost at the bottom of the screen.</p>
+</header>
+
+<main>
+
+  <div class="card">
+    <h2>1 &#8212; The receipt</h2>
+    <p class="sub">The photo is read on this device. Nothing is uploaded, and no
+       account is involved.</p>
+
+    <button class="btn-primary" id="shoot">Take a photo of a receipt</button>
+    <input type="file" id="camera" accept="image/*" capture="environment">
+    <input type="file" id="picker" accept="image/*">
+
+    <div class="btn-row">
+      <button id="choose">Choose an image</button>
+      <button id="toggle-text">Type it instead</button>
+    </div>
+
+    <div class="progress hidden" id="progress">
+      <span id="progress-text">Loading the text recogniser&#8230;</span>
+      <div class="progress-bar"><span id="progress-fill"></span></div>
+    </div>
+
+    <div class="hidden" id="text-entry" style="margin-top:0.9rem">
+      <textarea id="raw-text" placeholder="Hakket oksek&#248;d 0,400 kg    42,00&#10;Letm&#230;lk 1 L                 12,50&#10;Rugbr&#248;d                     24,95"></textarea>
+      <div class="btn-row">
+        <button id="read-text">Read this text</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2 &#8212; What we found</h2>
+    <p class="sub">Every quantity is editable. Anything marked
+       <span class="assumed">assumed</span> is a typical pack size, because the
+       receipt line never said how much.</p>
+    <div id="items"></div>
+    <div class="empty" id="items-empty">Nothing yet. Scan a receipt, or add a
+       product by hand below.</div>
+    <div class="btn-row">
+      <button id="add-item">Add a product by hand</button>
+    </div>
+  </div>
+
+  <div class="card hidden" id="unmatched-card">
+    <h2>Lines we could not price</h2>
+    <p class="sub">These are left out of the total rather than guessed at. Pick a
+       product if you know what it was.</p>
+    <div id="unmatched"></div>
+  </div>
+
+  <div class="card">
+    <h2>3 &#8212; The carbon price</h2>
+    <p class="sub">The same range the front page uses. The higher the price, the
+       stronger the behavioural push &#8212; and the more redistribution it
+       demands.</p>
+    <div class="settings">
+      <label for="carbon-price">Carbon price</label>
+      <select id="carbon-price">
+        <option value="50">$50 / ton</option>
+        <option value="100" selected>$100 / ton</option>
+        <option value="150">$150 / ton</option>
+        <option value="200">$200 / ton</option>
+      </select>
+      <div class="eco">
+        <input type="checkbox" id="eco">
+        <label for="eco">Mostly eco-certified / organic (reduces the estimate by ~15%)</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="note">
+      <strong>How rough is this?</strong> Rough. OCR misreads receipts, shop
+      wording is ambiguous, and a product name rarely tells you the weight. The
+      figure is an order-of-magnitude answer to &#8220;what would this basket
+      cost if the damage were in the price&#8221;, not a tax assessment. Correct
+      the quantities and it gets a good deal closer.
+    </p>
+    <p class="note" style="margin-top:0.8rem">
+      Sources: Poore &amp; Nemecek (2018),
+      <a href="https://doi.org/10.1126/science.aaq0216" target="_blank" rel="noopener"><em>Science</em> 360:987</a>
+      (food) &middot;
+      <a href="https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting" target="_blank" rel="noopener">UK DEFRA 2023</a>
+      (fuel) &middot; Apple/Levi&rsquo;s Product Environmental Reports
+      (electronics/clothing). Text recognition by
+      <a href="https://tesseract.projectnaptha.com/" target="_blank" rel="noopener">Tesseract.js</a>,
+      running in this browser.
+    </p>
+  </div>
+
+</main>
+
+<div class="totalbar">
+  <div class="totalbar-inner">
+    <div>
+      <span class="label">CO&#8322; damage cost</span>
+      <span class="tax" id="total-tax">&#8364;0.00</span>
+    </div>
+    <div>
+      <span class="label">Footprint</span>
+      <span class="co2" id="total-co2">0.0 kg CO&#8322;e</span>
+    </div>
+  </div>
+  <div class="meta" id="total-meta">No items yet</div>
+</div>
+
+<script src="receipt-engine.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var E = window.ReceiptEngine;
+  var items = [];
+  var unmatched = [];
+
+  var el = function (id) { return document.getElementById(id); };
+
+  // --- rendering ------------------------------------------------------------
+
+  function productOptions(selectedId) {
+    var html = '';
+    for (var i = 0; i < E.FACTORS.length; i++) {
+      var f = E.FACTORS[i];
+      html += '<option value="' + f.id + '"' + (f.id === selectedId ? ' selected' : '') + '>' +
+              f.label + ' — ' + f.co2 + ' kg/' + f.unit + '</option>';
+    }
+    return html;
+  }
+
+  function fmtCo2(kg) {
+    if (kg >= 1000) return (kg / 1000).toFixed(2) + ' t CO₂e';
+    return kg.toFixed(1) + ' kg CO₂e';
+  }
+
+  function renderItems() {
+    var box = el('items');
+    box.innerHTML = '';
+    el('items-empty').classList.toggle('hidden', items.length > 0);
+
+    var price = parseFloat(el('carbon-price').value);
+    var eco = el('eco').checked;
+
+    items.forEach(function (it, idx) {
+      var co2 = it.co2PerUnit * it.quantity * (eco ? 0.85 : 1);
+      var tax = (co2 / 1000) * price;
+
+      var row = document.createElement('div');
+      row.className = 'item' + (it.include ? '' : ' off');
+      row.innerHTML =
+        '<div class="item-name">' + escapeHtml(it.name) +
+          (it.assumed ? '<span class="assumed">assumed</span>' : '') + '</div>' +
+        '<div class="item-co2">' + fmtCo2(co2) + '</div>' +
+        '<div class="item-tax">+ €' + tax.toFixed(2) + '</div>' +
+        '<div class="item-controls">' +
+          '<input type="number" min="0" step="0.05" value="' + it.quantity + '" data-role="qty">' +
+          '<span class="unit">' + it.unit + '</span>' +
+          '<select data-role="factor">' + productOptions(it.factorId) + '</select>' +
+          '<button class="drop" data-role="toggle">' + (it.include ? 'skip' : 'count') + '</button>' +
+          '<button class="drop" data-role="remove">remove</button>' +
+        '</div>';
+
+      row.querySelector('[data-role="qty"]').addEventListener('input', function () {
+        it.quantity = parseFloat(this.value) || 0;
+        it.assumed = false;
+        renderTotal();
+        // Redraw just this row's numbers without stealing focus from the field.
+        row.querySelector('.item-co2').textContent = fmtCo2(it.co2PerUnit * it.quantity * (el('eco').checked ? 0.85 : 1));
+        row.querySelector('.item-tax').textContent = '+ €' +
+          ((it.co2PerUnit * it.quantity * (el('eco').checked ? 0.85 : 1)) / 1000 * parseFloat(el('carbon-price').value)).toFixed(2);
+        var badge = row.querySelector('.assumed');
+        if (badge) badge.remove();
+      });
+
+      row.querySelector('[data-role="factor"]').addEventListener('change', function () {
+        var f = E.factorById(this.value);
+        if (!f) return;
+        it.factorId = f.id;
+        it.label = f.label;
+        it.unit = f.unit;
+        it.co2PerUnit = f.co2;
+        render();
+      });
+
+      row.querySelector('[data-role="toggle"]').addEventListener('click', function () {
+        it.include = !it.include;
+        render();
+      });
+
+      row.querySelector('[data-role="remove"]').addEventListener('click', function () {
+        items.splice(idx, 1);
+        render();
+      });
+
+      box.appendChild(row);
+    });
+  }
+
+  function renderUnmatched() {
+    var card = el('unmatched-card');
+    var box = el('unmatched');
+    box.innerHTML = '';
+    card.classList.toggle('hidden', unmatched.length === 0);
+
+    unmatched.forEach(function (line, idx) {
+      var row = document.createElement('div');
+      row.className = 'unmatched-line';
+      row.innerHTML =
+        '<span>' + escapeHtml(line.name) + '</span>' +
+        '<select><option value="">price as&#8230;</option>' + productOptions(null) + '</select>';
+
+      row.querySelector('select').addEventListener('change', function () {
+        var f = E.factorById(this.value);
+        if (!f) return;
+        items.push(E.buildItem(line, f));
+        unmatched.splice(idx, 1);
+        render();
+      });
+
+      box.appendChild(row);
+    });
+  }
+
+  function renderTotal() {
+    var price = parseFloat(el('carbon-price').value);
+    var t = E.total(items, price, el('eco').checked);
+
+    el('total-tax').textContent = '€' + t.cost.toFixed(2);
+    el('total-co2').textContent = fmtCo2(t.co2);
+
+    var meta;
+    if (t.count === 0) {
+      meta = 'No items yet';
+    } else {
+      meta = t.count + (t.count === 1 ? ' item' : ' items') + ' at $' + price + ' / ton';
+      if (t.spend > 0) {
+        var pct = (t.cost / t.spend) * 100;
+        meta += ' · ' + pct.toFixed(0) + '% on top of the ' + t.spend.toFixed(2) + ' on the receipt';
+      }
+      if (unmatched.length > 0) {
+        meta += ' · ' + unmatched.length + ' line' + (unmatched.length === 1 ? '' : 's') + ' not priced';
+      }
+    }
+    el('total-meta').textContent = meta;
+  }
+
+  function render() {
+    renderItems();
+    renderUnmatched();
+    renderTotal();
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  // --- reading a receipt ----------------------------------------------------
+
+  function ingest(text) {
+    var out = E.parseReceipt(text);
+    items = items.concat(out.items);
+    unmatched = unmatched.concat(out.unmatched);
+    render();
+    if (out.items.length === 0 && out.unmatched.length === 0) {
+      setProgress('Nothing readable in that image. Try a flatter, brighter photo — or type the lines in.', 0);
+    }
+  }
+
+  function setProgress(text, pct) {
+    el('progress').classList.remove('hidden');
+    el('progress-text').textContent = text;
+    el('progress-fill').style.width = Math.round(pct * 100) + '%';
+  }
+
+  var tesseractLoading = null;
+
+  function loadTesseract() {
+    if (window.Tesseract) return Promise.resolve(window.Tesseract);
+    if (tesseractLoading) return tesseractLoading;
+    tesseractLoading = new Promise(function (resolve, reject) {
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+      s.onload = function () { resolve(window.Tesseract); };
+      s.onerror = function () { reject(new Error('could not load the text recogniser')); };
+      document.head.appendChild(s);
+    });
+    return tesseractLoading;
+  }
+
+  function recognise(file) {
+    setProgress('Loading the text recogniser…', 0.02);
+
+    loadTesseract().then(function (Tesseract) {
+      setProgress('Loading Danish and English language data…', 0.08);
+      return Tesseract.createWorker('dan+eng', 1, {
+        logger: function (m) {
+          if (m.status === 'recognizing text') {
+            setProgress('Reading the receipt…', 0.3 + m.progress * 0.7);
+          } else if (m.progress) {
+            setProgress('Loading language data…', 0.08 + m.progress * 0.2);
+          }
+        }
+      });
+    }).then(function (worker) {
+      return worker.recognize(file).then(function (res) {
+        return worker.terminate().then(function () { return res; });
+      });
+    }).then(function (res) {
+      el('progress').classList.add('hidden');
+      var text = (res && res.data && res.data.text) || '';
+      el('raw-text').value = text;
+      ingest(text);
+    })['catch'](function (err) {
+      setProgress('Could not read that: ' + err.message + '. Type the lines in instead.', 0);
+      el('text-entry').classList.remove('hidden');
+    });
+  }
+
+  // --- wiring ---------------------------------------------------------------
+
+  el('shoot').addEventListener('click', function () { el('camera').click(); });
+  el('choose').addEventListener('click', function () { el('picker').click(); });
+
+  ['camera', 'picker'].forEach(function (id) {
+    el(id).addEventListener('change', function () {
+      if (this.files && this.files[0]) recognise(this.files[0]);
+      this.value = '';
+    });
+  });
+
+  el('toggle-text').addEventListener('click', function () {
+    el('text-entry').classList.toggle('hidden');
+  });
+
+  el('read-text').addEventListener('click', function () {
+    ingest(el('raw-text').value);
+  });
+
+  el('add-item').addEventListener('click', function () {
+    var f = E.FACTORS[0];
+    items.push({
+      name: f.label,
+      factorId: f.id,
+      label: f.label,
+      unit: f.unit,
+      co2PerUnit: f.co2,
+      quantity: f.pack,
+      assumed: true,
+      price: null,
+      include: true
+    });
+    render();
+  });
+
+  el('carbon-price').addEventListener('change', render);
+  el('eco').addEventListener('change', render);
+
+  render();
+})();
+</script>
+
+</body>
+</html>
